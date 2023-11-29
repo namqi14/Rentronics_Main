@@ -1,6 +1,20 @@
 <?php
 require_once 'google_sheets_integration.php';
 
+function sanitizeFolderName($folderName)
+{
+    // Replace unwanted characters with underscores
+    $folderName = preg_replace("/[^a-zA-Z0-9]/", "-", $folderName);
+
+    // Remove multiple underscores
+    $folderName = preg_replace("/-+/", "-", $folderName);
+
+    // Trim underscores from the beginning and end
+    $folderName = trim($folderName, "-");
+
+    return $folderName;
+}
+
 $spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
 
 // Fetch data from Sheet2 (starting from A2)
@@ -31,6 +45,8 @@ if (isset($_GET['id'])) {
 
         if ($selectedProperty) {
             $propertyArea = $selectedProperty[2];
+            $propertyTitle = $selectedProperty[3];
+
 
             usort($filteredData, function ($a, $b) {
                 // If both are 'Occupied', keep their order
@@ -51,6 +67,36 @@ if (isset($_GET['id'])) {
                 // For non-'Occupied' properties, keep their order
                 return 0;
             });
+
+            $propertyImageFolder = 'img\RentronicsImage';
+            $propertyImageDirectory = $propertyImageFolder . DIRECTORY_SEPARATOR . $propertyArea . DIRECTORY_SEPARATOR . sanitizeFolderName($propertyTitle);
+
+            $validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            $imageFiles = [];
+
+            if (is_dir($propertyImageDirectory)) {
+                $directoryIterator = new DirectoryIterator($propertyImageDirectory);
+
+                foreach ($directoryIterator as $fileInfo) {
+                    if (!$fileInfo->isDot() && $fileInfo->isFile()) {
+                        $extension = strtolower($fileInfo->getExtension());
+
+                        if (in_array($extension, $validExtensions)) {
+                            $imageFiles[] = $fileInfo->getPathname();
+                        }
+                    }
+                }
+            }
+
+            if (!empty($imageFiles)) {
+                $propertyImage = $imageFiles[0];
+            } else {
+                $propertyImage = '';
+            }
+
+            // Debug statements
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
 
             // Now you can use $filteredData to display the details in your HTML
             ?>
@@ -159,13 +205,10 @@ if (isset($_GET['id'])) {
                             </div>
                         </div>
 
-
-
                         <!-- Box House -->
                         <div class="tab-content mx-2 px-2"> <!-- Reduce the margin and padding for smaller screens -->
                             <div id="tab-1" class="tab-pane fade show p-0 active">
                                 <div class="row g-4">
-                                    <!-- Individual Box -->
                                     <!-- Individual Box -->
                                     <?php foreach ($filteredData as $row): ?>
                                         <?php
@@ -182,7 +225,15 @@ if (isset($_GET['id'])) {
                                             ?>
                                             <div class="property-item rounded overflow-hidden <?= $propertyClass ?>">
                                                 <div class="position-relative overflow-hidden">
-                                                    <a href="<?= $detailsLink ?>"><img class="img-fluid" src="img/property-1.jpg"
+                                                    <?php
+                                                    // Check if there is a second image in the folder
+                                                    if (!empty($imageFiles) && count($imageFiles) > 1) {
+                                                        $secondImage = $imageFiles[1];
+                                                    } else {
+                                                        $secondImage = 'path_to_default_image.jpg'; // Replace with the path to a default image
+                                                    }
+                                                    ?>
+                                                    <a href="<?= $detailsLink ?>"><img class="img-fluid" src="<?= $secondImage ?>"
                                                             alt=""></a>
                                                     <div
                                                         class="<?= $isOccupied ? 'bg-danger' : 'bg-primary' ?> rounded text-white position-absolute start-0 top-0 m-2 py-1 px-2">
@@ -223,7 +274,6 @@ if (isset($_GET['id'])) {
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
-
 
 
                                     <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
