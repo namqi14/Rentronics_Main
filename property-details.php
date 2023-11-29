@@ -76,8 +76,8 @@ if (isset($_GET['id'])) {
         // Calculate the deposit (twice the property price)
         $deposit = $propertyPriceNumeric * 2;
 
-        $iqmanSignFee = 1.00; // Replace with the actual IQMANSIGN Fee value
-        $totalPrice = $propertyPriceNumeric + $deposit + $iqmanSignFee;
+        $SignFee = 0.00; // Replace with the actual IQMANSIGN Fee value
+        $totalPrice = $propertyPriceNumeric + $deposit + $SignFee;
 
         ?>
         <!DOCTYPE html>
@@ -164,7 +164,8 @@ if (isset($_GET['id'])) {
                             <div class="owl-carousel testimonial-carousel wow fadeInUp position-sticky" data-wow-delay="0.1s">
                                 <?php foreach ($imageFiles as $imageFile): ?>
                                     <a href="<?= $imageFile ?>" class="popup-link">
-                                        <img class="img-fluid" src="<?= $imageFile ?>" alt="Property Image" style="width: 100%; height: 400px; object-fit: cover;">
+                                        <img class="img-fluid" src="<?= $imageFile ?>" alt="Property Image"
+                                            style="width: 100%; height: 400px; object-fit: cover;">
                                     </a>
                                 <?php endforeach; ?>
                             </div>
@@ -174,7 +175,7 @@ if (isset($_GET['id'])) {
                         <?php endif; ?>
 
                         <div class="row py-5 wow fadeInUp" data-wow-delay="0.1s" style="padding: 2% 10% 0px 10% !important;">
-                            <div class="col-sm-8">
+                            <div class="col-sm-8 order-md-1">
                                 <div class="PropertyDetails">
                                     <div class="breadCrumbDetail" style="--bs-breadcrumb-divider: '|' ">
                                         <ul class="breadcrumb">
@@ -236,161 +237,75 @@ if (isset($_GET['id'])) {
                                 </section>
                                 <section class="maps">
                                     <p class="fw-bold">Location</p>
-                                    <iframe width="700" height="450" frameborder="0" style="border:0"
-                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.5263817176474!2d101.72417240000001!3d3.2181805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc39d0e7f7b02b%3A0x7007f0b71c0cd886!2sResidensi%20Vista%20Wirajaya%202!5e0!3m2!1sen!2smy!4v1700414639324!5m2!1sen!2smy"
-                                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                                        referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+                                    <div class="embed-responsive embed-responsive-16by9">
+                                        <iframe class="embed-responsive-item" frameborder="0"
+                                            style="border:0; width: 100%; height: 350px;"
+                                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.5263817176474!2d101.72417240000001!3d3.2181805!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31cc39d0e7f7b02b%3A0x7007f0b71c0cd886!2sResidensi%20Vista%20Wirajaya%202!5e0!3m2!1sen!2smy!4v1700414639324!5m2!1sen!2smy"
+                                            allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+                                            allowfullscreen></iframe>
+                                    </div>
                                 </section>
                             </div>
-                            <div class="col-sm-4 . . sticky-element" id="move">
-                                <div class="propertyDetails">
-                                    <div class="propertyDetailsPrice">
-                                        <div class="propertyDetailsPrice-title">
-                                            <h3>To Move In</h3>
-                                        </div>
-                                        <ul class="propertyDetailsPrice-item">
-                                            <li class="propertyDetailsPrice-list">
-                                                <span>1st month rental</span>
-                                                <span id="propertyPrice">RM
-                                                    <?= $propertyPriceNumeric ?>.00
-                                                </span>
-                                            </li>
-                                            <li class="propertyDetailsPrice-list">
-                                                <span>Deposit</span>
-                                                <span id="deposit">RM
-                                                    <?= $deposit ?>.00
-                                                </span>
-                                            </li>
-                                            <li class="propertyDetailsPrice-list">
-                                                <span>Rentronics Fee</span>
-                                                <span id="iqmanSignFee">RM
-                                                    <?= $iqmanSignFee ?>.00
-                                                </span>
-                                            </li>
-                                            <li class="propertyDetailsPrice-listTotal">
-                                                <span>Total</span>
-                                                <span id="total">RM
-                                                    <?= $totalPrice ?>.00
-                                                </span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="propertyDetailsDate"></div>
-                                </div>
-                                <br>
-                                <p style="text-align: left; font-size: 12px;"><em>* All Prices Subject to Change</em></p>
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" data-bs-whatever="@mdo">Chat with Agent</button>
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog" style="margin-top: 10%">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Chat with Agent</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
+                            <div class="col-sm-4 order-md-2">
+                                <div class="propertyDetailsCard position-sticky" id="move">
+                                    <div class="propertyDetails">
+                                        <div class="propertyDetailsTerms">
+                                            <div class="propertyDetailsTerm-title">
+                                                <h4>Rental Terms</h4>
                                             </div>
-                                            <!-- Form Start -->
-                                            <div class="modal-body">
-                                                <form method="post"
-                                                    action="https://script.google.com/macros/s/AKfycbxoTS2Q9BMalDJZkJR9UOz7K_josr7eAAsh1lSekB9aAQCcsqChrK6Ps6nbjhAsPQ5INg/exec"
-                                                    name="tenant-form">
-                                                    <table class="table" id="tbl1">
-                                                        <thead id="tbl1">
-                                                        </thead>
-                                                        <tbody id="tbl1">
-                                                            <input type="hidden" placeholder="" id="dateInput" readonly>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="recipient-name" class="col-form-label"
-                                                                        style="text-align: right;">Name:</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <input type="text" class="form-control" id="Name"
-                                                                        name="Name" placeholder="" required>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="nationality"
-                                                                        class="col-form-label">Nationality</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <select class="form-control" name="Nationality"
-                                                                        id="Nationality" placeholder="" required>
-                                                                        <option value="">Select Nationality</option>
-                                                                        <option value="Malaysian">Malaysian</option>
-                                                                        <option value="Foreigner">Foreigner</option>
-                                                                    </select>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="occupation"
-                                                                        class="col-form-label">Occupation</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <input type="text" class="form-control" id="Occupation"
-                                                                        name="Occupation" placeholder="" required>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="email" class="col-form-label">Email</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <input type="email" class="form-control" id="Email"
-                                                                        name="Email" placeholder="" required>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="phone" class="col-form-label">No Phone</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <input type="text" class="form-control" id="Whatsapp No."
-                                                                        name="Whatsapp No." placeholder="" required>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="UnitToRent" class="col-form-label">Place to
-                                                                        Rent</label>
-                                                                </td>
-                                                                <td id="tbl1" style="font-weight: bold;">
-                                                                    <input type="text" class="form-control" id="UnitToRent"
-                                                                        name="UnitToRent" value="<?= $propertyTitle ?>"
-                                                                        readonly>
-                                                                </td>
-                                                            </tr>
-                                                            <tr id="tbl1">
-                                                                <td id="tbl1" style="text-align: right;">
-                                                                    <label for="start-rent" class="col-form-label">House Viewing
-                                                                        Date</label>
-                                                                </td>
-                                                                <td id="tbl1">
-                                                                    <input type="date" class="form-control"
-                                                                        id="House Viewing Date" name="House Viewing Date"
-                                                                        placeholder="" required>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <input type="submit" class="btn btn-primary" value="Send message"
-                                                            id="submit">
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <!-- Form End -->
+                                            <ul class="propertyDetailsTerms-item custom-padding">
+                                                <li class="propertyDetailsTerm-list">
+                                                    <span>1 Year Contract</span>
+                                                </li>
+                                                <li class="propertyDetailsTerm-list">
+                                                    <span>Deposit 1+1 (Advance Rental)</span>
+                                                </li>
+                                            </ul>
                                         </div>
+                                        <div class="propertyDetailsPrice">
+                                            <div class="propertyDetailsPrice-title">
+                                                <h4>To Move In</h4>
+                                            </div>
+                                            <ul class="propertyDetailsPrice-item custom-padding">
+                                                <li class="propertyDetailsPrice-list">
+                                                    <span>1st month rental</span>
+                                                    <span id="propertyPrice">RM
+                                                        <?= $propertyPriceNumeric ?>.00
+                                                    </span>
+                                                </li>
+                                                <li class="propertyDetailsPrice-list">
+                                                    <span>Deposit</span>
+                                                    <span id="deposit">RM
+                                                        <?= $deposit ?>.00
+                                                    </span>
+                                                </li>
+                                                <li class="propertyDetailsPrice-list">
+                                                    <span>Rentronics Fee</span>
+                                                    <span id="SignFee">RM
+                                                        <?= $SignFee ?>.00
+                                                    </span>
+                                                </li>
+                                                <li class="propertyDetailsPrice-listTotal">
+                                                    <span>Total</span>
+                                                    <span id="total">RM
+                                                        <?= $totalPrice ?>.00
+                                                    </span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="propertyDetailsDate"></div>
                                     </div>
+                                    <br>
+                                    <p style="text-align: left; font-size: 12px;"><em>* All Prices Subject to Change</em></p>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" data-bs-whatever="@mdo">Chat with Agent</button>
+                                    <!--Modal Start-->
+
+                                    <!--Modal End-->
+
                                 </div>
                                 <!-- Details End -->
                             </div>
-
                         </div>
                     </div>
                     <!-- Footer Start -->
@@ -481,6 +396,107 @@ if (isset($_GET['id'])) {
                     <!-- Back to Top -->
                     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
                 </div>
+
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="margin-top: 10%">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Chat with Agent</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- Form Start -->
+                            <div class="modal-body">
+                                <form method="post"
+                                    action="https://script.google.com/macros/s/AKfycbxoTS2Q9BMalDJZkJR9UOz7K_josr7eAAsh1lSekB9aAQCcsqChrK6Ps6nbjhAsPQ5INg/exec"
+                                    name="tenant-form">
+                                    <table class="table" id="tbl1">
+                                        <thead id="tbl1">
+                                        </thead>
+                                        <tbody id="tbl1">
+                                            <input type="hidden" placeholder="" id="dateInput" readonly>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="recipient-name" class="col-form-label"
+                                                        style="text-align: right;">Name:</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <input type="text" class="form-control" id="Name" name="Name" placeholder=""
+                                                        required>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="nationality" class="col-form-label">Nationality</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <select class="form-control" name="Nationality" id="Nationality" placeholder=""
+                                                        required>
+                                                        <option value="">Select Nationality</option>
+                                                        <option value="Malaysian">Malaysian</option>
+                                                        <option value="Foreigner">Foreigner</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="occupation" class="col-form-label">Occupation</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <input type="text" class="form-control" id="Occupation" name="Occupation"
+                                                        placeholder="" required>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="email" class="col-form-label">Email</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <input type="email" class="form-control" id="Email" name="Email" placeholder=""
+                                                        required>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="phone" class="col-form-label">No
+                                                        Phone</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <input type="text" class="form-control" id="Whatsapp No." name="Whatsapp No."
+                                                        placeholder="" required>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="UnitToRent" class="col-form-label">Place to
+                                                        Rent</label>
+                                                </td>
+                                                <td id="tbl1" style="font-weight: bold;">
+                                                    <input type="text" class="form-control" id="UnitToRent" name="UnitToRent"
+                                                        value="<?= $propertyTitle ?>" readonly>
+                                                </td>
+                                            </tr>
+                                            <tr id="tbl1">
+                                                <td id="tbl1" style="text-align: right;">
+                                                    <label for="start-rent" class="col-form-label">House
+                                                        Viewing Date</label>
+                                                </td>
+                                                <td id="tbl1">
+                                                    <input type="date" class="form-control" id="House Viewing Date"
+                                                        name="House Viewing Date" placeholder="" required>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <input type="submit" class="btn btn-primary" value="Send message" id="submit">
+                                    </div>
+                                </form>
+                            </div>
+                        <!-- Form End -->
+                        </div>
+                    </div>
+                </div>
                 <!-- JavaScript Libraries -->
                 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -494,6 +510,7 @@ if (isset($_GET['id'])) {
                 <script src="js/main.js">
 
                 </script>
+            </div>
         </body>
 
         </html>
