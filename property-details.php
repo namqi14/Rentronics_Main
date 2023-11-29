@@ -1,4 +1,5 @@
 <?php
+phpinfo();
 require_once 'google_sheets_integration.php';
 
 $spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
