@@ -87,8 +87,16 @@ if (isset($_GET['id'])) {
                 <!-- Template Stylesheet -->
                 <link href="css/style.css" rel="stylesheet">
                 <style>
-                    div.property-item.occupied-property img {
+                    .property-item.occupied-property {
                         filter: grayscale(100%) !important;
+                    }
+
+                    .property-item.occupied-property h5,
+                    .property-item.occupied-property span,
+                    .property-item.occupied-property a,
+                    .property-item.occupied-property p {
+                        color: #666666 !important;
+                        /* Change text color to a muted gray */
                     }
                 </style>
             </head>
@@ -158,17 +166,21 @@ if (isset($_GET['id'])) {
                             <div id="tab-1" class="tab-pane fade show p-0 active">
                                 <div class="row g-4">
                                     <!-- Individual Box -->
+                                    <!-- Individual Box -->
                                     <?php foreach ($filteredData as $row): ?>
+                                        <?php
+                                        // Check if the property is Occupied
+                                        $isOccupied = $row[7] === 'Occupied';
+
+                                        // Generate the link for the property details with a condition for Occupied properties
+                                        $detailsLink = $isOccupied ? '#' : "property-details.php?id={$row[3]}";
+                                        ?>
                                         <div class="col-lg-4 col-md-6 col-sm-12 px-2 wow fadeInUp" data-wow-delay="0.1s">
                                             <?php
-                                            // Check if the property is Occupied
-                                            $isOccupied = $row[7] === 'Occupied';
-
-                                            // Generate the link for the property details with a condition for Occupied properties
-                                            $detailsLink = $isOccupied ? '#' : "property-details.php?id={$row[3]}";
+                                            // Add a class for occupied status
+                                            $propertyClass = $isOccupied ? 'occupied-property' : '';
                                             ?>
-                                            <div
-                                                class="property-item rounded overflow-hidden <?= $isOccupied ? 'occupied-property' : '' ?>">
+                                            <div class="property-item rounded overflow-hidden <?= $propertyClass ?>">
                                                 <div class="position-relative overflow-hidden">
                                                     <a href="<?= $detailsLink ?>"><img class="img-fluid" src="img/property-1.jpg"
                                                             alt=""></a>
@@ -177,11 +189,11 @@ if (isset($_GET['id'])) {
                                                         <?= $row[7] ?>
                                                     </div>
                                                     <div
-                                                        class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-2 pt-1 px-2">
+                                                        class="bg-white rounded-top text-primary position-absolute start-0 bottom-0 mx-2 pt-1 px-2 <?= $propertyClass ?>">
                                                         <?= $row[8] ?>
                                                     </div>
                                                 </div>
-                                                <div class="p-3 pb-0"> <!-- Increase padding for better spacing on smaller screens -->
+                                                <div class="p-3 pb-0">
                                                     <h5 class="text-primary mb-3">
                                                         <?= $row[6] ?>
                                                     </h5>
@@ -211,6 +223,7 @@ if (isset($_GET['id'])) {
                                             </div>
                                         </div>
                                     <?php endforeach; ?>
+
 
 
                                     <div class="col-12 text-center wow fadeInUp" data-wow-delay="0.1s">
