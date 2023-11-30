@@ -496,6 +496,7 @@ body {
   margin-bottom: 10px;
   display: flex;
   align-items: center;
+  text-align: left;
 }
 
 ul.custom-padding {

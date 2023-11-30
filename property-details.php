@@ -209,12 +209,13 @@ if (isset($_GET['id'])) {
                                         </br>
                                         <hr class="line">
                                         <p class="fw-bold">Description</p>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius quam dolor nisi
-                                            incidunt tenetur deleniti officiis quo esse excepturi? In hic dicta perferendis iste
-                                            illo, ratione ipsa tenetur quos? Facere!</p>
-                                        <p>Facilis est quis tenetur eaque reprehenderit doloremque sequi? Minima, impedit qui.
-                                            Eius magni consequuntur officiis, est ullam ut ea? Quas tempora debitis, reiciendis
-                                            velit quis eum dignissimos facilis repudiandae earum?</p>
+                                        <p>
+                                            <?= $propertyLocation ?>
+                                        </p>
+                                        <p>ROOM RENTAL / SEWA BILIK<br>
+                                            Co-Living Concepts applied<br>
+                                            Furnished Designed rooms for rent.
+                                        </p>
                                         <p>Aut enim animi id ut numquam nesciunt repellat odit maiores! Facere vero nulla sequi
                                             architecto possimus, eaque, voluptate ullam rerum, aliquam id repudiandae?
                                             Temporibus facere blanditiis porro, harum optio sunt.</p>
@@ -224,12 +225,16 @@ if (isset($_GET['id'])) {
                                     </section>
                                     <section class="place-furnish">
                                         <p class="fw-bold">Furnishing</p>
-                                        <p>Lorem ipsum dolor sit amet.</p>
+                                        <p><?= $row[10] ?> Bed</p>
                                         <p>Tenetur iusto similique illum officia.</p>
                                         <p>Laudantium fuga blanditiis perspiciatis unde.</p>
                                     </section>
                                     <section class="place-facilities">
                                         <p class="fw-bold">Facilities</p>
+                                        <p>- Tennis court<br>
+                                        - Security<br>
+                                        - Minimart
+                                        </p>
                                     </section>
                                     <section class="place-access">
                                         <p class="fw-bold">Accessibility</p>
@@ -259,6 +264,9 @@ if (isset($_GET['id'])) {
                                                 </li>
                                                 <li class="propertyDetailsTerm-list">
                                                     <span>Deposit 1+1 (Advance Rental)</span>
+                                                </li>
+                                                <li class="propertyDetailsTerm-list">
+                                                    <span>A surcharge is charged for rentals of less than 12 months.</span>
                                                 </li>
                                             </ul>
                                         </div>
@@ -429,8 +437,8 @@ if (isset($_GET['id'])) {
                                                     <label for="nationality" class="col-form-label">Nationality</label>
                                                 </td>
                                                 <td id="tbl1">
-                                                    <select class="form-control" name="Nationality" id="Nationality" placeholder=""
-                                                        required>
+                                                    <select class="form-control" name="Nationality" id="Nationality"
+                                                        placeholder="" required>
                                                         <option value="">Select Nationality</option>
                                                         <option value="Malaysian">Malaysian</option>
                                                         <option value="Foreigner">Foreigner</option>
@@ -451,8 +459,8 @@ if (isset($_GET['id'])) {
                                                     <label for="email" class="col-form-label">Email</label>
                                                 </td>
                                                 <td id="tbl1">
-                                                    <input type="email" class="form-control" id="Email" name="Email" placeholder=""
-                                                        required>
+                                                    <input type="email" class="form-control" id="Email" name="Email"
+                                                        placeholder="" required>
                                                 </td>
                                             </tr>
                                             <tr id="tbl1">
@@ -461,8 +469,8 @@ if (isset($_GET['id'])) {
                                                         Phone</label>
                                                 </td>
                                                 <td id="tbl1">
-                                                    <input type="text" class="form-control" id="Whatsapp No." name="Whatsapp No."
-                                                        placeholder="" required>
+                                                    <input type="text" class="form-control" id="Whatsapp No."
+                                                        name="Whatsapp No." placeholder="" required>
                                                 </td>
                                             </tr>
                                             <tr id="tbl1">
@@ -493,7 +501,7 @@ if (isset($_GET['id'])) {
                                     </div>
                                 </form>
                             </div>
-                        <!-- Form End -->
+                            <!-- Form End -->
                         </div>
                     </div>
                 </div>
