@@ -96,7 +96,7 @@
 
     const form = document.forms['tenant-form'];
 
-    const defaultWhatsAppLink = 'https://www.wassap.my/+601125423742/rentalroom';
+    const defaultWhatsAppLink = 'https://wa.me/601125423742?text=Im%20inquiring%20rentronic%20property';
 
     form.addEventListener('submit', e => {
         e.preventDefault();

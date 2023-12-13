@@ -524,3 +524,7 @@ ul.custom-padding {
       width: 95%;
   }
 }
+
+.header {
+  margin-top: 30px;
+}

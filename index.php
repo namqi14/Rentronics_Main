@@ -58,8 +58,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto">
-                        <a href="index.php" class="nav-item nav-link active">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
+                        <!-- <a href="index.php" class="nav-item nav-link active">Home</a> -->
+                        <!-- <a href="about.html" class="nav-item nav-link">About</a>
                         <div class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Property</a>
                             <div class="dropdown-menu rounded-0 m-0">
@@ -75,9 +75,9 @@
                                 <a href="" class="dropdown-item">404 Error</a>
                             </div>
                         </div>
-                        <a href="#contact" class="nav-item nav-link">Contact</a>
+                        <a href="#contact" class="nav-item nav-link">Contact</a> -->
                     </div>
-                    <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a>
+                    <!-- <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a> -->
                 </div>
             </nav>
         </div>
@@ -96,10 +96,10 @@
                 <div class="col-md-6 animated fadeIn">
                     <div class="owl-carousel header-carousel">
                         <div class="owl-carousel-item">
-                            <img class="img-fluid" src="img/carousel-1.jpg" alt="">
+                            <img class="img-fluid" src="img/example1.jpg" alt="">
                         </div>
                         <div class="owl-carousel-item">
-                            <img class="img-fluid" src="img/carousel-2.jpg" alt="">
+                            <img class="img-fluid" src="img/example2.jpg" alt="">
                         </div>
                     </div>
                 </div>
@@ -150,7 +150,7 @@
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Property Locations</h1>
-                    <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p>
+                    <!-- <p>Eirmod sed ipsum dolor sit rebum labore magna erat. Tempor ut dolore lorem kasd vero ipsum sit eirmod sit. Ipsum diam justo sed rebum vero dolor duo.</p> -->
                 </div>
                 
                 <div class="row g-4">
@@ -188,7 +188,7 @@
                         <p><i class="fa fa-check text-primary me-3"></i>Tempor erat elitr rebum at clita</p>
                         <p><i class="fa fa-check text-primary me-3"></i>Aliqu diam amet diam et eos</p>
                         <p><i class="fa fa-check text-primary me-3"></i>Clita duo justo magna dolore erat amet</p>
-                        <a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a>
+                        <!-- <a class="btn btn-primary py-3 px-5 mt-3" href="">Read More</a> -->
                     </div>
                 </div>
             </div>
@@ -196,7 +196,7 @@
         <!-- About End -->
 
         <!-- Call to Action Start -->
-        <div class="container-xxl py-5" id="contact">
+        <!-- <div class="container-xxl py-5" id="contact">
             <div class="container">
                 <div class="bg-light rounded p-3">
                     <div class="bg-white rounded p-4" style="border: 1px dashed rgba(0, 185, 142, .3)">
@@ -216,7 +216,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Call to Action End -->
         
 
@@ -224,7 +224,7 @@
 
 
         <!-- Team Start -->
-        <div class="container-xxl py-5" >
+        <!-- <div class="container-xxl py-5" >
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Property Agents</h1>
@@ -297,12 +297,12 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Team End -->
 
 
         <!-- Testimonial Start -->
-        <div class="container-xxl py-5">
+        <!-- <div class="container-xxl py-5">
             <div class="container">
                 <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
                     <h1 class="mb-3">Our Clients Say!</h1>
@@ -347,7 +347,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!-- Testimonial End -->
         
 
@@ -376,7 +376,7 @@
                         <a class="btn btn-link text-white-50" href="">Terms & Condition</a>
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Photo Gallery</h5>
+                        <!-- <h5 class="text-white mb-4">Photo Gallery</h5>
                         <div class="row g-2 pt-2">
                             <div class="col-4">
                                 <img class="img-fluid rounded bg-light p-1" src="img/property-1.jpg" alt="">
@@ -396,15 +396,15 @@
                             <div class="col-4">
                                 <img class="img-fluid rounded bg-light p-1" src="img/property-6.jpg" alt="">
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-3 col-md-6">
-                        <h5 class="text-white mb-4">Newsletter</h5>
+                        <!-- <h5 class="text-white mb-4">Newsletter</h5>
                         <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
                         <div class="position-relative mx-auto" style="max-width: 400px;">
                             <input class="form-control bg-transparent w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
                             <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
