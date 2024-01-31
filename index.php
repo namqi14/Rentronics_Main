@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Rentronic - Your Properties Experts</title>
+    <title>Rentronics - Your Properties Experts</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -51,7 +51,7 @@
                     <div class="icon p-2 me-2">
                         <!-- <img class="img-fluid" src="img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;"> -->
                     </div>
-                    <h1 class="m-0 text-primary">Rentronic</h1>
+                    <h1 class="m-0 text-primary">Rentronics</h1>
                 </a>
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="navbar-toggler-icon"></span>
@@ -77,7 +77,7 @@
                         </div>
                         <a href="#contact" class="nav-item nav-link">Contact</a> -->
                     </div>
-                    <!-- <a href="" class="btn btn-primary px-3 d-none d-lg-flex">Add Property</a> -->
+                    <a href="login.php" class="btn btn-primary px-3 d-none d-lg-flex">Login</a>
                 </div>
             </nav>
         </div>

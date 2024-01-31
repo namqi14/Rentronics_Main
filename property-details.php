@@ -23,6 +23,7 @@ if (isset($_GET['id'])) {
         $propertyPriceNumeric = floatval(str_replace(['RM', ' '], '', $propertyPriceRaw));
         $propertyId = $selectedProperty[1];
         $propertyMaps = $selectedProperty[9];
+        $propertyBed = $selectedProperty[10];
 
 
         function sanitizeFolderName($folderName)
@@ -225,7 +226,7 @@ if (isset($_GET['id'])) {
                                     </section>
                                     <section class="place-furnish">
                                         <p class="fw-bold">Furnishing</p>
-                                        <p><?= $row[10] ?> Bed</p>
+                                        <p><?= $propertyBed ?> Bed</p>
                                         <p>Tenetur iusto similique illum officia.</p>
                                         <p>Laudantium fuga blanditiis perspiciatis unde.</p>
                                     </section>
@@ -415,7 +416,7 @@ if (isset($_GET['id'])) {
                             <!-- Form Start -->
                             <div class="modal-body">
                                 <form method="post"
-                                    action="https://script.google.com/macros/s/AKfycbxoTS2Q9BMalDJZkJR9UOz7K_josr7eAAsh1lSekB9aAQCcsqChrK6Ps6nbjhAsPQ5INg/exec"
+                                    action="https://script.google.com/macros/s/AKfycbwVTqOtHwzhhUmB08rLEPpw-pz09baw_58Lie_6G-H57X4qWwl7wNWBLtl0dTPNsSr_iQ/exec"
                                     name="tenant-form">
                                     <table class="table" id="tbl1">
                                         <thead id="tbl1">

@@ -92,7 +92,7 @@
     // Set the formatted date as the input field's value
     document.getElementById("dateInput").value = formattedDate;
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxoTS2Q9BMalDJZkJR9UOz7K_josr7eAAsh1lSekB9aAQCcsqChrK6Ps6nbjhAsPQ5INg/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwVTqOtHwzhhUmB08rLEPpw-pz09baw_58Lie_6G-H57X4qWwl7wNWBLtl0dTPNsSr_iQ/exec';
 
     const form = document.forms['tenant-form'];
 
@@ -100,29 +100,65 @@
 
     form.addEventListener('submit', e => {
         e.preventDefault();
-    
+
         // Display a confirmation prompt
         const isConfirmed = confirm("Thank you! Your form is submitted successfully. You will be redirected to our agent on WhatsApp. Do you want to proceed?");
-        
+
         if (isConfirmed) {
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
                 .then(response => response.json())
                 .then(data => {
                     window.open(defaultWhatsAppLink, '_blank');
-    
+
                     // Optional: You can remove or modify the following line based on your preference
                     window.location.reload();
                 })
                 .catch(error => console.error('Error!', error.message));
         }
     });
-    
-    
+
+    const scriptURL2 = 'https://script.google.com/macros/s/AKfycby-vFPw8j9sQCUsVYwfCSKxq4KpYTAHW9Rx0u_2D8OlCcoe8qXTDZcr8vJQB-HKwmMRsg/exec';
+
+    const form2 = document.forms['property-form'];
+
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // Display a confirmation prompt
+        const isConfirmed = confirm("Thank you! Your form is submitted successfully. You will be redirected to our agent on WhatsApp. Do you want to proceed?");
+
+        if (isConfirmed) {
+            fetch(scriptURL, { method: 'POST', body: new FormData(form2) })
+                .then(response => response.json())
+                .then(data => {
+                    window.open(defaultWhatsAppLink, '_blank');
+
+                    // Optional: You can remove or modify the following line based on your preference
+                    window.location.reload();
+                })
+                .catch(error => console.error('Error!', error.message));
+        }
+    });
+
+
+
 
     $('#exampleModal').on('shown.bs.modal', function (e) {
         $(document).off('focusin.modal');
     })
 
+
+    // Sidebar
+    function init() {
+        var $this = new Sidemenu(); // Create an instance of Sidemenu
+        $this.$menuItem.each(function () {
+            if ($(this).parent().hasClass('submenu')) {
+                $(this).next('ul').slideDown(350);
+                $(this).addClass('subdrop');
+            }
+        });
+    }
 
 })(jQuery);
 
