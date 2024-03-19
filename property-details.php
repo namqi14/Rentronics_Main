@@ -1,9 +1,9 @@
 <?php
 require_once 'google_sheets_integration.php';
 
-$spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
+$spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
 
-$rangeSheet2 = 'Sheet2!A2:K';
+$rangeSheet2 = 'Room List!A2:K';
 $dataSheet2 = getData($spreadsheetId, $rangeSheet2);
 
 if (isset($_GET['id'])) {

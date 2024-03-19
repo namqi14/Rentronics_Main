@@ -166,6 +166,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <li><a href="cityadd.php"> City </a></li>
                             </ul>
                         </li> -->
+                        <li class="menu-title">
+                            <span>Payment</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="stripepayment.php"><i class="fe fe-map"></i> <span> Deposit Payment</span> <span
+                                    class="menu-arrow"></i></span></a>
+                            <!-- <ul>
+                                <li><a href="propertyadd.php"> Add Property</a></li>
+                            </ul> -->
+                        </li>
 
                         <li class="menu-title">
                             <span>Property Management</span>
@@ -333,7 +343,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <h5 class="card-title">Other Sections</h5>
                                     <!-- ... (add other sections) ... -->
 
-                                    <div class="row">
+                                    <!-- <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <label class="col-lg-3 col-form-label"><b>Is Featured?</b></label>
@@ -346,7 +356,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <input type="submit" value="Submit" class="btn btn-primary" name="add"
                                         style="margin-left: 200px;">

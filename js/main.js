@@ -129,6 +129,9 @@
         const isConfirmed = confirm("Thank you! Your form is submitted successfully. You will be redirected to our agent on WhatsApp. Do you want to proceed?");
 
         if (isConfirmed) {
+
+            console.log('Payload data:', JSON.stringify(new FormData(form2)));
+            
             fetch(scriptURL, { method: 'POST', body: new FormData(form2) })
                 .then(response => response.json())
                 .then(data => {
@@ -159,6 +162,20 @@
             }
         });
     }
+
+
+    // function filterRooms() {
+    //     var selectedPropertyId = document.getElementById("propertyId").value;
+    //     var roomOptions = document.getElementsByClassName("roomOption");
+    
+    //     for (var i = 0; i < roomOptions.length; i++) {
+    //         if (roomOptions[i].dataset.property === selectedPropertyId) {
+    //             roomOptions[i].style.display = "block";
+    //         } else {
+    //             roomOptions[i].style.display = "none";
+    //         }
+    //     }
+    // }
 
 })(jQuery);
 

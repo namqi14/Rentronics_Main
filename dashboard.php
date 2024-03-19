@@ -180,6 +180,17 @@ $totalOccupiedProperties = count(array_filter($dataSheet2Card5, function ($row) 
                         </li> -->
 
                         <li class="menu-title">
+                            <span>Payment</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="stripepayment.php"><i class="fe fe-map"></i> <span> Deposit Payment</span> <span
+                                    class="menu-arrow"></i></span></a>
+                            <!-- <ul>
+                                <li><a href="propertyadd.php"> Add Property</a></li>
+                            </ul> -->
+                        </li>
+
+                        <li class="menu-title">
                             <span>Property Management</span>
                         </li>
                         <li class="submenu">

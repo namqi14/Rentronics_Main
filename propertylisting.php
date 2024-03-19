@@ -15,10 +15,10 @@ function sanitizeFolderName($folderName)
     return $folderName;
 }
 
-$spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
+$spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
 
 // Fetch data from Sheet2 (starting from A2)
-$rangeSheet2 = 'Sheet2!A2:K';
+$rangeSheet2 = 'Room List!A2:K';
 $dataSheet2 = getData($spreadsheetId, $rangeSheet2);
 
 // Check if the 'id' parameter is set in the URL

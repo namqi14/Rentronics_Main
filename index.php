@@ -35,9 +35,9 @@
     <?php
         require_once 'google_sheets_integration.php';
 
-        $spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
+        $spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
         // Fetch data from Sheet1 (starting from A2)
-        $rangeSheet1 = 'Sheet1!A2:E';
+        $rangeSheet1 = 'Property List!A2:E';
         $dataSheet1 = getData($spreadsheetId, $rangeSheet1);
     ?>
     <!-- Top Bar Start -->
@@ -161,8 +161,8 @@
                                 <div class="icon mb-3">
                                     <img class="img-fluid" src="img/icon-apartment.png" alt="Icon">
                                 </div>
-                                <h6><?= $row[1]?>, <?= $row[4]?></h6>
-                                <span><?= $row[3]?> Properties</span>
+                                <h6><?= $row[1]?>, <?= $row[3]?></h6>
+                                <span><?= $row[4]?> Properties</span>
                             </div>
                         </a>
                     </div>
