@@ -1,0 +1,42 @@
+Processing UnitID: U1001
+Unit Number: C-15-10
+PropertyID: 1
+Processing UnitID: U1002
+Unit Number: C-16-09
+PropertyID: 1
+Processing UnitID: U2001
+Unit Number: 50302
+PropertyID: 2
+Processing UnitID: U2002
+Unit Number: 50317
+PropertyID: 2
+Processing UnitID: U5001
+Unit Number: E-22B
+PropertyID: 5
+Processing UnitID: U6001
+Unit Number: A-9-7
+PropertyID: 6
+Processing UnitID: U6002
+Unit Number: A-3-8
+PropertyID: 6
+Processing UnitID: U6003
+Unit Number: C-3-2
+PropertyID: 6
+Processing UnitID: U7001
+Unit Number: B-16-3A
+PropertyID: 7
+Processing UnitID: U7002
+Unit Number: A-9-2
+PropertyID: 7
+Processing UnitID: U7003
+Unit Number: A-29-6
+PropertyID: 7
+Processing UnitID: U7004
+Unit Number: B-13-9
+PropertyID: 7
+Processing UnitID: U8001
+Unit Number: A-11-11
+PropertyID: 8
+Processing UnitID: U8002
+Unit Number: A-17-2
+PropertyID: 8

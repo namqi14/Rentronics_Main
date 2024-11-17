@@ -1,0 +1,557 @@
+<?php
+session_start();
+require_once('dbconnection.php');  // Include your database connection file
+
+// Add error reporting for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+if (!isset($_SESSION['auser'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$error = '';  // Initialize $error variable
+$msg = '';    // Initialize $msg variable
+
+$room = [];
+$bed = [];
+$unit_id = '';
+$bed_id = '';
+
+// Check if this is an edit action
+if (isset($_GET['room_id']) && isset($_GET['unit_id']) && isset($_GET['bed_id'])) {
+    $room_id = $_GET['room_id'];
+    $unit_id = $_GET['unit_id'];
+    $bed_id = $_GET['bed_id'];
+    $stmt = $conn->prepare("SELECT * FROM Room WHERE RoomID = ?");
+    $stmt->bind_param("s", $room_id);
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        $room = $result->fetch_assoc();
+        $stmt->close();
+    } else {
+        $error = "<p class='alert alert-warning'>Error fetching room details: " . $stmt->error . "</p>";
+        $stmt->close();
+    }
+    $stmt_bed = $conn->prepare("SELECT * FROM Bed WHERE BedID = ?");
+    $stmt_bed->bind_param("s", $bed_id);
+    if ($stmt_bed->execute()) {
+        $result_bed = $stmt_bed->get_result();
+        $bed = $result_bed->fetch_assoc();
+        $stmt_bed->close();
+    } else {
+        $error = "<p class='alert alert-warning'>Error fetching bed details: " . $stmt_bed->error . "</p>";
+        $stmt_bed->close();
+    }
+}
+
+// Fetch Unit IDs and UnitNos from the Unit table
+$unitOptions = '';
+$result = $conn->query("SELECT UnitID, UnitNo FROM Unit");
+$unitNos = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $unitOptions .= "<option value='" . $row['UnitID'] . "'";
+        if (isset($room['UnitID']) && $room['UnitID'] == $row['UnitID']) {
+            $unitOptions .= " selected";
+        }
+        $unitOptions .= " data-unitno='" . $row['UnitNo'] . "'>" . $row['UnitID'] . " - " . $row['UnitNo'] . "</option>";
+        $unitNos[$row['UnitID']] = $row['UnitNo'];
+    }
+}
+
+// Fetch Agent IDs from the Agent table
+$agentOptions = '';
+$result = $conn->query("SELECT AgentID, AgentName FROM Agent");
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $agentOptions .= "<option value='" . $row['AgentID'] . "'";
+        if (isset($room['AgentID']) && $room['AgentID'] == $row['AgentID']) {
+            $agentOptions .= " selected";
+        }
+        $agentOptions .= ">" . $row['AgentID'] . " - " . $row['AgentName'] . "</option>";
+    }
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add'])) {
+    if (isset($_POST['room_id']) && !empty($_POST['room_id'])) {
+        // Edit action
+        $room_id = $_POST['room_id'];
+        $unit_id = $_POST['unit_id'];
+        $room_no = $_POST['room_no'];
+        $room_rent_amount = $_POST['room_rent_amount'];
+        $katil = $_POST['katil'];
+        $room_status = !empty($_POST['room_status']) ? $_POST['room_status'] : NULL;
+        $agent_id = !empty($_POST['agent_id']) ? $_POST['agent_id'] : NULL;
+
+        $stmt = $conn->prepare("UPDATE Room SET UnitID=?, RoomNo=?, RoomRentAmount=?, Katil=?, RoomStatus=?, AgentID=? WHERE RoomID=?");
+        $stmt->bind_param("sssisss", $unit_id, $room_no, $room_rent_amount, $katil, $room_status, $agent_id, $room_id);
+
+        if ($stmt->execute()) {
+            $msg = "<p class='alert alert-success'>Room $room_id updated successfully</p>";
+        } else {
+            $error = "<p class='alert alert-warning'>Error updating room $room_id: " . $stmt->error . "</p>";
+        }
+        $stmt->close();
+    } else {
+        // Add action
+        $unit_id = $_POST['unit_id'];
+        $start_room_id = $_POST['start_room_id'];
+        $num_rooms = $_POST['num_rooms'];
+        $room_rent_amount = $_POST['room_rent_amount'];
+        $katil = $_POST['katil'];
+        $room_status = !empty($_POST['room_status']) ? $_POST['room_status'] : NULL;
+        $agent_id = !empty($_POST['agent_id']) ? $_POST['agent_id'] : NULL;
+        $bed_price = $_POST['bed_price'];
+        $bed_status = $_POST['bed_status'];
+
+        if (isset($unit_id, $start_room_id, $num_rooms, $room_rent_amount, $katil, $bed_price, $bed_status)) {
+            // Prepare SQL query to insert data into the Room and Bed tables
+            $stmt_room = $conn->prepare("INSERT INTO Room (RoomID, UnitID, RoomNo, RoomRentAmount, Katil, RoomStatus, AgentID) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            $stmt_bed = $conn->prepare("INSERT INTO Bed (BedID, RoomID, UnitID, BedNo, BedRentAmount, BedStatus, AgentID) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+            if ($stmt_room === false || $stmt_bed === false) {
+                $error .= "<p class='alert alert-danger'>Error preparing statement: " . $conn->error . "</p>";
+            } else {
+                $unit_no = $unitNos[$unit_id];
+
+                // Check for existing rooms for the given UnitID
+                $result = $conn->query("SELECT COUNT(*) as count FROM Room WHERE UnitID = '$unit_id'");
+                $row = $result->fetch_assoc();
+
+                if ($row['count'] == 0) {
+                    $start_room_number = 1; // Start room numbering from 1 if no records found
+                } else {
+                    $start_room_number = 1; // Always start room numbering from 1 for RoomNo
+                }
+
+                for ($i = 0; $i < $num_rooms; $i++) {
+                    $current_room_number = $start_room_number + $i;
+                    $room_id = 'R' . str_pad((int)substr($start_room_id, 1) + $i, 4, '0', STR_PAD_LEFT);  // Use user input for RoomID
+                    $room_no = $unit_no . '-R' . $current_room_number;  // Generate RoomNo based on UnitNo
+                    $stmt_room->bind_param("ssssiss", $room_id, $unit_id, $room_no, $room_rent_amount, $katil, $room_status, $agent_id);
+
+                    // Check if room insertion is successful
+                    if (!$stmt_room->execute()) {
+                        $error .= "<p class='alert alert-warning'>Error inserting room $room_id into database: " . $stmt_room->error . "</p>";
+                    } else {
+                        $msg .= "<p class='alert alert-success'>RoomID: $room_id, RoomNo: $room_no, Rent: $room_rent_amount, Katil: $katil, Status: $room_status, AgentID: $agent_id</p>";
+
+                        for ($j = 0; $j < $katil; $j++) {
+                            $bed_id = 'B' . str_pad((int)substr($start_room_id, 1) + ($i * $katil) + $j, 4, '0', STR_PAD_LEFT);  // Generate BedID similar to RoomID
+                            $bed_no = $room_no . '-B' . ($j + 1);  // Generate BedNo based on RoomNo
+                            $stmt_bed->bind_param("sssssss", $bed_id, $room_id, $unit_id, $bed_no, $bed_price, $bed_status, $agent_id);
+
+                            if (!$stmt_bed->execute()) {
+                                $error .= "<p class='alert alert-warning'>Error inserting bed $bed_id into database: " . $stmt_bed->error . "</p>";
+                            } else {
+                                $msg .= "<p class='alert alert-success'>BedID: $bed_id, BedNo: $bed_no, Bed Price: $bed_price, Bed Status: $bed_status</p>";
+                            }
+                        }
+                    }
+                }
+
+                $stmt_room->close();
+                $stmt_bed->close();
+            }
+        } else {
+            $error = "<p class='alert alert-warning'>Incomplete form data. Please fill in all required fields</p>";
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rentronics</title>
+    <link href="img/favicon.ico" rel="icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/feathericon.min.css">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        .place-picker-container {
+            padding: 20px;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid bg-white p-0">
+        <!-- Navbar and Sidebar Start-->
+        <?php include('nav_sidebar.php'); ?>
+        <!-- Navbar and Sidebar End -->
+
+        <!-- Page Wrapper -->
+        <div class="page-wrapper">
+            <div class="content container-fluid">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="page-title">Room Form</h3>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                                <li class="breadcrumb-item active">Room</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /Page Header -->
+
+                <div class="row">
+                    <!-- Room Details Form -->
+                    <div class="col-xl-12">
+                        <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                                <h4 class="card-title">Room Form</h4>
+                                <a href="roomtable.php" class="btn btn-primary float-right">Back</a>
+                            </div>
+                            <form method="post" action="" name="room-form" id="roomForm">
+                                <div class="card-body">
+                                    <h5 class="card-title">Room Details</h5>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Unit ID</label>
+                                                <div class="col-lg-9">
+                                                    <select class="form-control" id="unitIdSelect" name="unit_id" required>
+                                                        <option value="">Select Unit</option>
+                                                        <?php echo $unitOptions; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Unit No</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" id="unitNoInput" name="unit_no" readonly placeholder="Unit No will be displayed here" value="<?php echo isset($room['UnitNo']) ? $room['UnitNo'] : ''; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Starting Room ID</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="start_room_id" required placeholder="Enter Starting Room ID (e.g., R0001)" value="<?php echo isset($room['RoomID']) ? $room['RoomID'] : ''; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Number of Rooms</label>
+                                                <div class="col-lg-9">
+                                                    <input type="number" class="form-control" name="num_rooms" required placeholder="Enter Number of Rooms" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Room Rent Amount</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="room_rent_amount" required placeholder="Enter Room Rent Amount" value="<?php echo isset($room['RoomRentAmount']) ? $room['RoomRentAmount'] : ''; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Katil</label>
+                                                <div class="col-lg-9">
+                                                    <input type="number" class="form-control" name="katil" required placeholder="Enter Number of Katil" value="<?php echo isset($room['Katil']) ? $room['Katil'] : ''; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Room Status</label>
+                                                <div class="col-lg-9">
+                                                    <select class="form-control" name="room_status">
+                                                        <option value="">Select Status</option>
+                                                        <option value="Vacant" <?php echo (isset($room['RoomStatus']) && $room['RoomStatus'] == 'Vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                                        <option value="Partially Rented" <?php echo (isset($room['RoomStatus']) && $room['RoomStatus'] == 'Partially Rented') ? 'selected' : ''; ?>>Partially Rented</option>
+                                                        <option value="Fully Rented" <?php echo (isset($room['RoomStatus']) && $room['RoomStatus'] == 'Fully Rented') ? 'selected' : ''; ?>>Fully Rented</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Agent ID</label>
+                                                <div class="col-lg-9">
+                                                    <select class="form-control" name="agent_id">
+                                                        <option value="">Select Agent</option>
+                                                        <?php echo $agentOptions; ?>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <?php if (isset($bed['BedID'])): ?>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Bed ID</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="bed_id" readonly value="<?php echo $bed['BedID']; ?>">
+                                                </div>
+                                            </div>
+                                            <?php endif; ?>
+                                            <h5 class="card-title mt-4">Bed Details</h5>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Bed Price</label>
+                                                <div class="col-lg-9">
+                                                    <input type="text" class="form-control" name="bed_price" required placeholder="Enter Bed Price" value="<?php echo isset($bed['BedRentAmount']) ? $bed['BedRentAmount'] : ''; ?>">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-3 col-form-label">Bed Status</label>
+                                                <div class="col-lg-9">
+                                                    <select class="form-control" name="bed_status">
+                                                        <option value="">Select Status</option>
+                                                        <option value="Vacant" <?php echo (isset($bed['BedStatus']) && $bed['BedStatus'] == 'Vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                                        <option value="Rented" <?php echo (isset($bed['BedStatus']) && $bed['BedStatus'] == 'Rented') ? 'selected' : ''; ?>>Rented</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="add" value="1">
+                                            <input type="hidden" name="room_id" value="<?php echo isset($room['RoomID']) ? $room['RoomID'] : ''; ?>">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary" name="add">Submit</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- /Room Details Form -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Room Details Confirmation Modal -->
+    <div class="modal fade" id="confirmRoomModal" tabindex="-1" role="dialog" aria-labelledby="confirmRoomModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmRoomModalLabel">Confirm Room Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="roomDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="confirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <?php if (!empty($msg)) : ?>
+                        <div class='alert alert-success'><?php echo $msg; ?></div>
+                    <?php endif; ?>
+                    <?php if (!empty($error)) : ?>
+                        <div class='alert alert-danger'><?php echo $error; ?></div>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ensure jQuery is loaded first -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.min.js" integrity="sha512-4lykFR6C2W55I60sYddEGjieC2fU79R7GUtaqr3DzmNbo0vSaO1MfUjMoTFYYuedjfEix6uV9jVTtRCSBU/Xiw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+
+    <!-- PHP condition to include JavaScript code to show the modal -->
+    <?php if (!empty($msg) || !empty($error)) : ?>
+    <script>
+        $(document).ready(function() {
+            $('#messageModal').modal('show');
+        });
+    </script>
+    <?php endif; ?>
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update Unit Number Function
+        function updateUnitNo() {
+            var unitSelect = document.querySelector('select[name="unit_id"]');
+            var unitNoInput = document.querySelector('input[name="unit_no"]');
+            if (unitSelect && unitNoInput) {
+                var selectedOption = unitSelect.options[unitSelect.selectedIndex];
+                unitNoInput.value = selectedOption.getAttribute('data-unitno');
+            }
+        }
+
+        // Add event listener for Unit ID select change
+        if (document.querySelector('select[name="unit_id"]')) {
+            document.querySelector('select[name="unit_id"]').addEventListener('change', updateUnitNo);
+        }
+
+        // Pre-fill the Unit No input when the page loads (for editing)
+        updateUnitNo();
+    });
+    </script>
+</body>
+</html>
+
+ // ------------------------------
+        // Update Unit Number
+        // ------------------------------
+        if (document.querySelector('select[name="unit_id"]')) {
+            document.querySelector('select[name="unit_id"]').addEventListener('change', updateUnitNo);
+        }
+
+        // ------------------------------
+        // Confirm Room Details Modal
+        // ------------------------------
+        if (document.querySelector('button[name="add"]')) {
+            document.querySelector('button[name="add"]').addEventListener('click', function(event) {
+                event.preventDefault();
+                confirmRoomDetails();
+            });
+        }
+
+        // ------------------------------
+        // Confirm Button in Modal
+        // ------------------------------
+        if (document.getElementById('confirmBtn')) {
+            document.getElementById('confirmBtn').addEventListener('click', function() {
+                console.log('Confirm button clicked');
+                $('#confirmRoomModal').modal('hide');
+                setTimeout(function() {
+                    document.getElementById('roomForm').submit();
+                }, 1000);
+            });
+        }
+
+        // ------------------------------
+        // Edit Button Click
+        // ------------------------------
+        $('button[name="edit"]').on('click', function(event) {
+            event.preventDefault();
+            var roomId = $(this).siblings('input[name="room_id"]').val();
+            $.post('', { room_id: roomId, edit: true }, function(response) {
+                var room = JSON.parse(response);
+                $('select[name="unit_id"]').val(room.UnitID).trigger('change');
+                $('input[name="unit_no"]').val(room.UnitNo);
+                $('input[name="start_room_id"]').val(room.RoomID);
+                $('input[name="num_rooms"]').val(1);
+                $('input[name="room_rent_amount"]').val(room.RoomRentAmount);
+                $('input[name="katil"]').val(room.Katil);
+                $('select[name="room_status"]').val(room.RoomStatus);
+                $('select[name="agent_id"]').val(room.AgentID);
+                $('input[name="room_id"]').val(room.RoomID);
+            });
+        });
+
+    });
+
+    // ------------------------------
+    // Update Unit Number Function
+    // ------------------------------
+    function updateUnitNo() {
+        var unitSelect = document.querySelector('select[name="unit_id"]');
+        var unitNoInput = document.querySelector('input[name="unit_no"]');
+        if (unitSelect && unitNoInput) {
+            var selectedOption = unitSelect.options[unitSelect.selectedIndex];
+            unitNoInput.value = selectedOption.getAttribute('data-unitno');
+        }
+    }
+
+    // ------------------------------
+    // Generate Room Details Function
+    // ------------------------------
+    function generateRoomDetails() {
+        var unit_id = document.querySelector('select[name="unit_id"]').value;
+        var unit_no = document.querySelector('input[name="unit_no"]').value;
+        var start_room_id = document.querySelector('input[name="start_room_id"]').value;
+        var num_rooms = document.querySelector('input[name="num_rooms"]').value;
+        var room_rent_amount = document.querySelector('input[name="room_rent_amount"]').value;
+        var katil = document.querySelector('input[name="katil"]').value;
+        var room_status = document.querySelector('select[name="room_status"]').value;
+        var agent_id = document.querySelector('select[name="agent_id"]').value;
+        var bed_price = document.querySelector('input[name="bed_price"]').value;
+        var bed_status = document.querySelector('select[name="bed_status"]').value;
+    
+        if (unit_id && start_room_id && num_rooms && room_rent_amount && katil && bed_price && bed_status) {
+            var details = '';
+            var start_room_number = 1;
+    
+            $.ajax({
+                url: 'check_unit_rooms.php',
+                type: 'POST',
+                data: { unit_id: unit_id },
+                async: false,
+                success: function(response) {
+                    if (response === '0') {
+                        start_room_number = 1;
+                    }
+                }
+            });
+    
+            var bed_counter = 1;
+    
+            for (var i = 0; i < num_rooms; i++) {
+                var current_room_number = start_room_number + i;
+                var room_id = 'R' + (String(parseInt(start_room_id.substring(1)) + i).padStart(4, '0'));
+                var room_no = unit_no + '-R' + current_room_number;
+    
+                details += 'RoomID: ' + room_id + ', RoomNo: ' + room_no + ', Rent: ' + room_rent_amount + ', Katil: ' + katil + ', Status: ' + room_status + ', AgentID: ' + agent_id + '\n';
+    
+                for (var j = 0; j < katil; j++) {
+                    var bed_id = 'B' + (String(parseInt(start_room_id.substring(1)) + bed_counter - 1).padStart(4, '0'));
+                    var bed_no = room_no + '-B' + (j + 1);
+                    details += 'BedID: ' + bed_id + ', BedNo: ' + bed_no + ', Bed Price: ' + bed_price + ', Bed Status: ' + bed_status + '\n';
+                    bed_counter++;
+                }
+    
+                details += '\n';
+            }
+            return details;
+        } else {
+            alert('Please fill in all required fields');
+            return '';
+        }
+    }    
+
+    // ------------------------------
+    // Confirm Room Details Function
+    // ------------------------------
+    function confirmRoomDetails() {
+        var details = generateRoomDetails();
+        if (details) {
+            document.getElementById('roomDetails').innerText = details;
+            $('#confirmRoomModal').modal('show');
+        }
+    }

@@ -1,0 +1,365 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap");
+
+/* Root Variables */
+:root {
+  --font-primary: "Roboto", sans-serif;
+  --font-secondary: "Merriweather", serif;
+
+  --color-primary: #1c2f59;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --color-btn: #5678aa ;
+
+  /* Custom Button Colors */
+  --confirm: #28a745; /* Replace with your desired color */
+  --cancel: #dc3545; /* Replace with your desired color */
+}
+
+/*** Button ***/
+
+/* Navbar Styling */
+
+.navbar {
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.08);
+  margin-left: 80px ;
+  transition: margin-left 0.3s ease;
+}
+
+.navbar.expand {
+  margin-left: 240px;
+  width: 100%;
+  transition: margin-left 0.3s ease;
+}
+
+@media (max-width: 991.98px) {
+  .navbar {
+    margin: 0 !important;
+    padding: 0;
+    z-index: 999;
+  }
+}
+
+.navbar-light .navbar-brand {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-light .navbar-brand img {
+  height: 50px;
+  width: auto;
+}
+
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+/* Sidebar Styling */
+/* Sidebar Styling */
+.sidebar {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  left: 80px;
+  top: 0;
+  width: 240px;
+  height: 100vh;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: 998;
+}
+
+.sidebar-logo-con {
+  height: 100px; /* Adjust height as needed for the green area */
+  display: flex;
+  justify-content: center; /* Horizontally center the logo */
+  align-items: center; /* Vertically center the logo */
+  text-align: center;
+}
+
+/* Logo image styling */
+.sidebar-logo-img {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #fff;
+}
+
+.sidebar:not(.show) .sidebar-logo-img {
+  margin-left: 65%;
+}
+
+.sidebar.show {
+  transform: translateX(0);
+  left:0;
+}
+
+.sidebar.expand {
+  width: 260px;
+  min-width: 260px;
+}
+
+.sidebar:not(.expand) a.sidebar-link span {
+  text-align: center;
+}
+
+.sidebar-inner {
+  padding: 0;
+}
+
+.sidebar-menu {
+  padding-top: 1.5rem;
+}
+
+.menu-title {
+  color: #9e9e9e;
+  padding: 0.75rem 0.25rem;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+a.sidebar-link {
+  padding: 0.75rem 1.25rem;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+  transition:
+    background-color 0.3s,
+    border-left-color 0.3s,
+    padding 0.3s;
+}
+
+.sidebar-link span {
+  margin-left: 10px; /* Adjust the space between the icon and the text */
+}
+
+.fas {
+  font-size: 24px;
+  display: inline-block;
+}
+
+.sidebar-logo {
+  color: #fff; /* Custom color for sidebar icons */
+  margin-right: 10px; /* Space between icon and text */
+  transition: color 0.3s ease; /* Smooth transition for color changes */
+}
+
+.sidebar-logo:hover {
+  color: #2962ff; /* Change color on hover */
+}
+
+/* Hide only the text when sidebar is not expanded */
+.sidebar:not(.show) .sidebar-link span {
+  display: none; /* Hide text */
+}
+
+.sidebar:not(.show) .sidebar-logo {
+  margin-left: auto; /* Ensure icons are not centered */
+}
+
+.sidebar:not(.show) .sidebar-link {
+  padding-left: 10px; /* Adjust padding to align icons when text is hidden */
+}
+
+/* Sidebar dropdown should be hidden when the sidebar is not expanded */
+.sidebar:not(.show) .sidebar-item.submenu .sidebar-dropdown {
+  display: none; /* Ensure dropdowns don't show when sidebar is collapsed */
+}
+
+/* Sidebar when expanded, allow dropdown functionality */
+.sidebar.show .sidebar-item.submenu.active .sidebar-dropdown {
+  display: block;
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+/* Sidebar dropdown initially hidden */
+.sidebar-item .sidebar-dropdown {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+
+a.sidebar-link:hover,
+a.sidebar-link:focus {
+  background-color: #2962ff;
+  color: #ffffff;
+  text-decoration: none;
+  border-left: 3px solid #3b7ddd;
+  padding-left: 1.5rem;
+}
+
+.sidebar-item {
+  position: relative;
+}
+
+.sidebar-footer {
+  padding: 1rem;
+  text-align: center;
+}
+
+.sidebar-footer a {
+  color: #fff;
+  font-size: 1rem;
+}
+
+.sidebar-footer a:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+/* Scrollbar customization for WebKit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) {
+  .sidebar {
+    top:70px;
+    left: -260px;
+    z-index: 998;
+  }
+
+  .sidebar.show {
+    left: 0;
+  }
+
+  .mobile_btn {
+    display: block;
+  }
+}
+
+/* Dropdown functionality */
+.sidebar-item .sidebar-dropdown {
+  display: none;
+  list-style: none;
+  padding-left: 20px;
+  transition:
+    max-height 0.3s ease-out,
+    opacity 0.3s ease-out;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.sidebar-item .sidebar-link {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between; /* Ensure the arrow stays on the right side */
+  align-items: center;
+}
+
+.sidebar-item.active .sidebar-dropdown {
+  display: block;
+  max-height: 500px; /* Adjust as needed */
+  opacity: 1;
+}
+
+.sidebar-item .menu-arrow i {
+  margin-left: auto; /* Push the arrow to the right */
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.sidebar-item.active .menu-arrow {
+  transform: rotate(90deg);
+}
+
+/* Mobile Button Styling */
+.mobile_btn {
+  display: block; /* Hide by default */
+  color: var(--color-btn);
+  border: none;
+  border-radius: 50%;
+  width: 40px; /* Adjust the size as needed */
+  height: 40px; /* Adjust the size as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s; /* Smooth transitions */
+}
+
+@media (max-width: 768px) {
+  .mobile_btn {
+    display: flex !important; /* Show button on mobile */
+  }
+}
+
+.mobile_btn i {
+  font-size: 20px; /* Adjust the size of the icon as needed */
+  color: var(--color-btn); /* Adjust the color of the icon as needed */
+}
+
+.mobile_btn:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+.mobile_btn:active {
+  transform: scale(0.9); /* Slightly shrink on click */
+}
+
+/*** Icon ***/
+.icon {
+  width: 25px; /* Adjust the size as needed */
+  height: 25px; /* Adjust the size as needed */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff !important;
+  border-radius: 50%;
+  border: 1px dashed var(--color-primary) !important;
+}
+
+button {
+  padding: 12px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--color-dark);
+}
+
+/* Custom DataTable column spacing */

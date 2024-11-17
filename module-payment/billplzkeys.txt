@@ -1,0 +1,8 @@
+BillPlz Secret Key
+
+6d81abb9-0f60-42b1-9326-583bdfb5d6dc
+
+XSignature Key
+
+a613d239ce352b04f6f4d073a4c9530cfc975d6aec3a224e3c9dded36301e8bd4568e88bc545dea5b3e21f8f00b145a3114a4311e80c49eac4f82c7fd27d41b9
+

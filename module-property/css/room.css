@@ -1,0 +1,175 @@
+/* Import Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap");
+
+/* Root Variables */
+:root {
+  --font-primary: "Roboto", sans-serif;
+  --font-secondary: "Merriweather", serif;
+
+  --color-primary: #1c2f59;
+  --color-secondary: #6c757d;
+  --color-success: #28a745;
+  --color-danger: #dc3545;
+  --color-warning: #ffc107;
+  --color-info: #17a2b8;
+  --color-light: #f8f9fa;
+  --color-dark: #343a40;
+  --color-btn: #5678aa;
+
+  /* Custom Button Colors */
+  --confirm: #28a745; /* Replace with your desired color */
+  --cancel: #dc3545; /* Replace with your desired color */
+}
+
+body {
+  background-color: #fff;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: var(--font-primary);
+  color: var(--color-dark);
+}
+
+/*** Button ***/
+.btn {
+  transition: 0.5s;
+}
+
+.btn.btn-primary {
+  background-color: var(--confirm);
+  color: #ffffff;
+}
+
+.btn.btn-secondary {
+  background-color: var(--cancel);
+  color: #ffffff;
+}
+
+/* Navbar Styling */
+.nav-bar {
+  position: relative;
+  transition: 0.5s;
+  z-index: 999;
+}
+/* Main Sidebar Styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap");
+
+::after,
+::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+body {
+  font-family: var(--font-primary);
+}
+
+/*** Header ***/
+@media (min-width: 992px) {
+  .header {
+    margin-top: -120px;
+  }
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: #dddddd;
+}
+
+/*** Icon ***/
+.icon {
+  width: 25px; /* Adjust the size as needed */
+  height: 25px; /* Adjust the size as needed */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff !important;
+  border-radius: 50%;
+  border: 1px dashed var(--color-primary) !important;
+}
+
+.header {
+  margin-top: 30px !important;
+}
+
+.page-wrapper {
+  margin-left: 80px;
+  padding-top: 10px;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.page-wrapper.expand {
+  margin-left: 240px;
+  transition: all 0.4s ease;
+}
+
+.page-wrapper > .content {
+  padding: 1.875rem 1.875rem 0;
+}
+
+.row {
+  padding-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .page-wrapper {
+    margin-left: 0;
+  }
+
+  .page-wrapper > .content {
+    padding: 1.875rem 1.875rem 0;
+  }
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+select {
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  padding: 12px;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: var(--color-dark);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Custom DataTable column spacing */

@@ -1,60 +1,76 @@
 <?php
-require_once 'google_sheets_integration.php';
+require_once __DIR__ . '/module-auth/google_sheets_integration.php';
+require_once __DIR__ . '/module-auth/dbconnection.php';
 
-$spreadsheetId = '1saIMUxbothIXVgimL9EMgnGIZ7lNWN1d_YnjvK1Znyw';
+session_start();
+if (!isset($_SESSION['auser'])) {
+    header("Location: ../index.php");
+    exit();
+}
 
-$rangeSheet1 = 'Sheet1!A2:F';
+$spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
+
+$rangeSheet1 = 'Property List!A2:F';
 $dataSheet1 = getData($spreadsheetId, $rangeSheet1);
 
-$rangeSheet2 = 'Sheet2!A2:K';
+$rangeSheet2 = 'Room List!A2:K';
 $dataSheet2 = getData($spreadsheetId, $rangeSheet2);
 
 // Fetch data for the first card
-$rangeSheet2Card1 = 'Sheet2!A2:K';
+$rangeSheet2Card1 = 'Room List!A2:K';
 $dataSheet2Card1 = getData($spreadsheetId, $rangeSheet2Card1);
 $numRowsCard1 = count($dataSheet2Card1);
 
 // Fetch data for the second card
-$rangeSheet2Card2 = 'Sheet2!A2:K'; // Change the range accordingly
+$rangeSheet2Card2 = 'Room List!A2:K';
 $dataSheet2Card2 = getData($spreadsheetId, $rangeSheet2Card2);
 $numRowsCard2 = count($dataSheet2Card2);
 
 // Fetch data for the third card
-$rangeSheet2Card3 = 'Sheet2!A2:K'; // Change the range accordingly
+$rangeSheet2Card3 = 'Room List!A2:K';
 $dataSheet2Card3 = getData($spreadsheetId, $rangeSheet2Card3);
 $numRowsCard3 = count($dataSheet2Card3);
 
 // Fetch data for the fourth card
-$rangeSheet2Card4 = 'Sheet2!A2:K'; // Change the range accordingly
+$rangeSheet2Card4 = 'Room List!A2:K';
 $dataSheet2Card4 = getData($spreadsheetId, $rangeSheet2Card4);
 $numRowsCard4 = count($dataSheet2Card4);
 
 // Fetch data for the fifth card
-$rangeSheet2Card5 = 'Sheet2!A2:K'; // Change the range accordingly
+$rangeSheet2Card5 = 'Room List!A2:K';
 $dataSheet2Card5 = getData($spreadsheetId, $rangeSheet2Card5);
 $numRowsCard5 = count($dataSheet2Card5);
+
+// Fetch agent name from the database
+$user = $_SESSION['auser'];
+$stmt = $conn->prepare("SELECT AgentName FROM agent WHERE AgentEmail = ?");
+$stmt->bind_param("s", $user);
+$stmt->execute();
+$stmt->bind_result($agentName);
+$stmt->fetch();
+$stmt->close();
 
 // Calculate total number of properties
 $totalProperties = count($dataSheet2Card1);
 
 // Calculate total number of apartments
 $totalApartments = count(array_filter($dataSheet2Card2, function ($row) {
-    return $row[8] == 'Condominium'; // Assuming column index 8 contains Property Type
+    return isset($row[7]) && $row[7] == 'Condominium'; // Ensure column index 7 exists and contains Property Type
 }));
 
 // Calculate total number of houses
 $totalHouses = count(array_filter($dataSheet2Card3, function ($row) {
-    return $row[8] == 'Terrace'; // Assuming column index 8 contains Property Type
+    return isset($row[7]) && $row[7] == 'Terrace'; // Ensure column index 7 exists and contains Property Type
 }));
 
 // Calculate total number of vacant properties (sale)
 $totalVacantProperties = count(array_filter($dataSheet2Card4, function ($row) {
-    return $row[7] == 'Vacant'; // Assuming column index 6 contains Vacant Status, and column index 9 contains Sale/Rent
+    return isset($row[6]) && $row[6] == 'TRUE'; // Ensure column index 6 exists and contains Vacant Status
 }));
 
 // Calculate total number of occupied properties (rent)
 $totalOccupiedProperties = count(array_filter($dataSheet2Card5, function ($row) {
-    return $row[7] == 'Occupied'; // Assuming column index 6 contains Vacant Status, and column index 9 contains Sale/Rent
+    return isset($row[6]) && $row[6] == 'FALSE'; // Ensure column index 6 exists and contains Vacant Status
 }));
 ?>
 
@@ -95,144 +111,17 @@ $totalOccupiedProperties = count(array_filter($dataSheet2Card5, function ($row) 
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/navbar.css" rel="stylesheet">
+
 </head>
 
 <body>
-    <div class="container-fluid bg-white p-0" style="">
+    <div class="container-fluid bg-white p-0">
         <!--Navbar Start-->
-        <div class="container-fluid nav-bar bg-transparent">
-            <nav class="navbar navbar-expand-lg bg-white navbar-light py-0 px-4">
-                <a href="index.php" class="navbar-brand d-flex align-items-center text-center">
-                    <div class="icon p-2 me-2">
-                        <!-- <img class="img-fluid" src="img/icon-deal.png" alt="Icon" style="width: 30px; height: 30px;"> -->
-                    </div>
-                    <h1 class="m-0 text-primary">Rentronics</h1>
-                </a>
-                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarCollapse">
-                    <div class="navbar-nav ms-auto">
-                        <!-- <a href="index.php" class="nav-item nav-link active">Home</a> -->
-                        <!-- <a href="#abt" class="nav-item nav-link">About</a>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Property</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="property-list.html" class="dropdown-item">Property List</a>
-                                <a href="property-type.html" class="dropdown-item">Property Type</a>
-                                <a href="property-agent.html" class="dropdown-item">Property Agent</a>
-                            </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                            <div class="dropdown-menu rounded-0 m-0">
-                                <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                <a href="404.html" class="dropdown-item">404 Error</a>
-                            </div>
-                        </div>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a> -->
-                    </div>
-                    <a href="logout.php" class="btn btn-primary px-3 d-none d-lg-flex">Logout</a>
-                </div>
-            </nav>
-        </div>
-        <!--Navbar End-->
-
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title">
-                            <span>Main</span>
-                        </li>
-                        <li>
-                            <a href="dashboard.php"><i class="fe fe-home"></i> <span>Dashboard</span></a>
-                        </li>
-
-                        <li class="menu-title">
-                            <span>All Users</span>
-                        </li>
-
-                        <li class="submenu">
-                            <a href=""><i class="fe fe-user"></i> <span> All Users </span> <span
-                                    class="menu-arrow"></i></span></a>
-                            <ul>
-                                <li><a href="adminlist.php"> Admin </a></li>
-                                <!-- <li><a href="userlist.php"> Users </a></li>
-                                <li><a href="useragent.php"> Agent </a></li>
-                                <li><a href="userbuilder.php"> Builder </a></li> -->
-                            </ul>
-                        </li>
-
-                        <!-- <li class="menu-title">
-                            <span>State & City</span>
-                        </li>
-
-                        <li class="submenu">
-                            <a href=""><i class="fe fe-location"></i> <span>State & City</span> <span
-                                    class="menu-arrow"></i></span></a>
-                            <ul>
-                                <li><a href="stateadd.php"> State </a></li>
-                                <li><a href="cityadd.php"> City </a></li>
-                            </ul>
-                        </li> -->
-
-                        <li class="menu-title">
-                            <span>Payment</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="stripepayment.php"><i class="fe fe-map"></i> <span> Deposit Payment</span> <span
-                                    class="menu-arrow"></i></span></a>
-                            <!-- <ul>
-                                <li><a href="propertyadd.php"> Add Property</a></li>
-                            </ul> -->
-                        </li>
-
-                        <li class="menu-title">
-                            <span>Property Management</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fe fe-map"></i> <span> Property</span> <span
-                                    class="menu-arrow"></i></span></a>
-                            <ul>
-                                <li><a href="propertyadd.php"> Add Property</a></li>
-                                <li><a href="propertyview.php"> View Property </a></li>
-
-                            </ul>
-                        </li>
-
-
-
-                        <!-- <li class="menu-title">
-                            <span>Query</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fe fe-comment"></i> <span> Contact,Feedback </span> <span
-                                    class="menu-arrow"></i></span></a>
-                            <ul>
-                                <li><a href="contactview.php"> Contact </a></li>
-                                <li><a href="feedbackview.php"> Feedback </a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-title">
-                            <span>About</span>
-                        </li>
-                        <li class="submenu">
-                            <a href="#"><i class="fe fe-browser"></i> <span> About Page </span>
-                                <span class="menu-arrow"></i></span></a>
-                            <ul>
-                                <li><a href="aboutadd.php"> Add About Content </a></li>
-                                <li><a href="aboutview.php"> View About </a></li>
-                            </ul>
-                        </li> -->
-
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <!-- /Sidebar -->
+        <!-- Navbar and Sidebar Start-->
+        <?php include('nav_sidebar.php'); ?>
+        <!-- Navbar and Sidebar End -->
 
         <!-- Page Wrapper -->
         <div class="page-wrapper">
@@ -243,11 +132,8 @@ $totalOccupiedProperties = count(array_filter($dataSheet2Card5, function ($row) 
                 <div class="page-header">
                     <div class="row">
                         <div class="col-sm-12">
-                            <h3 class="page-title">Welcome Admin!</h3>
+                            <h3 class="page-title">Welcome, <?php echo $agentName; ?></h3>
                             <p></p>
-                            <ul class="breadcrumb">
-                                <li class="breadcrumb-item active">Dashboard</li>
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -383,18 +269,19 @@ $totalOccupiedProperties = count(array_filter($dataSheet2Card5, function ($row) 
         </div>
         <!-- /Page Wrapper -->
     </div>
-</body>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.min.js"
-    integrity="sha512-4lykFR6C2W55I60sYddEGjieC2fU79R7GUtaqr3DzmNbo0vSaO1MfUjMoTFYYuedjfEix6uV9jVTtRCSBU/Xiw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="lib/wow/wow.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.min.js"
+        integrity="sha512-4lykFR6C2W55I60sYddEGjieC2fU79R7GUtaqr3DzmNbo0vSaO1MfUjMoTFYYuedjfEix6uV9jVTtRCSBU/Xiw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
 
-<!-- Template Javascript -->
-<script src="js/main.js">
-</html >
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

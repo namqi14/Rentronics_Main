@@ -1,0 +1,13 @@
+Tuya Admin Password
+4Krf6vRG5xC
+
+Access ID/Client ID: vw55nknx8twhrqu78wyd
+Access Secret/Client Secret: 555bb62672f840159d97dbed9a3c6e91
+Project Code: p1719137772195fam5r5
+
+$clientId = 'vw55nknx8twhrqu78wyd'; // Replace with your actual Client ID
+$clientSecret = '555bb62672f840159d97dbed9a3c6e91'; // Replace with your actual Client Secret
+
+$clientId = "vw55nknx8twhrqu78wyd";
+$clientSecret = "555bb62672f840159d97dbed9a3c6e91";
+$deviceId = "eb82546591d89a98aeoj8t";

@@ -2,6 +2,28 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "@prettier/plugin-php": "^0.21.0",
-    "prettier": "^3.0.3"
+    "axios": "^1.7.2",
+    "crypto": "^1.0.1",
+    "datatables.net": "^2.0.8",
+    "datatables.net-dt": "^2.0.8",
+    "jquery": "^3.7.1",
+    "prettier": "^3.0.3",
+    "readline": "^1.3.0"
+  },
+  "name": "rentronics",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "purgecss": "^6.0.0"
   }
 }
