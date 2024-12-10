@@ -1,0 +1,245 @@
+[2024-12-08 18:14:17] Fetched bed data for BedID B0008.
+[2024-12-08 18:14:46] Fetched bed data for BedID B0008.
+[2024-12-08 18:14:50] Fetched bed data for BedID B0008.
+[2024-12-08 18:15:15] Fetched bed data for BedID B0008.
+[2024-12-08 18:15:15] Form Submission Data:
+[2024-12-08 18:15:15] Tenant Name: Samsudin
+[2024-12-08 18:15:15] Passport: 000311140589
+[2024-12-08 18:15:15] Start Date: 2025-01-02
+[2024-12-08 18:15:15] Bed Rent Amount: 550
+[2024-12-08 18:15:15] Bed ID Form: B0008
+[2024-12-08 18:15:15] Tenant Phone No: 01127218702
+[2024-12-08 18:15:15] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:15:15] Address: 14, KL
+[2024-12-08 18:15:15] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:15:15] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:15:15] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:15:15] Set Bed Status to: booking
+[2024-12-08 18:15:15] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:15:15] Generated TenantID: T6587
+[2024-12-08 18:15:15] Inserted tenant data for TenantID: T6587
+[2024-12-08 18:15:15] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:15:15] Generated AgreementID: agreement_9219
+[2024-12-08 18:15:15] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:15:15] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:15:15] Inserted tenancy agreement data for AgreementID: agreement_9219
+[2024-12-08 18:15:15] Room Number: C-15-10-R8
+[2024-12-08 18:15:15] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:15:15] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:15:15] Loaded Word template successfully.
+[2024-12-08 18:15:15] Replaced placeholders in the template.
+[2024-12-08 18:15:15] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:15:15] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:17:08] Fetched bed data for BedID B0008.
+[2024-12-08 18:22:22] Fetched bed data for BedID B0008.
+[2024-12-08 18:22:56] Fetched bed data for BedID B0008.
+[2024-12-08 18:22:56] Form Submission Data:
+[2024-12-08 18:22:56] Tenant Name: Pundek
+[2024-12-08 18:22:56] Passport: 000311140589
+[2024-12-08 18:22:56] Start Date: 2025-01-02
+[2024-12-08 18:22:56] Bed Rent Amount: 550
+[2024-12-08 18:22:56] Bed ID Form: B0008
+[2024-12-08 18:22:56] Tenant Phone No: 01127218702
+[2024-12-08 18:22:56] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:22:56] Address: 15, KL
+[2024-12-08 18:22:56] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:22:56] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:22:56] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:22:56] Set Bed Status to: booking
+[2024-12-08 18:22:56] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:22:56] Generated TenantID: T2771
+[2024-12-08 18:22:56] Inserted tenant data for TenantID: T2771
+[2024-12-08 18:22:56] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:22:56] Generated AgreementID: agreement_9579
+[2024-12-08 18:22:56] Sanitized Tenant Name for Filename: Pundek
+[2024-12-08 18:22:56] Agreement File Name: Tenancy_Agreement_Pundek.docx
+[2024-12-08 18:22:56] Inserted tenancy agreement data for AgreementID: agreement_9579
+[2024-12-08 18:22:56] Room Number: C-15-10-R8
+[2024-12-08 18:22:56] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:22:56] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:22:56] Loaded Word template successfully.
+[2024-12-08 18:22:56] Replaced placeholders in the template.
+[2024-12-08 18:22:56] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Pundek.docx
+[2024-12-08 18:22:56] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Pundek.docx
+[2024-12-08 18:31:23] Fetched bed data for BedID B0008.
+[2024-12-08 18:31:25] Fetched bed data for BedID B0008.
+[2024-12-08 18:31:49] Fetched bed data for BedID B0008.
+[2024-12-08 18:31:49] Form Submission Data:
+[2024-12-08 18:31:49] Tenant Name: Samsudin
+[2024-12-08 18:31:49] Passport: 000311140589
+[2024-12-08 18:31:49] Start Date: 2025-01-02
+[2024-12-08 18:31:49] Bed Rent Amount: 550
+[2024-12-08 18:31:49] Bed ID Form: B0008
+[2024-12-08 18:31:49] Tenant Phone No: 01127218702
+[2024-12-08 18:31:49] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:31:49] Address: 15, KL
+[2024-12-08 18:31:49] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:31:49] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:31:49] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:31:49] Set Bed Status to: booking
+[2024-12-08 18:31:49] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:31:49] Generated TenantID: T1696
+[2024-12-08 18:31:49] Inserted tenant data for TenantID: T1696
+[2024-12-08 18:31:49] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:31:49] Generated AgreementID: agreement_5603
+[2024-12-08 18:31:49] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:31:49] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:31:49] Inserted tenancy agreement data for AgreementID: agreement_5603
+[2024-12-08 18:31:49] Room Number: C-15-10-R8
+[2024-12-08 18:31:49] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:31:49] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:31:49] Loaded Word template successfully.
+[2024-12-08 18:31:49] Replaced placeholders in the template.
+[2024-12-08 18:31:49] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:31:49] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:32:00] Fetched bed data for BedID B0008.
+[2024-12-08 18:34:31] Fetched bed data for BedID B0008.
+[2024-12-08 18:34:31] Form Submission Data:
+[2024-12-08 18:34:31] Tenant Name: Samsudin
+[2024-12-08 18:34:31] Passport: 000311140589
+[2024-12-08 18:34:31] Start Date: 2025-01-02
+[2024-12-08 18:34:31] Bed Rent Amount: 550
+[2024-12-08 18:34:31] Bed ID Form: B0008
+[2024-12-08 18:34:31] Tenant Phone No: 01127218702
+[2024-12-08 18:34:31] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:34:31] Address: 15, KL
+[2024-12-08 18:34:31] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:34:31] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:34:31] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:34:31] Set Bed Status to: booking
+[2024-12-08 18:34:31] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:34:31] Generated TenantID: T5571
+[2024-12-08 18:34:31] Inserted tenant data for TenantID: T5571
+[2024-12-08 18:34:31] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:34:31] Generated AgreementID: agreement_8652
+[2024-12-08 18:34:31] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:34:31] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:34:31] Inserted tenancy agreement data for AgreementID: agreement_8652
+[2024-12-08 18:34:31] Room Number: C-15-10-R8
+[2024-12-08 18:34:31] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:34:31] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:34:31] Loaded Word template successfully.
+[2024-12-08 18:34:31] Replaced placeholders in the template.
+[2024-12-08 18:34:31] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:34:31] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:34:34] Fetched bed data for BedID B0008.
+[2024-12-08 18:35:16] Fetched bed data for BedID B0008.
+[2024-12-08 18:35:16] Form Submission Data:
+[2024-12-08 18:35:16] Tenant Name: Samsudin
+[2024-12-08 18:35:16] Passport: 000311140589
+[2024-12-08 18:35:16] Start Date: 2025-01-02
+[2024-12-08 18:35:16] Bed Rent Amount: 550
+[2024-12-08 18:35:16] Bed ID Form: B0008
+[2024-12-08 18:35:16] Tenant Phone No: 01127218702
+[2024-12-08 18:35:16] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:35:16] Address: 15, KL
+[2024-12-08 18:35:16] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:35:16] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:35:16] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:35:16] Set Bed Status to: booking
+[2024-12-08 18:35:16] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:35:16] Generated TenantID: T6746
+[2024-12-08 18:35:16] Inserted tenant data for TenantID: T6746
+[2024-12-08 18:35:16] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:35:16] Generated AgreementID: agreement_1398
+[2024-12-08 18:35:16] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:35:16] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:35:16] Inserted tenancy agreement data for AgreementID: agreement_1398
+[2024-12-08 18:35:16] Room Number: C-15-10-R8
+[2024-12-08 18:35:16] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:35:16] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:35:16] Loaded Word template successfully.
+[2024-12-08 18:35:16] Replaced placeholders in the template.
+[2024-12-08 18:35:16] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:35:16] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:37:15] Fetched bed data for BedID B0008.
+[2024-12-08 18:37:16] Fetched bed data for BedID B0008.
+[2024-12-08 18:37:16] Form Submission Data:
+[2024-12-08 18:37:16] Tenant Name: Samsudin
+[2024-12-08 18:37:16] Passport: 000311140589
+[2024-12-08 18:37:16] Start Date: 2025-01-02
+[2024-12-08 18:37:16] Bed Rent Amount: 550
+[2024-12-08 18:37:16] Bed ID Form: B0008
+[2024-12-08 18:37:16] Tenant Phone No: 01127218702
+[2024-12-08 18:37:16] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:37:16] Address: 15, KL
+[2024-12-08 18:37:16] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:37:16] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:37:16] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:37:16] Set Bed Status to: booking
+[2024-12-08 18:37:16] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:37:16] Generated TenantID: T0525
+[2024-12-08 18:37:16] Inserted tenant data for TenantID: T0525
+[2024-12-08 18:37:16] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:37:16] Generated AgreementID: agreement_4072
+[2024-12-08 18:37:16] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:37:16] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:37:16] Inserted tenancy agreement data for AgreementID: agreement_4072
+[2024-12-08 18:37:16] Room Number: C-15-10-R8
+[2024-12-08 18:37:16] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:37:16] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:37:16] Loaded Word template successfully.
+[2024-12-08 18:37:16] Replaced placeholders in the template.
+[2024-12-08 18:37:16] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:37:16] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:38:38] Fetched bed data for BedID B0008.
+[2024-12-08 18:38:39] Fetched bed data for BedID B0008.
+[2024-12-08 18:38:39] Form Submission Data:
+[2024-12-08 18:38:39] Tenant Name: Samsudin
+[2024-12-08 18:38:39] Passport: 000311140589
+[2024-12-08 18:38:39] Start Date: 2025-01-02
+[2024-12-08 18:38:39] Bed Rent Amount: 550
+[2024-12-08 18:38:39] Bed ID Form: B0008
+[2024-12-08 18:38:39] Tenant Phone No: 01127218702
+[2024-12-08 18:38:39] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:38:39] Address: 15, KL
+[2024-12-08 18:38:39] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:38:39] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:38:39] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:38:39] Set Bed Status to: booking
+[2024-12-08 18:38:39] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:38:39] Generated TenantID: T8557
+[2024-12-08 18:38:39] Inserted tenant data for TenantID: T8557
+[2024-12-08 18:38:39] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:38:39] Generated AgreementID: agreement_7140
+[2024-12-08 18:38:39] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:38:39] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:38:39] Inserted tenancy agreement data for AgreementID: agreement_7140
+[2024-12-08 18:38:39] Room Number: C-15-10-R8
+[2024-12-08 18:38:39] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:38:39] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:38:39] Loaded Word template successfully.
+[2024-12-08 18:38:39] Replaced placeholders in the template.
+[2024-12-08 18:38:39] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:38:39] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:40:43] Fetched bed data for BedID B0008.
+[2024-12-08 18:40:45] Fetched bed data for BedID B0008.
+[2024-12-08 18:40:46] Fetched bed data for BedID B0008.
+[2024-12-08 18:40:46] Form Submission Data:
+[2024-12-08 18:40:46] Tenant Name: Samsudin
+[2024-12-08 18:40:46] Passport: 000311140589
+[2024-12-08 18:40:46] Start Date: 2025-01-02
+[2024-12-08 18:40:46] Bed Rent Amount: 550
+[2024-12-08 18:40:46] Bed ID Form: B0008
+[2024-12-08 18:40:46] Tenant Phone No: 01127218702
+[2024-12-08 18:40:46] Tenant Email: iqmanidzham14@gmail.com
+[2024-12-08 18:40:46] Address: 15, KL
+[2024-12-08 18:40:46] Unit Number: C-15-10-R8-B8
+[2024-12-08 18:40:46] Calculated Rent Expiry Date: 2026-01-02
+[2024-12-08 18:40:46] Agent Email: syedr10.sr@gmail.com
+[2024-12-08 18:40:46] Set Bed Status to: booking
+[2024-12-08 18:40:46] Fetched AgentID: A002 for AgentEmail: syedr10.sr@gmail.com
+[2024-12-08 18:40:46] Generated TenantID: T8056
+[2024-12-08 18:40:46] Inserted tenant data for TenantID: T8056
+[2024-12-08 18:40:46] Updated BedStatus to 'booking' for BedID: B0008
+[2024-12-08 18:40:46] Generated AgreementID: agreement_1845
+[2024-12-08 18:40:46] Sanitized Tenant Name for Filename: Samsudin
+[2024-12-08 18:40:46] Agreement File Name: Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:40:46] Inserted tenancy agreement data for AgreementID: agreement_1845
+[2024-12-08 18:40:46] Room Number: C-15-10-R8
+[2024-12-08 18:40:46] Rent Address: Address Line 1, Address Line 2, Address Line 3
+[2024-12-08 18:40:46] Template Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../templates/tenancy_agreement_template.docx
+[2024-12-08 18:40:46] Loaded Word template successfully.
+[2024-12-08 18:40:46] Replaced placeholders in the template.
+[2024-12-08 18:40:46] Output File Path: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx
+[2024-12-08 18:40:46] Saved generated document to: C:\xampp\htdocs\rentronics\module-property\tenant/../../tenantagreement/Tenancy_Agreement_Samsudin.docx

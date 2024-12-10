@@ -10,19 +10,22 @@ if (isset($_POST['login'])) {
 
     if (!empty($user) && !empty($pass)) {
         // Use a prepared statement to prevent SQL injection
-        $stmt = $conn->prepare("SELECT AgentEmail, Password, AccessLevel FROM agent WHERE AgentEmail = ? AND Password = ?");
+        $stmt = $conn->prepare("SELECT AgentEmail, Password, AccessLevel, AgentName FROM agent WHERE AgentEmail = ? AND Password = ?");
         $stmt->bind_param("ss", $user, $pass);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($agentEmail, $password, $accessLevel);
+        $stmt->bind_result($agentEmail, $password, $accessLevel, $agentName);
 
         if ($stmt->fetch()) {
             session_regenerate_id(true); // Regenerate session ID
-            $_SESSION['auser'] = $user;
-            $_SESSION['access_level'] = $accessLevel; // Store access level in session
+            $_SESSION['auser'] = array(); // Initialize $_SESSION['auser'] as an array
+            $_SESSION['auser']['AgentEmail'] = $agentEmail;
+            $_SESSION['auser']['AgentName'] = $agentName;
+            $_SESSION['access_level'] = $accessLevel;
             $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
             $_SESSION['user_agent'] = $_SERVER['HTTP_USER_AGENT'];
             $_SESSION['LAST_ACTIVITY'] = time();
+
             if ($accessLevel == 2) {
                 header("Location: ../dashboardagent.php");
             } else {

@@ -1,0 +1,16 @@
+[2024-12-08 18:15:15] Email sending failed for TenantID T6587: Invalid address:  (From): 
+[2024-12-08 18:15:15] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:22:56] Email sending failed for TenantID T2771: Invalid address:  (From): 
+[2024-12-08 18:22:56] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:31:49] Email sending failed for TenantID T1696: Invalid address:  (From): 
+[2024-12-08 18:31:49] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:34:31] Email sending failed for TenantID T5571: Invalid address:  (From): 
+[2024-12-08 18:34:31] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:35:16] Email sending failed for TenantID T6746: Invalid address:  (From): 
+[2024-12-08 18:35:16] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:37:16] Email sending failed for TenantID T0525: Invalid address:  (From): 
+[2024-12-08 18:37:16] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:38:39] Email sending failed for TenantID T8557: Invalid address:  (From): 
+[2024-12-08 18:38:39] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
+[2024-12-08 18:40:46] Email sending failed for TenantID T8056: Invalid address:  (From): 
+[2024-12-08 18:40:46] Error Message: <div class='alert alert-danger'>Message could not be sent. Mailer Error: Invalid address:  (From): </div>
