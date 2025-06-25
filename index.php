@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <title>Rentronic - Your Properties Experts</title>
@@ -14,7 +15,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
-    
+
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -32,22 +33,42 @@
     <style>
         .navbar {
             margin-left: 0 !important;
+            background-color: #1c2f59 !important;
+        }
+
+        .icon img {
+            width: 25px !important;
+            height: 25px !important;
+            border-radius: 50%;
+            /* Optional, if you want the image itself rounded */
+            max-width: none !important;
+        }
+
+        /* Add these button style overrides */
+        .btn-primary {
+            background-color: #5678aa !important;
+            border-color: #5678aa !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #4a6a99 !important;
+            border-color: #4a6a99 !important;
         }
     </style>
 </head>
 
 <body>
     <?php
-        require_once __DIR__ . '/module-auth/google_sheets_integration.php';
+    require_once __DIR__ . '/module-auth/google_sheets_integration.php';
 
-        $spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
-        // Fetch data from Sheet1 (starting from A2)
-        $rangeSheet1 = 'Property List!A2:E';
-        $dataSheet1 = getData($spreadsheetId, $rangeSheet1);
+    $spreadsheetId = '1X98yCqOZAK_LDEVKWWpyBeMlBePPZyIKfMYMMBLivmg';
+    // Fetch data from Sheet1 (starting from A2)
+    $rangeSheet1 = 'Property List!A2:E';
+    $dataSheet1 = getData($spreadsheetId, $rangeSheet1);
     ?>
     <!-- Top Bar Start -->
     <div class="container-xxl bg-white p-0">
- 
+
         <!-- Navbar Start -->
         <!-- Include the navbar -->
         <?php include('header.php'); ?>
@@ -82,17 +103,17 @@
                 </div>
                 <div class="row g-4">
                     <?php foreach ($dataSheet1 as $row): ?>
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                        <a class="cat-item d-block bg-light text-center rounded p-3" href="propertylisting.php?id=<?= $row[0] ?>">
-                            <div class="rounded p-4">
-                                <div class="icon mb-3">
-                                    <img class="img-fluid" src="img/icon-apartment.png" alt="Icon">
+                        <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                            <a class="cat-item d-block bg-light text-center rounded p-3" href="maintenance.php">
+                                <div class="rounded p-4">
+                                    <div class="icon mb-3">
+                                        <img class="img-fluid" src="img/icon-apartment.png" alt="Icon">
+                                    </div>
+                                    <h6><?= $row[1] ?>, <?= $row[4] ?></h6>
+                                    <span><?= $row[3] ?> Properties</span>
                                 </div>
-                                <h6><?= $row[1]?>, <?= $row[4]?></h6>
-                                <span><?= $row[3]?> Properties</span>
-                            </div>
-                        </a>
-                    </div>
+                            </a>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -120,7 +141,7 @@
             </div>
         </div>
         <!-- About End -->
-        
+
         <!-- Include the footer -->
         <?php include('footer.php'); ?>
 
@@ -138,7 +159,7 @@
 
     <!-- Initialize WOW.js -->
     <script>
-      new WOW().init();
+        new WOW().init();
     </script>
 
     <!-- Template Javascript -->

@@ -37,12 +37,45 @@ unset($_SESSION['msg']);
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../css/property.css" rel="stylesheet">
+    <link href="../css/bed.css" rel="stylesheet">
     <link href="../../css/navbar.css" rel="stylesheet">
- 
+    <style>
+        .table {
+            background-color: #005f73;
+            border-radius: 8px;
+            margin-bottom: 0;
+        }
+
+        .thead {
+            font-size: 16px;
+            text-align: center;
+            color: white;
+        }
+
+        .main-row td {
+            align-content: center;
+            color: white;
+            font-weight: 300;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .btn {
+            background-color: transparent !important;
+            border: transparent;
+        }
+
+        /* Remove these previous styles */
+        .custom-table,
+        .table-striped > tbody > tr:nth-of-type(odd),
+        .table-striped > tbody > tr:nth-of-type(even) {
+            background-color: #005f73 !important;
+            color: white;
+        }
+    </style>
 </head>
 <body>
-    <div class="container-fluid bg-white p-0">
+    <div class="container-fluid p-0">
         <!-- Navbar and Sidebar Start-->
         <?php include('../../nav_sidebar.php'); ?>
         <!-- Navbar and Sidebar End -->
@@ -73,42 +106,50 @@ unset($_SESSION['msg']);
                                 <a href="propertyadd.php" class="btn btn-primary">Add Property</a>
                             </div>
                             <div class="card-body">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Property ID</th>
-                                            <th>Property Name</th>
-                                            <th>Property Type</th>
-                                            <th>Location</th>
-                                            <th>Maps</th>
-                                            <?php if ($access_level == 1): // Only show Actions column for Admins ?>
-                                            <th>Actions</th>
-                                            <?php endif; ?>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $result = $conn->query("SELECT PropertyID, PropertyName, PropertyType, Location, Maps FROM Property");
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                echo "<tr>
-                                                        <td>{$row['PropertyID']}</td>
-                                                        <td>{$row['PropertyName']}</td>
-                                                        <td>{$row['PropertyType']}</td>
-                                                        <td>{$row['Location']}</td>
-                                                        <td><a href='{$row['Maps']}' target='_blank'>View Map</a></td>";
-                                                if ($access_level == 1) { // Only show edit and delete buttons for Admins
-                                                    echo "<td><a href='propertyedit.php?property_id={$row['PropertyID']}' class='btn btn-sm btn-warning'><i class='fas fa-pencil-alt'></i></a>
-                                                          <a href='propertydelete.php?delete_property_id={$row['PropertyID']}' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this property?\");'><i class='fa fa-trash'></i></a></td>";
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead class="thead">
+                                            <tr>
+                                                <th>Property ID</th>
+                                                <th>Property Name</th>
+                                                <th>Property Type</th>
+                                                <th>Location</th>
+                                                <th>Maps</th>
+                                                <?php if ($access_level == 1): ?>
+                                                <th>Actions</th>
+                                                <?php endif; ?>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $result = $conn->query("SELECT PropertyID, PropertyName, PropertyType, Location, Maps FROM Property");
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    echo "<tr class='main-row'>
+                                                            <td>{$row['PropertyID']}</td>
+                                                            <td>{$row['PropertyName']}</td>
+                                                            <td>{$row['PropertyType']}</td>
+                                                            <td>{$row['Location']}</td>
+                                                            <td><a href='{$row['Maps']}' target='_blank'>View Map</a></td>";
+                                                    if ($access_level == 1) {
+                                                        echo "<td>
+                                                                <a href='propertyedit.php?property_id={$row['PropertyID']}' class='btn btn-sm'>
+                                                                    <i class='fas fa-pencil-alt' style='color: yellow;'></i>
+                                                                </a>
+                                                                <a href='propertydelete.php?delete_property_id={$row['PropertyID']}' class='btn btn-sm' onclick='return confirm(\"Are you sure you want to delete this property?\");'>
+                                                                    <i class='fa fa-trash' style='color: red;'></i>
+                                                                </a>
+                                                              </td>";
+                                                    }
+                                                    echo "</tr>";
                                                 }
-                                                echo "</tr>";
+                                            } else {
+                                                echo "<tr class='main-row'><td colspan='" . ($access_level == 1 ? "6" : "5") . "'>No properties found</td></tr>";
                                             }
-                                        } else {
-                                            echo "<tr><td colspan='" . ($access_level == 1 ? "6" : "5") . "'>No properties found</td></tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>

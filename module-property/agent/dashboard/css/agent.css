@@ -1,0 +1,199 @@
+body {
+    background-color: #e3ecf5 !important;
+    font-family: 'Heebo', sans-serif;
+}
+
+.page-header {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.outstanding {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.payment-box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.payment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.payment-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+}
+
+.month-value {
+    color: #000;
+}
+
+.total-value {
+    color: red;
+    font-weight: bold;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
+}
+
+.tenant-info {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.tenant-info div {
+    margin-bottom: 5px;
+}
+
+.outstanding-amount {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.property-name,
+.unit-no {
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Styles for the collapse button */
+.collapse-btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+}
+
+.collapse-btn.collapsed {
+    transform: rotate(180deg);
+}
+
+/* Hide the tenant details by default */
+.tenant-details {
+    display: none;
+    margin-top: 10px;
+}
+
+.tenant-details.expanded {
+    display: block;
+}
+
+.stats {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* Chart Container */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.month-value select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+.month-value {
+    display: flex;
+    align-items: center;
+}
+
+.stats-controls {
+    margin-bottom: 20px;
+}
+
+.stats-controls select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    min-width: 100px;
+}
+
+.stat-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.stat-card h4 {
+    margin: 0;
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+}
+
+.stat-number.purple {
+    color: #8B5CF6;
+}
+
+.tenant-details {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tenant-info {
+    margin-bottom: 15px;
+}
+
+.tenant-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.property-name,
+.unit-no {
+    color: #666;
+    margin-bottom: 3px;
+}
+
+.outstanding-amount {
+    color: #dc3545;
+    font-weight: bold;
+    margin-top: 10px;
+}

@@ -1,5 +1,5 @@
 <?php
-require_once 'google_sheets_integration.php';
+require_once '../../module-auth/google_sheets_integration.php';
 
 function sanitizeFolderName($folderName)
 {
@@ -68,7 +68,7 @@ if (isset($_GET['id'])) {
             <meta content="" name="description">
 
             <!-- Favicon -->
-            <link href="img/favicon.ico" rel="icon">
+            <link href="../../img/favicon.ico" rel="icon">
 
             <!-- Google Web Fonts -->
             <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,14 +81,14 @@ if (isset($_GET['id'])) {
             <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
             <!-- Libraries Stylesheet -->
-            <link href="lib/animate/animate.min.css" rel="stylesheet">
-            <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+            <link href="../../lib/animate/animate.min.css" rel="stylesheet">
+            <link href="../../lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
             <!-- Customized Bootstrap Stylesheet -->
-            <link href="css/bootstrap.min.css" rel="stylesheet">
+            <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
             <!-- Template Stylesheet -->
-            <link href="css/style.css" rel="stylesheet">
+            <link href="../../css/style.css" rel="stylesheet">
             <style>
                 .property-item.occupied-property {
                     filter: grayscale(100%) !important;
@@ -101,13 +101,23 @@ if (isset($_GET['id'])) {
                     color: #666666 !important;
                     /* Change text color to a muted gray */
                 }
+                .navbar {
+                    margin-left: 0 !important;
+                    background-color: #1c2f59 !important;
+                }
+                .icon img {
+                    width: 25px !important;
+                    height: 25px !important;
+                    border-radius: 50%; /* Optional, if you want the image itself rounded */
+                    max-width: none !important;
+                }
             </style>
         </head>
 
         <body>
             <!-- Navbar -->
             <!-- Include the navbar -->
-            <?php include('header.php'); ?>
+            <?php include('../../header.php'); ?>
             <!-- Navbar End -->
 
             <div class="container">
@@ -231,18 +241,18 @@ if (isset($_GET['id'])) {
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
             <!-- Footer Start -->
             <!-- Include the footer -->
-            <?php include('footer.php'); ?>
+            <?php include('../../footer.php'); ?>
             <!-- Footer End -->
 
             <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-            <script src="lib/wow/wow.min.js"></script>
-            <script src="lib/easing/easing.min.js"></script>
-            <script src="lib/waypoints/waypoints.min.js"></script>
-            <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+            <script src="../../lib/wow/wow.min.js"></script>
+            <script src="../../lib/easing/easing.min.js"></script>
+            <script src="../../lib/waypoints/waypoints.min.js"></script>
+            <script src="../../lib/owlcarousel/owl.carousel.min.js"></script>
 
             <!-- Template Javascript -->
-            <script src="js/main.js"></script>
+            <script src="../../js/main.js"></script>
         </body>
 
         </html>

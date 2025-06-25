@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . '/../../module-auth/google_sheets_integration.php';
 require_once __DIR__ . '/../../module-auth/dbconnection.php';
 
 session_start();
@@ -9,12 +8,27 @@ if (!isset($_SESSION['auser'])) {
 }
 
 // Fetch agent name from the database
-$user = $_SESSION['auser'];
-$stmt = $conn->prepare("SELECT AgentName FROM agent WHERE AgentEmail = ?");
+$user = $_SESSION['auser']['AgentEmail'];
+// Debug line - you can remove this after confirming the value
+error_log("Agent Email from Session: " . $user);
+
+$stmt = $conn->prepare("SELECT AgentName FROM agent WHERE AgentEmail = ?");  // Changed AgentEmail to AgentEMail
 $stmt->bind_param("s", $user);
 $stmt->execute();
-$stmt->bind_result($agentName);
-$stmt->fetch();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+
+// Debug line - you can remove this after debugging
+error_log("Query Result: " . print_r($row, true));
+
+// Add error handling
+if ($row === null) {
+    // Handle case where no agent was found
+    $agentName = "Unknown Agent";
+    error_log("No agent found for email: " . $user);
+} else {
+    $agentName = $row['AgentName'];
+}
 $stmt->close();
 
 // Fetch property data
@@ -104,11 +118,9 @@ function countAvailableBeds($unitID, $rooms, $beds) {
     <!-- Template Stylesheet -->
     <link href="../../css/dashboardagent.css" rel="stylesheet">
     <link href="../../css/navbar.css" rel="stylesheet">
-
     <!-- Customized Bootstrap Stylesheet -->
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom Styles -->
     <style>
     body {
         background-color: #e3ecf5;
@@ -169,7 +181,8 @@ function countAvailableBeds($unitID, $rooms, $beds) {
         transition: transform 0.2s, box-shadow 0.2s;
         width: 250px;
         height: 60px;
-        text-decoration: none; /* Remove underline from anchor */
+        text-decoration: none;
+        /* Remove underline from anchor */
     }
 
     .unit-box:hover {
@@ -200,7 +213,8 @@ function countAvailableBeds($unitID, $rooms, $beds) {
     }
 
     .unit-box:hover .unit-name {
-        color: grey; /* Change color of unit-name to white when hovering */
+        color: grey;
+        /* Change color of unit-name to white when hovering */
         font-size: 16px;
         text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
     }
@@ -258,14 +272,13 @@ function countAvailableBeds($unitID, $rooms, $beds) {
                     <?php if (isset($units[$propertyID])): ?>
                     <div class="unit-container">
                         <?php foreach ($units[$propertyID] as $unit): ?>
-                        <!-- Make the entire unit box clickable and redirect to floorplan.php -->
-                        <a href="../<?php echo $unit['FloorPlan']; ?> ?propertyID=<?php echo $propertyID; ?>&unitID=<?php echo $unit['UnitID']; ?>" class="unit-box">
+                        <!-- Remove the space between FloorPlan and the query parameters -->
+                        <a href="../<?php echo $unit['FloorPlan']; ?>?propertyID=<?php echo $propertyID; ?>&unitID=<?php echo $unit['UnitID']; ?>"
+                            class="unit-box">
                             <div class="unit-box-content">
-                                <!-- Display Unit Number -->
                                 <div class="unit-name">
                                     <?php echo $unit['UnitNo']; ?>
                                 </div>
-                                <!-- Display Available Beds -->
                                 <div class="bed-count">
                                     <?php
                                     $availableBeds = countAvailableBeds($unit['UnitID'], $rooms, $beds);

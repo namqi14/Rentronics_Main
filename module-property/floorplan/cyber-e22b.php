@@ -1,93 +1,5 @@
 <?php
-require_once __DIR__ . '/../../module-auth/google_sheets_integration.php';
-require_once __DIR__ . '/../../module-auth/dbconnection.php';
-
-session_start();
-if (!isset($_SESSION['auser'])) {
-    header("Location: index.php");
-    exit();
-}
-
-// Fetch agent name from the database
-$user = $_SESSION['auser'];
-$stmt = $conn->prepare("SELECT AgentName FROM agent WHERE AgentEmail = ?");
-$stmt->bind_param("s", $user);
-$stmt->execute();
-$stmt->bind_result($agentName);
-$stmt->fetch();
-$stmt->close();
-
-// Fetch property data
-$properties = [];
-$result = $conn->query("SELECT PropertyID, PropertyName, PropertyType, Location FROM Property");
-while ($row = $result->fetch_assoc()) {
-    $properties[$row['PropertyID']] = $row;
-}
-$result->close();
-
-$propertyID = isset($_GET['propertyID']) ? $_GET['propertyID'] : null;
-$propertyName = '';
-
-if ($propertyID) {
-    $stmt_property = $conn->prepare("SELECT PropertyName FROM Property WHERE PropertyID = ?");
-    $stmt_property->bind_param("s", $propertyID);
-    $stmt_property->execute();
-    $stmt_property->bind_result($propertyName);
-    $stmt_property->fetch();
-    $stmt_property->close();
-}
-
-// Fetch unit data including UnitNo
-$unitID = isset($_GET['unitID']) ? $_GET['unitID'] : null;
-$unitNo = ''; // Initialize the variable for UnitNo
-
-if ($unitID) {
-    $stmt_unit = $conn->prepare("SELECT UnitNo FROM Unit WHERE UnitID = ?");
-    $stmt_unit->bind_param("s", $unitID);
-    $stmt_unit->execute();
-    $stmt_unit->bind_result($unitNo);
-    $stmt_unit->fetch();
-    $stmt_unit->close();
-}
-
-// Fetch room data for the selected UnitID
-$rooms = [];
-$result = $conn->query("SELECT RoomID, UnitID, RoomNo FROM Room WHERE UnitID = '$unitID'");
-while ($row = $result->fetch_assoc()) {
-    $rooms[$row['UnitID']][] = $row;
-}
-$result->close();
-
-// Fetch bed data only for the rooms in the selected unit
-$beds = [];
-$result = $conn->query("SELECT BedID, RoomID, BedNo, BedStatus FROM Bed WHERE RoomID IN (SELECT RoomID FROM Room WHERE UnitID = '$unitID')");
-while ($row = $result->fetch_assoc()) {
-    $beds[$row['RoomID']][] = $row;
-}
-$result->close();
-
-function countAvailableBeds($unitID, $rooms, $beds)
-{
-    $availableBeds = 0;
-
-    if (isset($rooms[$unitID])) {
-        foreach ($rooms[$unitID] as $room) {
-            $roomID = $room['RoomID'];
-            if (isset($beds[$roomID])) {
-                foreach ($beds[$roomID] as $bed) {
-                    if ($bed['BedStatus'] === 'Available' || $bed['BedStatus'] === 'Vacant' || $bed['BedStatus'] === '' || is_null($bed['BedStatus'])) {
-                        $availableBeds++;
-                    }
-                }
-            }
-        }
-    }
-
-    return $availableBeds;
-}
-
-// Get the count of available beds
-$availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
+require_once 'floorplan.php';
 ?>
 
 <!DOCTYPE html>
@@ -110,7 +22,7 @@ $availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
         rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Feathericon CSS -->
@@ -169,17 +81,17 @@ $availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
 
                 <div class="plan-container">
                     <div class="tab-buttons">
-                        <button class="tab-btn active" onclick="switchTab('beds')">Floor 1</button>
-                        <button class="tab-btn" onclick="switchTab('rooms')">Floor 2</button>
+                        <button class="tab-btn active" onclick="switchTab('floor1')">Floor 1</button>
+                        <button class="tab-btn" onclick="switchTab('floor2')">Floor 2</button>
                     </div>
-                    <div class="floorplan active" id="beds">
+                    <div class="floorplan active" id="floor1">
                         <!-- Dynamically Generated Rooms and Beds -->
                         <?php
                         // Ensure $unitID is properly defined
                         $unitID = isset($_GET['unitID']) ? $_GET['unitID'] : null; // or any logic to set $unitID
 
                         if ($unitID) {
-                            $roomResult = $conn->query("SELECT RoomID, RoomNo FROM Room WHERE UnitID = '$unitID'");
+                            $roomResult = $conn->query("SELECT RoomID, RoomNo FROM room WHERE UnitID = '$unitID'");
 
                             if ($roomResult->num_rows > 0) {
                                 $roomCounter = 1; // Counter for room class naming (R1, R2, etc.)
@@ -187,7 +99,102 @@ $availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
                                     $roomID = $room['RoomID'];
                                     $roomNo = $room['RoomNo'];
 
-                                    // Display the room div with a readable class name (e.g., room-r1, room-r2)
+                                    // Only show rooms R1 to R6 on floor1
+                                    if ($roomCounter <= 6) {
+                                        // Display the room div with a readable class name (e.g., room-r1, room-r2)
+                                        echo "<div class='room room-r{$roomCounter}'>";
+                                        echo "<h1 class='label'>R{$roomCounter}</h1>"; // Display the room number or other identifier
+                                        echo "<ul class='bed-container'>";
+
+                                        // Check if there are any beds associated with the current room
+                                        if (isset($beds[$roomID])) {
+                                            // Reverse the order of the beds array to start from top (T)
+                                            $beds[$roomID] = array_reverse($beds[$roomID]);
+                                            $positionCounter = 0; // Counter to alternate between T and B
+
+                                            foreach ($beds[$roomID] as $bed) {
+                                                preg_match('/B(\d+)/', $bed['BedNo'], $matches);
+                                                $bedLabel = $matches[0];
+                                                $bedNumber = $matches[1];
+
+                                                // Alternate label position between 'T' and 'B'
+                                                $labelPosition = ($positionCounter % 2 == 0) ? 'A' : 'B';
+                                                $positionCounter++; // Increment position counter
+
+                                                // Determine the button class and icon based on the BedStatus
+                                                if ($bed['BedStatus'] == 'Rented') {
+                                                    $buttonClass = 'rented';
+                                                    $icon = '<i class="bt fas fa-lock"></i>'; // Lock icon for rented
+                                                } elseif ($bed['BedStatus'] == 'Booked') {
+                                                    $buttonClass = 'booked';
+                                                    $icon = '<i class="bt fas fa-calendar-check"></i>'; // Calendar check icon for booked
+                                                } else {
+                                                    $buttonClass = 'available';
+                                                    $icon = '<i class="bt fas fa-check-circle"></i>'; // Check-circle icon for available
+                                                }
+
+                                                $bedDetailsUrl = "../tenant/bookingform.php?bedID=" . $bed['BedID'];
+
+                                                echo "  <li class='bed'>
+                                                            <span class='label-TB'>{$labelPosition}</span>
+                                                            <a href='{$bedDetailsUrl}'>
+                                                                <button class='bed-button {$buttonClass}'>{$icon} {$bedLabel}</button>
+                                                            </a>
+                                                        </li>";
+                                            }
+                                        } else {
+                                            echo "<!-- No beds found for Room {$roomID} -->";
+                                        }
+
+                                        echo "</ul>";
+                                        echo "</div>";
+                                    }
+
+                                    $roomCounter++; // Increment the room counter for the next room class name
+                                }
+                            } else {
+                                echo "<p>No rooms found for this unit.</p>";
+                            }
+                        } else {
+                            echo "<p>Invalid UnitID.</p>";
+                        }
+                        ?>
+
+                        <div class="toilet toilet-1">
+                            <h1 class="label"><i style='font-size:24px' class='not fas'>&#xf7d8;</i></h1>
+                        </div>
+                        <div class="toilet toilet-2">
+                            <h1 class="label">
+                                <img 
+                                    src="img/stair_up.png" 
+                                    alt="Stairs" 
+                                    style="width:24px; height:24px;"
+                                />
+                            </h1>
+                        </div>
+                        <div class="kitchen">
+                            <h1 class="label"><i style='font-size:24px' class="not fas fa-utensils"></i></h1>
+                        </div>
+                    </div>
+
+
+                    <div class="floorplan" id="floor2">
+                        <!-- Dynamically Generated Rooms and Beds -->
+                        <?php
+                        // Fetch room data from the database for the current UnitID
+                        $unitID = isset($_GET['unitID']) ? $_GET['unitID'] : null; // Replace with the actual $unitID variable
+                        $roomResult = $conn->query("SELECT RoomID, RoomNo, RoomStatus FROM room WHERE UnitID = '$unitID'");
+
+                        if ($roomResult->num_rows > 0) {
+                            $roomCounter = 1; // Counter to create unique class names (e.g., room-r1, room-r2)
+                            while ($room = $roomResult->fetch_assoc()) {
+                                $roomID = $room['RoomID'];
+                                $roomNo = $room['RoomNo'];
+                                $roomStatus = $room['RoomStatus'] ?? 'Available'; // Default to 'Available' if not set
+
+                                // Only show rooms R7 to R10 on floor2
+                                if ($roomCounter >= 7 && $roomCounter <= 10) {
+                                    // Display the room div with a readable class name (e.g., room-r7, room-r8)
                                     echo "<div class='room room-r{$roomCounter}'>";
                                     echo "<h1 class='label'>R{$roomCounter}</h1>"; // Display the room number or other identifier
                                     echo "<ul class='bed-container'>";
@@ -229,73 +236,30 @@ $availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
                                                     </li>";
                                         }
                                     } else {
-                                        echo "<!-- No beds found for Room {$roomID} -->";
+                                        // If no beds, show the room status as a whole
+                                        if ($roomStatus == 'Rented') {
+                                            $buttonClass = 'rented';
+                                            $icon = '<i class="bt fas fa-lock"></i>'; // Lock icon for rented
+                                        } elseif ($roomStatus == 'Booked') {
+                                            $buttonClass = 'booked';
+                                            $icon = '<i class="bt fas fa-calendar-check"></i>'; // Calendar check icon for booked
+                                        } else {
+                                            $buttonClass = 'available';
+                                            $icon = '<i class="bt fas fa-check-circle"></i>'; // Check-circle icon for available
+                                        }
+
+                                        $roomDetailsUrl = "../tenant/roomform.php?roomID=" . $roomID;
+
+                                        echo "<li class='bed'>
+                                                <a href='{$roomDetailsUrl}'>
+                                                    <button class='bed-button {$buttonClass}'>{$icon} {$roomNo}</button>
+                                                </a>
+                                            </li>";
                                     }
 
                                     echo "</ul>";
                                     echo "</div>";
-
-                                    $roomCounter++; // Increment the room counter for the next room class name
                                 }
-                            } else {
-                                echo "<p>No rooms found for this unit.</p>";
-                            }
-                        } else {
-                            echo "<p>Invalid UnitID.</p>";
-                        }
-                        ?>
-
-                        <div class="toilet toilet-1">
-                            <h1 class="label"><i style='font-size:24px' class='not fas'>&#xf7d8;</i></h1>
-                        </div>
-                        <div class="toilet toilet-2">
-                            <h1 class="label"><i style='font-size:24px' class='not fas'>&#xf7d8;</i></h1>
-                        </div>
-                        <div class="kitchen">
-                            <h1 class="label"><i style='font-size:24px' class="not fas fa-utensils"></i></h1>
-                        </div>
-                    </div>
-
-
-                    <div class="floorplan" id="rooms">
-                        <!-- Dynamically Generated Rooms and Beds -->
-                        <?php
-                        // Fetch room data from the database for the current UnitID
-                        $unitID = isset($_GET['unitID']) ? $_GET['unitID'] : null; // Replace with the actual $unitID variable
-                        $roomResult = $conn->query("SELECT RoomID, RoomNo, RoomStatus FROM Room WHERE UnitID = '$unitID'");
-
-                        if ($roomResult->num_rows > 0) {
-                            $roomCounter = 1; // Counter to create unique class names (e.g., room-r1, room-r2)
-                            while ($room = $roomResult->fetch_assoc()) {
-                                $roomID = $room['RoomID'];
-                                $roomNo = $room['RoomNo'];
-                                $roomStatus = $room['RoomStatus'] ?? 'Available'; // Default to 'Available' if not set
-
-                                // Determine the button class and icon based on the RoomStatus
-                                if ($roomStatus == 'Rented') {
-                                    $buttonClass = 'rented';
-                                    $icon = '<i class="bt fas fa-lock"></i>'; // Lock icon for rented
-                                } elseif ($roomStatus == 'Booked') {
-                                    $buttonClass = 'booked';
-                                    $icon = '<i class="bt fas fa-calendar-check"></i>'; // Calendar check icon for booked
-                                } else {
-                                    $buttonClass = 'available';
-                                    $icon = '<i class="bt fas fa-check-circle"></i>'; // Check-circle icon for available
-                                }
-
-                                $roomDetailsUrl = "../tenant/roomform.php?roomID=" . $roomID;
-
-                                // Display room div
-                                echo "<div class='room room-r{$roomCounter}'>";
-                                echo "<h1 class='label'>{$roomNo}</h1>";
-                                echo "<ul class='bed-container'>";
-                                echo "<li class='bed'>
-                                            <a href='{$roomDetailsUrl}'>
-                                                <button class='bed-button {$buttonClass}'>{$icon} {$roomNo}</button>
-                                            </a>
-                                        </li>";
-                                echo "</ul>";
-                                echo "</div>";
 
                                 $roomCounter++; // Increment the room counter for the next room class
                             }
@@ -304,14 +268,20 @@ $availableBedsCount = countAvailableBeds($unitID, $rooms, $beds);
                         }
                         ?>
                         <!-- Additional areas like Toilet and Kitchen -->
-                        <div class="toilet toilet-1">
+                        <div class="toilet toilet-3">
+                            <h1 class="label">
+                                <img 
+                                    src="img/stairs_down.png" 
+                                    alt="Stairs"
+                                    style="width:24px; height:24px;"
+                                />
+                            </h1>
+                        </div>
+                        <div class="toilet toilet-4">
                             <h1 class="label"><i style='font-size:24px' class='not fas'>&#xf7d8;</i></h1>
                         </div>
-                        <div class="toilet toilet-2">
+                        <div class="toilet toilet-5">
                             <h1 class="label"><i style='font-size:24px' class='not fas'>&#xf7d8;</i></h1>
-                        </div>
-                        <div class="kitchen">
-                            <h1 class="label"><i style='font-size:24px' class="not fas fa-utensils"></i></h1>
                         </div>
                     </div>
 

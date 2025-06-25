@@ -22,7 +22,7 @@
 }
 
 body {
-  background-color: #fff;
+  background-color: #e3ecf5;
   margin: 0 !important;
   padding: 0 !important;
   font-family: var(--font-primary);
@@ -118,3 +118,5 @@ body {
 }
 
 /* Custom DataTable column spacing */
+
+

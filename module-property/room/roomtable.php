@@ -55,7 +55,7 @@ if ($result->num_rows > 0) {
     <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../css/navbar.css" rel="stylesheet">
-    <link href="../css/room.css" rel="stylesheet">
+    <link href="../css/bed.css" rel="stylesheet">
 
     <style>
     .nav-bar {
@@ -65,11 +65,8 @@ if ($result->num_rows > 0) {
     }
 
     .details {
-        display: grid;
-        gap: 10px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        margin: 10px 0;
+        display: none;
+        background-color: #066889;
     }
 
     .details-row {
@@ -90,6 +87,152 @@ if ($result->num_rows > 0) {
 
     .details p {
         margin: 0;
+    }
+
+    .row-available {
+        background-color: #005f73;
+        color: black;
+    }
+
+    .row-booked {
+        background-color: #7289ab;
+        color: black;
+    }
+
+    .row-rented {
+        background-color: #3d405b;
+        color: white;
+    }
+
+    .main-row {
+        background-color: #066889;
+    }
+
+    .main-row td {
+        align-content: center;
+        color: white;
+        font-weight: 300;
+        padding: 8px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .table {
+        background-color: #066889; 
+        border-radius: 8px;
+        margin-bottom: 0;
+    }
+
+    .btn {
+        background-color: transparent !important;
+        border: transparent;
+    }
+
+    .thead {
+        font-size: 16px;
+        text-align: center;
+        color: white;
+    }
+
+    .details-container {
+        padding: 20px;
+        background: #ffffff;
+        border-radius: 8px;
+        margin: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .detail-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+    }
+
+    .detail-label {
+        color: #666666;
+        font-weight: 500;
+        margin-right: 15px;
+    }
+
+    .detail-value {
+        color: #666666;
+    }
+
+    .toggle-details {
+        padding: 0;
+        color: white;
+    }
+
+    .toggle-details i {
+        transition: transform 0.2s;
+    }
+
+    .toggle-details.active i {
+        transform: rotate(180deg);
+    }
+
+    .table > :not(caption) > * > * {
+        border-bottom-width: 0;
+    }
+
+    .actions-column {
+        white-space: nowrap;
+    }
+
+    .btn-action {
+        padding: 4px 8px;
+        margin: 0 2px;
+    }
+
+    .btn-action i {
+        color: white;
+    }
+
+    /* Update pagination styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        gap: 5px;  /* Adds space between buttons */
+    }
+
+    .pagination button {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        color: #066889;
+        padding: 8px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        min-width: 40px;
+        transition: all 0.3s ease;
+    }
+
+    .pagination button:hover {
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+        color: #0056b3;
+    }
+
+    .pagination button.active {
+        background-color: #066889;
+        border-color: #066889;
+        color: white;
+    }
+
+    /* Remove any margin/padding from the container */
+    .card-body {
+        padding-bottom: 30px;
+    }
+
+    .table-responsive {
+        margin-bottom: 0;
     }
     </style>
 </head>
@@ -133,57 +276,87 @@ if ($result->num_rows > 0) {
                                 <a href="roomaddinnerjoin.php" class="btn btn-primary">Add</a>
                             </div>
                             <div class="card-body">
-                                <table id="roomTable" class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Room ID</th>
-                                            <th>Unit No</th>
-                                            <th>Room No</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        $result = $conn->query("
-                                            SELECT Room.RoomID, Room.UnitID, Unit.UnitNo, Property.PropertyName, Room.RoomNo, Room.RoomRentAmount, Room.Katil, Room.RoomStatus, Room.AgentID 
-                                            FROM Room 
-                                            INNER JOIN Unit ON Room.UnitID = Unit.UnitID 
-                                            INNER JOIN Property ON Unit.PropertyID = Property.PropertyID
-                                        ");
-                                        if ($result->num_rows > 0) {
-                                            while ($row = $result->fetch_assoc()) {
-                                                $room_id = $row['RoomID'];
-                                                $unit_no = $row['UnitNo'];
-                                                $room_no = $row['RoomNo'];
-                                                $room_rent = $row['RoomRentAmount'];
-                                                $katil = $row['Katil'];
-                                                $room_status = $row['RoomStatus'];
-                                                $agent_id = $row['AgentID'];
-
-                                                // Main row with data attributes for details
-                                                echo "
-                                                <tr class='main-row' data-room-id='$room_id' data-room-rent='$room_rent' data-katil='$katil' data-room-status='$room_status' data-agent-id='$agent_id'>
-                                                    <td>
-                                                        <button class='btn btn-link toggle-details'>
-                                                            <i class='fas fa-chevron-down'></i>
-                                                        </button>
-                                                        $room_id
-                                                    </td>
-                                                    <td>{$row['PropertyName']} $unit_no</td>
-                                                    <td>$room_no</td>
-                                                    <td>
-                                                        <a href='roomedit.php?room_id=$room_id' class='btn btn-sm btn-warning'><i class='fas fa-pencil-alt'></i></a>
-                                                        <a href='roomdelete.php?delete_room_id=$room_id' class='btn btn-sm btn-danger' onclick='return confirm(\"Are you sure you want to delete this room?\");'><i class='fa fa-trash'></i></a>
-                                                    </td>
-                                                </tr>
-                                                ";
+                                <input type="text" id="filterInput" class="filter-input" placeholder="Filter records...">
+                                <div class="table-responsive">
+                                    <table id="roomTable" class="table table-striped">
+                                        <thead class="thead">
+                                            <tr>
+                                                <th>Room ID</th>
+                                                <th>Unit No</th>
+                                                <th>Room No</th>
+                                                <th>Status</th>
+                                                <th class="actions-column">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $result = $conn->query("
+                                                SELECT Room.RoomID, Room.UnitID, Unit.UnitNo, Property.PropertyName, Room.RoomNo, Room.RoomRentAmount, Room.Katil, Room.RoomStatus, Room.AgentID 
+                                                FROM Room 
+                                                INNER JOIN Unit ON Room.UnitID = Unit.UnitID 
+                                                INNER JOIN Property ON Unit.PropertyID = Property.PropertyID
+                                            ");
+                                            if ($result->num_rows > 0) {
+                                                while ($row = $result->fetch_assoc()) {
+                                                    $room_id = $row['RoomID'];
+                                                    $unit_no = $row['UnitNo'];
+                                                    $room_no = $row['RoomNo'];
+                                                    $room_rent = $row['RoomRentAmount'];
+                                                    $katil = $row['Katil'];
+                                                    $room_status = $row['RoomStatus'];
+                                                    $agent_id = $row['AgentID'];
+                                                    ?>
+                                                    <tr class="main-row">
+                                                        <td>
+                                                            <button class="btn btn-link toggle-details" title="Show Details">
+                                                                <i class="fas fa-chevron-down"></i>
+                                                            </button>
+                                                            <?= $room_id ?>
+                                                        </td>
+                                                        <td><?= $row['PropertyName'] . ' ' . $unit_no ?></td>
+                                                        <td><?= $room_no ?></td>
+                                                        <td><?= $room_status ?></td>
+                                                        <td class="actions-column">
+                                                            <a href="roomedit.php?room_id=<?= $room_id ?>" class="btn btn-warning btn-sm btn-action" title="Edit">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            <a href="roomdelete.php?delete_room_id=<?= $room_id ?>" class="btn btn-danger btn-sm btn-action" title="Delete" onclick="return confirm('Are you sure you want to delete this room?')">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="details">
+                                                        <td colspan="5">
+                                                            <div class="details-container">
+                                                                <div class="details-grid">
+                                                                    <div class="detail-item">
+                                                                        <span class="detail-label">Rent Amount:</span>
+                                                                        <span class="detail-value">RM <?= $room_rent ?></span>
+                                                                    </div>
+                                                                    <div class="detail-item">
+                                                                        <span class="detail-label">Katil:</span>
+                                                                        <span class="detail-value"><?= $katil ?></span>
+                                                                    </div>
+                                                                    <div class="detail-item">
+                                                                        <span class="detail-label">Status:</span>
+                                                                        <span class="detail-value"><?= $room_status ?></span>
+                                                                    </div>
+                                                                    <div class="detail-item">
+                                                                        <span class="detail-label">Agent ID:</span>
+                                                                        <span class="detail-value"><?= $agent_id ?></span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <?php
+                                                }
                                             }
-                                        } else {
-                                            echo "<tr><td colspan='4'>No rooms found</td></tr>";
-                                        }
-                                        ?>
-                                    </tbody>
-                                </table>
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="pagination" id="pagination"></div>
                             </div>
                         </div>
                     </div>
@@ -201,56 +374,69 @@ if ($result->num_rows > 0) {
 
     <script>
     $(document).ready(function() {
-        var table = $('#roomTable').DataTable({
-            pageLength: 10,
-            lengthMenu: [5, 10, 25, 50, 100],
-            language: {
-                search: "Filter records:",
-                lengthMenu: "Show _MENU_ entries",
-                info: "Showing _START_ to _END_ of _TOTAL_ entries",
-                paginate: {
-                    first: "First",
-                    last: "Last",
-                    next: "Next",
-                    previous: "Previous"
+        // Pagination setup
+        const rowsPerPage = 15;
+        const rows = $('#roomTable tbody tr.main-row'); // Only target main rows
+        const pagination = $('#pagination');
+
+        function showPage(page, rowsToShow) {
+            rows.hide();
+            rowsToShow.hide();
+            rowsToShow.slice((page - 1) * rowsPerPage, page * rowsPerPage).show();
+            pagination.find('button').removeClass('active');
+            pagination.find(`button[data-page="${page}"]`).addClass('active');
+        }
+
+        function setupPagination(filteredRows) {
+            const pageCount = Math.ceil(filteredRows.length / rowsPerPage);
+            pagination.empty();
+
+            for (let i = 1; i <= pageCount; i++) {
+                pagination.append(`<button data-page="${i}">${i}</button>`);
+            }
+
+            if (pageCount > 0) {
+                pagination.find('button').first().addClass('active');
+            }
+
+            pagination.off('click').on('click', 'button', function() {
+                const page = $(this).data('page');
+                showPage(page, filteredRows);
+            });
+        }
+
+        // Initial setup
+        showPage(1, rows);
+        setupPagination(rows);
+
+        // Filter functionality
+        $('#filterInput').on('input', function() {
+            const filterValue = $(this).val().toLowerCase();
+            rows.each(function() {
+                const rowText = $(this).text().toLowerCase();
+                if (rowText.indexOf(filterValue) > -1) {
+                    $(this).show();
+                } else {
+                    $(this).hide();
                 }
-            },
-            scrollX: true,
-            responsive: true,
-            order: [
-                [0, 'asc']
-            ],
-            autoWidth: false
+            });
+
+            const visibleRows = rows.filter(':visible');
+            setupPagination(visibleRows);
+            showPage(1, visibleRows);
         });
 
-        // Toggle details using row().child()
-        $('#roomTable tbody').on('click', 'button.toggle-details', function() {
-            var tr = $(this).closest('tr');
-            var row = table.row(tr);
+        // Toggle details
+        $('.toggle-details').on('click', function() {
+            const $icon = $(this).find('i');
+            const $row = $(this).closest('tr').next('.details');
 
-            if (row.child.isShown()) {
-                row.child.hide();
-                tr.removeClass('shown');
-                $(this).find('i').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+            if ($row.is(':visible')) {
+                $row.hide();
+                $icon.removeClass('fa-chevron-up').addClass('fa-chevron-down');
             } else {
-                var roomId = tr.data('room-id');
-                var roomRent = tr.data('room-rent');
-                var katil = tr.data('katil');
-                var roomStatus = tr.data('room-status');
-                var agentId = tr.data('agent-id');
-
-                var detailsHtml = `
-                        <div class='details'>
-                            <div class='details-row'><p class='label'><strong>Rent Amount:</strong></p><p class='value'>RM ${roomRent}</p></div>
-                            <div class='details-row'><p class='label'><strong>Katil:</strong></p><p class='value'>${katil}</p></div>
-                            <div class='details-row'><p class='label'><strong>Status:</strong></p><p class='value'>${roomStatus}</p></div>
-                            <div class='details-row'><p class='label'><strong>Agent ID:</strong></p><p class='value'>${agentId}</p></div>
-                        </div>
-                    `;
-
-                row.child(detailsHtml).show();
-                tr.addClass('shown');
-                $(this).find('i').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+                $row.show();
+                $icon.removeClass('fa-chevron-down').addClass('fa-chevron-up');
             }
         });
     });

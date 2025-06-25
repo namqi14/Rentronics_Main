@@ -9,13 +9,16 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
+        '9c67151ae59aff4788964ce8eb2a0f43' => __DIR__ . '/..' . '/clue/stream-filter/src/functions_include.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
+        '8cff32064859f4559445b89279f3199c' => __DIR__ . '/..' . '/php-http/message/src/filters.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'a16312f9300fed4a097923eacb0ba814' => __DIR__ . '/..' . '/igorw/get-in/src/get_in.php',
         '1f87db08236948d07391152dccb70f04' => __DIR__ . '/..' . '/google/apiclient-services/autoload.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         'a8d3953fd9959404dd22d3dfcd0a79f0' => __DIR__ . '/..' . '/google/apiclient/src/aliases.php',
         'db356362850385d08a5381de2638b5fd' => __DIR__ . '/..' . '/mpdf/mpdf/src/functions.php',
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
@@ -39,8 +42,10 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
+            'Symfony\\Component\\OptionsResolver\\' => 34,
             'Svg\\' => 4,
             'Stripe\\' => 7,
+            'Spipu\\Html2Pdf\\' => 15,
             'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
@@ -60,13 +65,43 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
             'ParagonIE\\ConstantTime\\' => 23,
             'PHPMailer\\PHPMailer\\' => 20,
         ),
+        'N' => 
+        array (
+            'Nyholm\\Psr7\\' => 12,
+            'NcJoes\\OfficeConverter\\' => 23,
+        ),
         'M' => 
         array (
             'Mpdf\\PsrLogAwareTrait\\' => 22,
             'Mpdf\\PsrHttpMessageShim\\' => 24,
             'Mpdf\\' => 5,
             'Monolog\\' => 8,
+            'Money\\' => 6,
             'Masterminds\\' => 12,
+        ),
+        'L' => 
+        array (
+            'Laravie\\Codex\\Testing\\' => 22,
+            'Laravie\\Codex\\Filter\\' => 21,
+            'Laravie\\Codex\\Exceptions\\' => 25,
+            'Laravie\\Codex\\Contracts\\' => 24,
+            'Laravie\\Codex\\Common\\' => 21,
+            'Laravie\\Codex\\' => 14,
+        ),
+        'I' => 
+        array (
+            'Ilovepdf\\' => 9,
+        ),
+        'H' => 
+        array (
+            'Http\\Promise\\' => 13,
+            'Http\\Message\\MultipartStream\\' => 29,
+            'Http\\Message\\' => 13,
+            'Http\\Factory\\Guzzle\\' => 20,
+            'Http\\Discovery\\' => 15,
+            'Http\\Client\\Common\\' => 19,
+            'Http\\Client\\' => 12,
+            'Http\\Adapter\\Guzzle7\\' => 21,
         ),
         'G' => 
         array (
@@ -89,14 +124,20 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         ),
         'D' => 
         array (
+            'Duit\\' => 5,
             'Dotenv\\' => 7,
             'Dompdf\\' => 7,
             'DeepCopy\\' => 9,
             'DASPRiD\\Enum\\' => 13,
         ),
+        'C' => 
+        array (
+            'Clue\\StreamFilter\\' => 18,
+        ),
         'B' => 
         array (
             'Brick\\Math\\' => 11,
+            'Billplz\\' => 8,
             'BaconQrCode\\' => 12,
         ),
     );
@@ -126,6 +167,10 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
         ),
+        'Symfony\\Component\\OptionsResolver\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/options-resolver',
+        ),
         'Svg\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/php-svg-lib/src/Svg',
@@ -133,6 +178,10 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
+        'Spipu\\Html2Pdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/spipu/html2pdf/src',
         ),
         'Sabberworm\\CSS\\' => 
         array (
@@ -183,6 +232,14 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
         ),
+        'Nyholm\\Psr7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nyholm/psr7/src',
+        ),
+        'NcJoes\\OfficeConverter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ncjoes/office-converter/src/OfficeConverter',
+        ),
         'Mpdf\\PsrLogAwareTrait\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/psr-log-aware-trait/src',
@@ -199,9 +256,74 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
+        'Money\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/moneyphp/money/src',
+        ),
         'Masterminds\\' => 
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
+        ),
+        'Laravie\\Codex\\Testing\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex-common/src/Testing',
+        ),
+        'Laravie\\Codex\\Filter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex-filter/src',
+        ),
+        'Laravie\\Codex\\Exceptions\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex-common/src/Exceptions',
+        ),
+        'Laravie\\Codex\\Contracts\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex-common/src/Contracts',
+        ),
+        'Laravie\\Codex\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex-common/src/Common',
+        ),
+        'Laravie\\Codex\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laravie/codex/src',
+        ),
+        'Ilovepdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ilovepdf/ilovepdf-php/src',
+        ),
+        'Http\\Promise\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/promise/src',
+        ),
+        'Http\\Message\\MultipartStream\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/multipart-stream-builder/src',
+        ),
+        'Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/message/src',
+            1 => __DIR__ . '/..' . '/php-http/message-factory/src',
+        ),
+        'Http\\Factory\\Guzzle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/http-interop/http-factory-guzzle/src',
+        ),
+        'Http\\Discovery\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/discovery/src',
+        ),
+        'Http\\Client\\Common\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/client-common/src',
+        ),
+        'Http\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/httplug/src',
+        ),
+        'Http\\Adapter\\Guzzle7\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-http/guzzle7-adapter/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -243,6 +365,10 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         array (
             0 => __DIR__ . '/..' . '/endroid/qr-code/src',
         ),
+        'Duit\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jomweb/ringgit/src',
+        ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
@@ -259,9 +385,18 @@ class ComposerStaticInit95f37683fa1d651a05f37b632d416104
         array (
             0 => __DIR__ . '/..' . '/dasprid/enum/src',
         ),
+        'Clue\\StreamFilter\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/clue/stream-filter/src',
+        ),
         'Brick\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/brick/math/src',
+        ),
+        'Billplz\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/billplz/billplz-api/src',
+            1 => __DIR__ . '/..' . '/jomweb/billplz/src',
         ),
         'BaconQrCode\\' => 
         array (

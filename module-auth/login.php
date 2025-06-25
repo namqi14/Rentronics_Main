@@ -10,15 +10,16 @@ if (isset($_POST['login'])) {
 
     if (!empty($user) && !empty($pass)) {
         // Use a prepared statement to prevent SQL injection
-        $stmt = $conn->prepare("SELECT AgentEmail, Password, AccessLevel, AgentName FROM agent WHERE AgentEmail = ? AND Password = ?");
+        $stmt = $conn->prepare("SELECT AgentID, AgentEmail, Password, AccessLevel, AgentName FROM agent WHERE AgentEmail = ? AND Password = ?");
         $stmt->bind_param("ss", $user, $pass);
         $stmt->execute();
         $stmt->store_result();
-        $stmt->bind_result($agentEmail, $password, $accessLevel, $agentName);
+        $stmt->bind_result($agentID, $agentEmail, $password, $accessLevel, $agentName);
 
         if ($stmt->fetch()) {
             session_regenerate_id(true); // Regenerate session ID
             $_SESSION['auser'] = array(); // Initialize $_SESSION['auser'] as an array
+            $_SESSION['auser']['AgentID'] = $agentID;
             $_SESSION['auser']['AgentEmail'] = $agentEmail;
             $_SESSION['auser']['AgentName'] = $agentName;
             $_SESSION['access_level'] = $accessLevel;
@@ -27,9 +28,9 @@ if (isset($_POST['login'])) {
             $_SESSION['LAST_ACTIVITY'] = time();
 
             if ($accessLevel == 2) {
-                header("Location: ../dashboardagent.php");
+                header("Location: ../module-property/agent/dashboard/dashboardagent.php");
             } else {
-                header("Location: ../dashboard.php");
+                header("Location: ../module-property/admin/dashboard.php");
             }
             exit();
         } else {
@@ -40,6 +41,26 @@ if (isset($_POST['login'])) {
     } else {
         $error = "* Please Fill all the Fields!";
     }
+}
+
+$tenant_error = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id'])) {
+    $tenant_id = $_POST['id'];
+    
+    // Check if tenant exists
+    $stmt = $conn->prepare("SELECT TenantID FROM tenant WHERE TenantID = ?");
+    $stmt->bind_param("s", $tenant_id);
+    $stmt->execute();
+    $stmt->store_result();
+    
+    if ($stmt->num_rows == 0) {
+        $tenant_error = "* This Tenant doesn't exist";
+    } else {
+        // Redirect with the tenant ID as a GET parameter
+        header("Location: ../module-property/tenant/flashpay.php?id=" . urlencode($tenant_id));
+        exit();
+    }
+    $stmt->close();
 }
 
 $conn->close();
@@ -146,7 +167,8 @@ $conn->close();
                     <img src="../img/rentronics.jpg" alt="">
                 </div>
                 <header>Flash Pay</header>
-                <form action="/rentronics/module-property/tenant/flashpay.php" method="post">
+                <p style="color:red;"><?php echo $tenant_error; ?></p>
+                <form action="" method="post">
                     <div class="field input-field">
                         <input type="text" name="id" placeholder="ID" class="input" required>
                     </div>

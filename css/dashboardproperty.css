@@ -1,0 +1,145 @@
+body {
+    background-color: #e3ecf5 !important;
+    font-family: 'Heebo', sans-serif;
+}
+
+.page-header {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1400px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    min-width: 60px;
+}
+
+th {
+    background-color: #f5f5f5;
+    position: sticky;
+    top: 0;
+}
+
+.na {
+    background-color: #ffcdd2;
+    /* Light red for NA values */
+}
+
+.unit-rented {
+    background-color: #ffcdd2;
+    /* Light red for rented units */
+}
+
+.unit-available {
+    background-color: #c8e6c9;
+    /* Light green for available units */
+}
+
+.unit-booked {
+    background-color: #fff9c4;
+    /* Light yellow for booked units */
+}
+
+tr:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.month-rate {
+    font-weight: bold;
+}
+
+.month-rate {
+    position: relative;
+}
+
+.month-rate:hover {
+    background-color: #e3f2fd;
+}
+
+td[title] {
+    cursor: help;
+}
+
+.payment-details {
+    font-size: 12px;
+    color: #666;
+}
+
+.deposit-payment {
+    background-color: #c8e6c9;
+    /* Light green for deposit payments */
+}
+
+.flash-payment {
+    background-color: #bbdefb;
+    /* Light blue for flash payments */
+}
+
+.month-rate {
+    position: relative;
+}
+
+.month-rate:hover {
+    opacity: 0.8;
+}
+
+td[title] {
+    cursor: help;
+}
+
+/* Add a legend for payment types */
+.payment-legend {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    display: inline-block;
+}
+
+.legend-item {
+    margin: 5px;
+    display: inline-block;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+
+.payment-match {
+    background-color: #c8e6c9;
+    /* Light green for matching rent payments */
+}
+
+.filter-section {
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.filter-section select,
+.filter-section input {
+    margin-bottom: 10px;
+}

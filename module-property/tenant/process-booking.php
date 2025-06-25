@@ -1,6 +1,4 @@
 <?php
-// process_booking.php
-
 session_start();
 require_once __DIR__ . '/../../module-auth/dbconnection.php';
 require_once __DIR__ . '/../../vendor/autoload.php';
@@ -8,464 +6,470 @@ require_once __DIR__ . '/../../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
 use Dotenv\Dotenv;
+use Ilovepdf\Ilovepdf;
 
-// Enable error reporting for debugging (disable in production)
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Initialize variables
+$publicKey = 'project_public_7eb5e26b7d4ce6b08dc7bade0dfcaef6_GrJYwe59a711698213267753aca26cf02761c';
+$secretKey = 'secret_key_2d7a1650124701067b091065d35472d3_mlXcl03a179ca9e3786a8afddcb2e98204ab6';
+$error = '';
+$msg = '';
 
 // Load environment variables
 $dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
-// Initialize variables
-$error = '';
-$msg = '';
-$debugLog = __DIR__ . '/debug_log.txt'; // Path to debug log
-$errorLog = __DIR__ . '/error_log.txt'; // Path to error log
-
-// Function to log messages
-function logMessage($message, $logFile) {
-    $timestamp = date('Y-m-d H:i:s');
-    file_put_contents($logFile, "[$timestamp] $message" . PHP_EOL, FILE_APPEND);
-}
-
-// Function to pause execution for debugging
-function pauseExecution($message) {
-    echo "<pre>$message</pre>";
-    exit();
-}
-
-// Check if DEBUG_MODE is enabled
-$debugMode = filter_var(getenv('DEBUG_MODE'), FILTER_VALIDATE_BOOLEAN);
+$dotenv->safeLoad();
 
 // Redirect to login if not authenticated
 if (!isset($_SESSION['auser'])) {
-    header("Location: /rentronics/index.php");
-    exit();
-}
-
-// Retrieve BedID from URL
-$bed_id = isset($_GET['bedID']) ? trim($_GET['bedID']) : '';
-
-if (!$bed_id) {
-    $error = "No BedID provided.";
-    logMessage("Error: $error", $errorLog);
+    $error = "Session not found. Please log in again.";
 } else {
-    // Fetch bed details
-    $stmt_bed = $conn->prepare("
-        SELECT Bed.*, Unit.UnitID, Unit.FloorPlan, Unit.UnitNo, Unit.PropertyID, Room.RoomID, Room.RoomNo 
-        FROM Bed
-        INNER JOIN Room ON Bed.RoomID = Room.RoomID
-        INNER JOIN Unit ON Room.UnitID = Unit.UnitID
-        WHERE Bed.BedID = ?
-    ");
-    if ($stmt_bed === false) {
+
+    if (isset($_SESSION['auser']['AgentID'])) {
+        $agentID = $_SESSION['auser']['AgentID'];
+    } else {
+        $error = "Agent information not found in the session. Please log in again.";
+    }
+}
+
+// Only proceed if we have an AgentID
+if (empty($error)) {
+    // Create AgreementProcessor instance
+    $agreementProcessor = new AgreementProcessor($conn);
+    
+    // Retrieve BedID or RoomID from URL and set rental type
+    $bed_id = isset($_GET['bedID']) ? $_GET['bedID'] : null;
+    $room_id = isset($_GET['roomID']) ? $_GET['roomID'] : null;
+
+    // Create the SQL query based on rental type
+    $stmt_property = $conn->prepare("
+        SELECT 
+            b.BedID,
+            b.BedNo,
+            b.BaseRentAmount as BedBaseRentAmount,
+            b.BedRentAmount,
+            b.BedStatus,
+            r.RoomID,
+            r.RoomNo,
+            r.RoomRentAmount,
+            r.RoomStatus,
+            r.BaseRentAmount as RoomBaseRentAmount,
+            r.Katil,
+            u.UnitID,
+            u.UnitNo,
+            u.PropertyID,
+            u.FloorPlan
+        FROM room r
+        INNER JOIN unit u ON r.UnitID = u.UnitID
+        LEFT JOIN bed b ON b.RoomID = r.RoomID
+        WHERE " . ($bed_id ? "b.BedID = ?" : "r.RoomID = ?")
+    );
+
+    if ($stmt_property === false) {
         $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-        logMessage("Error: $error", $errorLog);
     } else {
-        $stmt_bed->bind_param("s", $bed_id);
-        if ($stmt_bed->execute()) {
-            $result = $stmt_bed->get_result();
+        $property_id = $bed_id ?: $room_id; // Use bed_id if available, otherwise use room_id
+        $stmt_property->bind_param("s", $property_id);
+        if ($stmt_property->execute()) {
+            $result = $stmt_property->get_result();
             if ($result->num_rows > 0) {
-                $bed_data = $result->fetch_assoc();
-                logMessage("Fetched bed data for BedID $bed_id.", $debugLog);
+                $property_data = $result->fetch_assoc();
+                // Determine if this is a bed or room rental
+                $is_bed_rental = !empty($property_data['BedID']);
             } else {
-                $error = "No bed found with the provided BedID.";
-                logMessage("Error: $error", $errorLog);
+                $error = "No property found with the provided ID.";
             }
-            $stmt_bed->close();
-        } else {
-            $error = "Error executing query: " . $stmt_bed->error;
-            logMessage("Error: $error", $errorLog);
-            $stmt_bed->close();
+            $stmt_property->close();
         }
     }
-}
 
-// Process form submission
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) { 
-    // Collect and sanitize form data
-    $bed_rent_amount   = isset($_POST['bed_rent_amount']) ? trim($_POST['bed_rent_amount']) : '';
-    $bed_id_form       = isset($_POST['bed_id']) ? trim($_POST['bed_id']) : '';
-    $tenantName        = isset($_POST['tenant_name']) ? trim($_POST['tenant_name']) : '';
-    $tenantPhoneNo     = isset($_POST['mobile_number']) ? trim($_POST['mobile_number']) : '';
-    $tenantEmail       = isset($_POST['tenant_email']) ? trim($_POST['tenant_email']) : '';
-    $rentStartDate     = isset($_POST['rental_start_date']) ? trim($_POST['rental_start_date']) : '';
-    $passport          = isset($_POST['ic_passport']) ? trim($_POST['ic_passport']) : '';
-    $address           = isset($_POST['address']) ? trim($_POST['address']) : '';
-    $unitNumber        = isset($_POST['bed_number_display']) ? trim($_POST['bed_number_display']) : '';
+    // Process form submission
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
+        // Collect and sanitize form data
+        $bed_rent_amount   = isset($_POST['bed_rent_amount']) ? trim($_POST['bed_rent_amount']) : '';
+        $bed_id_form       = isset($_POST['bed_id']) ? trim($_POST['bed_id']) : '';
+        $tenantName        = isset($_POST['tenant_name']) ? trim($_POST['tenant_name']) : '';
+        $tenantPhoneNo     = isset($_POST['mobile_number']) ? trim($_POST['mobile_number']) : '';
+        $tenantEmail       = isset($_POST['tenant_email']) ? trim($_POST['tenant_email']) : '';
+        $rentStartDate     = isset($_POST['rental_start_date']) ? trim($_POST['rental_start_date']) : '';
+        $passport          = isset($_POST['ic_passport']) ? trim($_POST['ic_passport']) : '';
+        $address           = isset($_POST['address']) ? trim($_POST['address']) : '';
+        $unitNumber        = isset($_POST['bed_number_display']) ? trim($_POST['bed_number_display']) : '';
+        $tenantSignature   = isset($_POST['tenant_signature']) ? $_POST['tenant_signature'] : '';
+        //$rental_type       = isset($_POST['rental_type']) ? $_POST['rental_type'] : '';
 
-    // Log collected form data
-    logMessage("Form Submission Data:", $debugLog);
-    logMessage("Tenant Name: $tenantName", $debugLog);
-    logMessage("Passport: $passport", $debugLog);
-    logMessage("Start Date: $rentStartDate", $debugLog);
-    logMessage("Bed Rent Amount: $bed_rent_amount", $debugLog);
-    logMessage("Bed ID Form: $bed_id_form", $debugLog);
-    logMessage("Tenant Phone No: $tenantPhoneNo", $debugLog);
-    logMessage("Tenant Email: $tenantEmail", $debugLog);
-    logMessage("Address: $address", $debugLog);
-    logMessage("Unit Number: $unitNumber", $debugLog);
+        // Validate rental start date 
+        if (empty($rentStartDate)) {
+            $error = "Rental start date is required.";
+        } else {
+            $date = DateTime::createFromFormat('Y-m-d', $rentStartDate);
+            if (!$date || $date->format('Y-m-d') !== $rentStartDate) {
+                $error = "Invalid rental start date format. Please use YYYY-MM-DD format.";
+            }
+        }
 
-    // Validate bed_rent_amount
-    if (!is_numeric($bed_rent_amount)) {
-        $error = "Please enter a valid number for Rental Amount.";
-        logMessage("Validation Error: $error", $errorLog);
-    } elseif ($bed_rent_amount < $bed_data['BedRentAmount']) { 
-        $error = "Rental Amount cannot be less than the original amount: " . $bed_data['BedRentAmount'];
-        logMessage("Validation Error: $error", $errorLog);
-    }
-
-    // Proceed if no validation errors
-    if (empty($error)) {
         // Calculate rent expiry date
-        $rentExpiryDate = date('Y-m-d', strtotime("$rentStartDate +1 year"));
-        logMessage("Calculated Rent Expiry Date: $rentExpiryDate", $debugLog);
-
-        // Retrieve AgentEmail from session
-        if (isset($_SESSION['auser']['AgentEmail'])) { 
-            $agentEmail = $_SESSION['auser']['AgentEmail'];
-            logMessage("Agent Email: $agentEmail", $debugLog);
-        } else {
-            $error = "Agent information not found in the session.";
-            logMessage("Error: $error", $errorLog);
+        $rentExpiryDate = date('Y-m-d', strtotime($rentStartDate . ' + 1 year - 1 day'));
+        if (!$rentExpiryDate) {
+            $error = "Failed to calculate rental expiry date.";
         }
 
-        // Set bed_status to "booking"
-        $bed_status = "booking";
-        logMessage("Set Bed Status to: $bed_status", $debugLog);
-    }
+        // Create safe tenant name and directory
+        $safeTenantName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $tenantName);
+        $tenantDirectory = __DIR__ . "/tenant_documents/" . $safeTenantName;
+        
+        // Defer directory creation until after validation
+        $needToCreateDirectory = !is_dir($tenantDirectory);
 
-    // Insert tenant information
-    if (empty($error)) {
-        // Fetch AgentID based on AgentEmail
-        $stmt_agent = $conn->prepare("SELECT AgentID FROM agent WHERE AgentEmail = ?");
-        if ($stmt_agent === false) {
-            $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-            logMessage("Error: $error", $errorLog);
+        // Validate signature
+        if (empty($tenantSignature)) {
+            $error = "Tenant signature is required.";
+        }
+
+        // Handle and validate file uploads - just validate first
+        $uploadedFiles = [];
+        $filesToMove = [];
+
+        // Validate IC/Passport upload
+        if (!isset($_FILES['ic_passport_file']) || $_FILES['ic_passport_file']['error'] != 0) {
+            $error = "IC/Passport file is required.";
         } else {
-            $stmt_agent->bind_param("s", $agentEmail);
-            if ($stmt_agent->execute()) {
-                $result_agent = $stmt_agent->get_result();
-                if ($row_agent = $result_agent->fetch_assoc()) {
-                    $agentID = $row_agent['AgentID'];
-                    logMessage("Fetched AgentID: $agentID for AgentEmail: $agentEmail", $debugLog);
-                } else {
-                    $error = "Agent not found."; 
-                    logMessage("Error: $error", $errorLog);
+            $icPassportFile = $_FILES['ic_passport_file'];
+            $fileExt = pathinfo($icPassportFile['name'], PATHINFO_EXTENSION);
+            if (!in_array(strtolower($fileExt), ['pdf', 'jpg', 'jpeg', 'png'])) {
+                $error = "Invalid IC/Passport file type. Allowed types: PDF, JPG, JPEG, PNG";
+            } else {
+                $icPassportFileName = "IC_Passport_" . $safeTenantName . "_" . date('d-m-Y') . "." . $fileExt;
+                $icPassportPath = $tenantDirectory . "/" . $icPassportFileName;
+                $filesToMove['ic_passport'] = [
+                    'tmp_name' => $icPassportFile['tmp_name'],
+                    'destination' => $icPassportPath,
+                    'name' => $icPassportFileName
+                ];
+            }
+        }
+
+        // Validate Bank Statement upload
+        if (!isset($_FILES['bank_statement']) || $_FILES['bank_statement']['error'] != 0) {
+            $error = "Bank statement file is required.";
+        } else {
+            $bankStatementFile = $_FILES['bank_statement'];
+            $fileExt = pathinfo($bankStatementFile['name'], PATHINFO_EXTENSION);
+            if (!in_array(strtolower($fileExt), ['pdf', 'jpg', 'jpeg', 'png'])) {
+                $error = "Invalid bank statement file type. Allowed types: PDF, JPG, JPEG, PNG";
+            } else {
+                $bankStatementFileName = "Bank_Statement_" . $safeTenantName . "_" . date('d-m-Y') . "." . $fileExt;
+                $bankStatementPath = $tenantDirectory . "/" . $bankStatementFileName;
+                $filesToMove['bank_statement'] = [
+                    'tmp_name' => $bankStatementFile['tmp_name'],
+                    'destination' => $bankStatementPath,
+                    'name' => $bankStatementFileName
+                ];
+            }
+        }
+
+        // Only validate rent amount and availability if we're processing a direct booking
+        // (not when generating an agreement for an existing tenant)
+        if (isset($is_bed_rental) && isset($property_data)) {
+            // Validate rent amount based on rental type
+            $base_amount = $is_bed_rental ? 
+                $property_data['BedBaseRentAmount'] : 
+                $property_data['RoomBaseRentAmount'];
+    
+            if (!is_numeric($bed_rent_amount)) {
+                $error = "Please enter a valid number for Rental Amount.";
+            } elseif ($bed_rent_amount < $base_amount) {
+                $error = "Rental Amount cannot be less than the base amount: " . $base_amount;
+            }
+    
+            // Check availability based on rental type
+            if ($is_bed_rental && $property_data['BedStatus'] !== 'Available') {
+                $error = "This bed is not available for booking.";
+            } elseif (!$is_bed_rental && $property_data['RoomStatus'] !== 'Available') {
+                $error = "This room is not available for booking.";
+            }
+        }
+
+        // If all validations pass, then create directory and move files
+        if (empty($error)) {
+            // Create directory if needed
+            if ($needToCreateDirectory) {
+                if (!mkdir($tenantDirectory, 0755, true)) {
+                    $error = "Failed to create tenant directory: " . $tenantDirectory;
                 }
-                $stmt_agent->close();
-            } else {
-                $error = "Error executing agent query: " . $stmt_agent->error;
-                logMessage("Error: $error", $errorLog);
-                $stmt_agent->close();
             }
-        }
-    }
 
-    // Proceed with tenant insertion
-    if (empty($error)) { 
-        // Generate TenantID with format T-xxxx
-        do {
-            $tenantID = 'T' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-            // Check for uniqueness
-            $stmt_check = $conn->prepare("SELECT TenantID FROM tenant WHERE TenantID = ?");
-            if ($stmt_check === false) {
-                $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-                logMessage("Error: $error", $errorLog);
-                break;
-            }
-            $stmt_check->bind_param("s", $tenantID);
-            if ($stmt_check->execute()) {
-                $stmt_check->store_result();
-                $isUnique = ($stmt_check->num_rows === 0);
-                $stmt_check->close();
-            } else {
-                $error = "Error executing TenantID uniqueness check: " . $stmt_check->error;
-                $stmt_check->close();
-                logMessage("Error: $error", $errorLog);
-                break;
-            }
-        } while (!$isUnique);
+            if (empty($error)) {
+                // Save signature
+                $signatureImage = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $tenantSignature));
+                $signatureFileName = "signature_" . $safeTenantName . "_" . date('d-m-Y') . ".png";
+                $signaturePath = $tenantDirectory . "/" . $signatureFileName;
 
-        logMessage("Generated TenantID: $tenantID", $debugLog);
-
-        if ($isUnique) {
-            // Insert into tenant table
-            $stmt_tenant = $conn->prepare("
-                INSERT INTO tenant (TenantID, UnitID, RoomID, BedID, AgentID, TenantName, TenantPhoneNo, TenantEmail, RentStartDate, RentExpiryDate, TenantStatus) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
-            ");
-            if ($stmt_tenant === false) {
-                $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-                logMessage("Error: $error", $errorLog);
-            } else {
-                $stmt_tenant->bind_param("ssssssssss", $tenantID, $bed_data['UnitID'], $bed_data['RoomID'], $bed_data['BedID'], $agentID, $tenantName, $tenantPhoneNo, $tenantEmail, $rentStartDate, $rentExpiryDate); 
-                if ($stmt_tenant->execute()) {
-                    logMessage("Inserted tenant data for TenantID: $tenantID", $debugLog);
-
-                    // Update bed status to booking
-                    $stmt_update_bed = $conn->prepare("UPDATE Bed SET BedStatus = ? WHERE BedID = ?");
-                    if ($stmt_update_bed === false) {
-                        $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-                        logMessage("Error: $error", $errorLog);
-                    } else {
-                        $stmt_update_bed->bind_param("ss", $bed_status, $bed_id_form);
-                        if ($stmt_update_bed->execute()) {
-                            logMessage("Updated BedStatus to '$bed_status' for BedID: $bed_id_form", $debugLog);
+                if (!file_put_contents($signaturePath, $signatureImage)) {
+                    $error = "Failed to save signature";
+                } else {
+                    // Move all validated files
+                    foreach ($filesToMove as $type => $fileInfo) {
+                        if (move_uploaded_file($fileInfo['tmp_name'], $fileInfo['destination'])) {
+                            $uploadedFiles[$type] = [
+                                'path' => $fileInfo['destination'],
+                                'name' => $fileInfo['name']
+                            ];
                         } else {
-                            $error = "Error updating bed status: " . $stmt_update_bed->error;
-                            logMessage("Error: $error", $errorLog);
+                            $error = "Failed to save " . $type . " file";
+                            break;
                         }
-                        $stmt_update_bed->close();
                     }
-                } else {
-                    $error = "Error inserting tenant data: " . $stmt_tenant->error;
-                    logMessage("Error: $error", $errorLog);
                 }
-                $stmt_tenant->close();
             }
         }
-    }
 
-    // Insert tenancy agreement
-    if (empty($error)) {
-        // Generate AgreementID with format agreement_xxxx
-        do {
-            $agreementID = 'agreement_' . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-            // Check for uniqueness
-            $stmt_check = $conn->prepare("SELECT AgreementID FROM tenancyagreement WHERE AgreementID = ?");
-            if ($stmt_check === false) {
-                $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-                logMessage("Error: $error", $errorLog);
-                break;
-            }
-            $stmt_check->bind_param("s", $agreementID);
-            if ($stmt_check->execute()) {
-                $stmt_check->store_result();
-                $isUnique = ($stmt_check->num_rows === 0);
-                $stmt_check->close();
-            } else {
-                $error = "Error executing AgreementID uniqueness check: " . $stmt_check->error;
-                $stmt_check->close();
-                logMessage("Error: $error", $errorLog);
-                break;
-            }
-        } while (!$isUnique);
-
-        logMessage("Generated AgreementID: $agreementID", $debugLog);
-
-        if ($isUnique) {
-            $propertyDetails = $bed_data['UnitNo']; 
-            $monthlyRent = $bed_rent_amount;
-            $depositAmount = $bed_rent_amount; 
-            $startDate = $rentStartDate;
-            $endDate = $rentExpiryDate; 
-
-            // Define paths
-            $agreementDirectory = __DIR__ . "/../../tenantagreement/";
-            $relativeAgreementPath = "/tenantagreement/"; // Adjusted to relative path from web root
-
-            // Ensure the agreement directory exists
-            if (!is_dir($agreementDirectory)) {
-                if (!mkdir($agreementDirectory, 0755, true)) {
-                    $error = "Failed to create directory: " . $agreementDirectory;
-                    logMessage("Error: $error", $errorLog);
-                } else {
-                    logMessage("Created directory: $agreementDirectory", $debugLog);
-                }
-            }
-
-            // Sanitize tenant name for filename
-            $safeTenantName = preg_replace('/[^A-Za-z0-9_\-]/', '_', $tenantName);
-            logMessage("Sanitized Tenant Name for Filename: $safeTenantName", $debugLog);
-
-            // Define the agreement file path
-            $agreementFileName = "Tenancy_Agreement_$safeTenantName.docx";
-            $agreementPath = $relativeAgreementPath . $agreementFileName;
-            logMessage("Agreement File Name: $agreementFileName", $debugLog);
-
-            // Insert into tenancyagreement table
-            $stmt_agreement = $conn->prepare("
-                INSERT INTO tenancyagreement (AgreementID, TenantID, PropertyDetails, MonthlyRent, DepositAmount, RentStartDate, RentExpiryDate, AgreementPath) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-            if ($stmt_agreement === false) {
-                $error = "Prepare failed: (" . $conn->errno . ") " . $conn->error;
-                logMessage("Error: $error", $errorLog);
-            } else {
-                $stmt_agreement->bind_param("ssssssss", $agreementID, $tenantID, $propertyDetails, $monthlyRent, $depositAmount, $startDate, $endDate, $agreementPath);
-                if (!$stmt_agreement->execute()) {
-                    $error = "Error inserting tenancy agreement data: " . $stmt_agreement->error;
-                    logMessage("Error: $error", $errorLog);
-                } else {
-                    $msg .= "Tenancy agreement inserted successfully.<br>";
-                    logMessage("Inserted tenancy agreement data for AgreementID: $agreementID", $debugLog);
-                }
-                $stmt_agreement->close();
-            }
-        }
-    }
-
-    // Generate Word document
-    if (empty($error)) {
-        // Get the room number 
-        $roomNumber = $bed_data['RoomNo']; 
-        logMessage("Room Number: $roomNumber", $debugLog);
-
-        // Get the address based on the unit number
-        $rentAddress = rentAddress($unitNumber); 
-        logMessage("Rent Address: " . implode(", ", $rentAddress), $debugLog);
-
-        // Define template path
-        $templatePath = __DIR__ . "/../../templates/tenancy_agreement_template.docx";
-        logMessage("Template Path: $templatePath", $debugLog);
-
-        if (!file_exists($templatePath)) {
-            $error = "Tenancy agreement template not found at: " . $templatePath;
-            logMessage("Error: $error", $errorLog);
-        } else {
-            // Create TemplateProcessor instance
+        // If all validations pass, process agreement and store data in session
+        if (empty($error)) {
             try {
-                $templateProcessor = new TemplateProcessor($templatePath);
-                logMessage("Loaded Word template successfully.", $debugLog);
+                // Generate agreement file names
+                $agreementFileName = "agreement_" . $safeTenantName . "_" . date('d-m-Y');
+                $docxPath = $tenantDirectory . "/" . $agreementFileName . ".docx";
+                $pdfPath = $agreementFileName . ".pdf";
+                $agreementPathPdf = $tenantDirectory . "/" . $pdfPath;
 
-                // Replace placeholders in the template with actual data
-                $templateProcessor->setValue('{{Name}}', htmlspecialchars($tenantName));
-                $templateProcessor->setValue('{{IC}}', htmlspecialchars($passport)); // Updated placeholder
-                $templateProcessor->setValue('{{Address}}', htmlspecialchars($address));
-                $templateProcessor->setValue('{{Unit}}', htmlspecialchars($unitNumber));
-                $templateProcessor->setValue('{{Room}}', htmlspecialchars($roomNumber)); 
-                $templateProcessor->setValue('{{StartDate}}', htmlspecialchars($startDate)); // Changed to underscores
-                $templateProcessor->setValue('{{EndDate}}', htmlspecialchars($endDate)); // Changed to underscores
-                $templateProcessor->setValue('{{RentAddress1}}', htmlspecialchars($rentAddress[0]));
-                $templateProcessor->setValue('{{RentAddress2}}', htmlspecialchars($rentAddress[1]));
-                $templateProcessor->setValue('{{RentAddress3}}', htmlspecialchars($rentAddress[2]));
-                logMessage("Replaced placeholders in the template.", $debugLog);
+                // Prepare data for agreement generation
+                $agreementData = [
+                    'tenantName' => $tenantName,
+                    'passport' => $passport,
+                    'address' => $address,
+                    'unitNumber' => $unitNumber,
+                    'roomNumber' => $property_data['RoomNo'],
+                    'startDate' => $rentStartDate,
+                    'endDate' => $rentExpiryDate,
+                    'signaturePath' => $signaturePath,
+                    'docxPath' => $docxPath,
+                    'pdfPath' => $pdfPath,
+                    'agreementDirectory' => $tenantDirectory
+                ];
 
-                // Define the output file path
-                $outputFile = $agreementDirectory . $agreementFileName; 
-                logMessage("Output File Path: $outputFile", $debugLog);
+                // Store data in session
+                $_SESSION['booking_data'] = [
+                    'tenant_info' => [
+                        'tenantID' => $passport,
+                        'tenantName' => $tenantName,
+                        'tenantPhoneNo' => $tenantPhoneNo,
+                        'tenantEmail' => $tenantEmail,
+                        'passport' => $passport,
+                        'address' => $address,
+                        'rentStartDate' => $rentStartDate,
+                        'rentExpiryDate' => $rentExpiryDate
+                    ],
+                    'property_info' => [
+                        'unitID' => $property_data['UnitID'],
+                        'roomID' => $property_data['RoomID'],
+                        'bedID' => $is_bed_rental ? $property_data['BedID'] : null,
+                        'rental_type' => $is_bed_rental ? 'bed' : 'room',
+                        'agentID' => $agentID,
+                        'unitNumber' => $unitNumber,
+                        'roomNumber' => $property_data['RoomNo']
+                    ],
+                    'payment_info' => [
+                        'amount' => $bed_rent_amount,
+                        'baseAmount' => $base_amount,
+                        'rental_type' => $is_bed_rental ? 'bed' : 'room'
+                    ],
+                    'files' => [
+                        'uploadedFiles' => $uploadedFiles,
+                        'signaturePath' => $signaturePath,
+                        'tenantDirectory' => $tenantDirectory,
+                        'agreementData' => $agreementData  // Store agreement data instead of generating now
+                    ],
+                    'agent_info' => [
+                        'agentID' => $agentID
+                    ]
+                ];
 
-                // Check if the directory is writable
-                if (!is_writable($agreementDirectory)) {
-                    $error = "Output directory is not writable: " . $agreementDirectory;
-                    logMessage("Error: $error", $errorLog);
-                } else {
-                    // Save the generated document  
-                    try {
-                        $templateProcessor->saveAs($outputFile);
-                        $msg .= "File generated successfully!<br>";
-                        logMessage("Saved generated document to: $outputFile", $debugLog);
-                    } catch (Exception $e) {
-                        $error = "File generation failed: " . $e->getMessage();
-                        // Log the error
-                        logMessage("File generation failed for TenantID $tenantID: " . $e->getMessage(), $errorLog);
-                    }
-                }
+                // Modify the redirect to include the correct ID parameter
+                $redirect_param = $is_bed_rental ? "bedID=" . $property_data['BedID'] : "roomID=" . $property_data['RoomID'];
+                header("Location: bookingcheckout.php?{$redirect_param}&tenantID=" . $passport);
+                exit;
+
             } catch (Exception $e) {
-                $error = "Error processing template: " . $e->getMessage();
-                // Log the error
-                logMessage("Template processing error for TenantID $tenantID: " . $e->getMessage(), $errorLog);
+                $error = "Error processing agreement: " . $e->getMessage();
             }
-        } 
-    }
+        }
 
-    // Send the generated document via email
-    if (empty($error)) {
-        $mail = new PHPMailer(true);
-
-        try {
-            // Server settings
-            $mail->isSMTP();
-            $mail->Host       = 'smtp.gmail.com'; 
-            $mail->SMTPAuth   = true;                   
-            $mail->Username   = getenv('MAIL_USERNAME'); 
-            $mail->Password   = getenv('MAIL_PASSWORD'); 
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $mail->Port       = 587;                       
-
-            // Recipients
-            $mail->setFrom(getenv('MAIL_USERNAME'), 'Rentronics'); // Replace with a valid "From" address 
-            $mail->addAddress($tenantEmail, $tenantName);            
-
-            // Attachments
-            $mail->addAttachment($outputFile, 'TenancyAgreement.docx');
-
-            // Content
-            $mail->isHTML(true);                                  
-            $mail->Subject = 'Your Tenancy Agreement';
-            $mail->Body    = 'Dear ' . htmlspecialchars($tenantName) . ',<br><br>Please find attached your tenancy agreement.<br><br>Regards,<br>Rentronics';
-
-            if ($debugMode) {
-                // In debug mode, do not send the email. Instead, log the email details.
-                $msg .= "Debug Mode: Email not sent.<br>";
-                logMessage("Debug Mode: Email prepared but not sent to $tenantEmail.", $debugLog);
-            } else {
-                // Send the email
-                $mail->send();
-                $msg .= "Tenancy agreement has been sent to your email.<br>"; 
-                logMessage("Email sent to $tenantEmail successfully.", $debugLog);
-            }
-        } catch (PHPMailerException $e) {
-            $error = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-            // Log the error
-            logMessage("Email sending failed for TenantID $tenantID: " . $mail->ErrorInfo, $errorLog);
+        // Display messages
+        if (empty($error)) {
+            $msg = "<div class='alert alert-success'>{$msg}</div>";
+        } else {
+            $error = "<div class='alert alert-danger'>{$error}</div>";
         }
     }
 
-    // Redirect or display messages
-    if (empty($error)) {
-        // Display success messages on the same page
-        $msg = "<div class='alert alert-success'>{$msg}</div>";
-        logMessage("Success Message: $msg", $debugLog);
-        // Optionally, reset form fields or perform other actions
-    } else {
-        // Display error message on the same page
-        $error = "<div class='alert alert-danger'>{$error}</div>";
-        logMessage("Error Message: $error", $errorLog);
+    // Prepare data for the form
+    if (isset($property_data)) {
+        $propertyID    = $property_data['PropertyID'];
+        $unitID        = $property_data['UnitID'];
+        $floorPlan     = $property_data['FloorPlan'];
+        $floorPlanURL  = $floorPlan . "?propertyID=" . $propertyID . "&unitID=" . $unitID;
     }
 }
 
-// Prepare data for the form
-if (isset($bed_data)) {
-    $propertyID    = $bed_data['PropertyID'];
-    $unitID        = $bed_data['UnitID'];
-    $floorPlan     = $bed_data['FloorPlan'];
-    $floorPlanURL  = $floorPlan . "?propertyID=" . $propertyID . "&unitID=" . $unitID;
-}
+// Move class definition outside the main if block
+class AgreementProcessor {
+    private $conn;
+    private $templatePaths = [
+        'rules' => '/templates/tenancy_agreement_rules.docx',
+        'agreement' => '/templates/tenancy_agreement_template.docx'
+    ];
+    
+    // Directory to store tenant documents
+    private $tenantDocumentsDir = '/tenant_documents';
 
-// rentAddress function remains the same
-function rentAddress($unitNumber) {
-    $address = [];
-
-    switch ($unitNumber) {
-        case "C-15-10":
-            $address[0] = "VISTA WIRAJAYA 2, TAMAN MELATI,";
-            $address[1] = "53100";
-            $address[2] = "KUALA LUMPUR";
-            break;
-        case "C-16-09":
-            $address[0] = "VISTA WIRAJAYA 2, TAMAN MELATI,";
-            $address[1] = "53100";
-            $address[2] = "KUALA LUMPUR";
-            break;
-        case "E-22-B":
-            $address[0] = "CYBERIA SMARTHOMES,";
-            $address[1] = "63000";
-            $address[2] = "CYBERJAYA";
-            break;
-        // ... add all your other case statements here ...
-
-        default:
-            // Handle cases where the unit number is not found
-            $address[0] = "Address Line 1"; 
-            $address[1] = "Address Line 2";
-            $address[2] = "Address Line 3";
-            break;
+    public function __construct($conn) {
+        $this->conn = $conn;
     }
 
-    return $address;
+    private function rentAddress($unitNumber) {
+        $mainUnit = explode('-R', $unitNumber)[0];
+        $address = [];
+
+        switch ($mainUnit) {
+            case "C-15-10":
+                $address[0] = "VISTA WIRAJAYA 2, TAMAN MELATI,";
+                $address[1] = "53100";
+                $address[2] = "KUALA LUMPUR";
+                break;
+            case "C-16-09":
+                $address[0] = "VISTA WIRAJAYA 2, TAMAN MELATI,";
+                $address[1] = "53100";
+                $address[2] = "KUALA LUMPUR";
+                break;
+            case "E-22-B":
+                $address[0] = "CYBERIA SMARTHOMES,";
+                $address[1] = "63000";
+                $address[2] = "CYBERJAYA";
+                break;
+            case "A-9-7":
+                $address[0] = "PV3,JALAN MELATI UTAMA,";
+                $address[1] = "TAMAN MELATI";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "A-3-8":
+                $address[0] = "PV3,JALAN MELATI UTAMA,";
+                $address[1] = "TAMAN MELATI";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "50302":
+                $address[0] = "LORONG PENAGA 2, TAMAN MAK CHILI,";
+                $address[1] = "24000";
+                $address[2] = "CHUKAI, TERENGGANU";
+                break;
+            case "50317":
+                $address[0] = "LORONG PENAGA 2, TAMAN MAK CHILI,";
+                $address[1] = "24000";
+                $address[2] = "CHUKAI, TERENGGANU";
+                break;
+            case "50312":
+                $address[0] = "LORONG PENAGA 2, TAMAN MAK CHILI,";
+                $address[1] = "24000";
+                $address[2] = "CHUKAI, TERENGGANU";
+                break;
+            case "B-16-3A":
+                $address[0] = "PV2, JALAN TAMAN MELATI 1,";
+                $address[1] = "TAMAN MELATI,";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "B-13-9":
+                $address[0] = "PV2, JALAN TAMAN MELATI 1,";
+                $address[1] = "TAMAN MELATI,";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "A-29-6":
+                $address[0] = "PV2, JALAN TAMAN MELATI 1,";
+                $address[1] = "TAMAN MELATI,";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "A-11-11":
+                $address[0] = "PV5,JALAN MELATI UTAMA,";
+                $address[1] = "TAMAN MELATI";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            case "A-17-2":
+                $address[0] = "PV5,JALAN MELATI UTAMA,";
+                $address[1] = "TAMAN MELATI";
+                $address[2] = "53100 SETAPAK, KUALA LUMPUR";
+                break;
+            default:
+                $address[0] = "Address Line 1";
+                $address[1] = "Address Line 2";
+                $address[2] = "Address Line 3";
+                break;
+        }
+
+        return $address;
+    }
+
+    public function generateAgreement($data) {
+        // Get the address using the class method
+        $rentAddress = $this->rentAddress($data['unitNumber']);
+        $data['rentAddress'] = $rentAddress;
+
+        // Generate both agreement types
+        foreach ($this->templatePaths as $type => $templatePath) {
+            $fullTemplatePath = __DIR__ . $templatePath;
+            
+            if (!file_exists($fullTemplatePath)) {
+                throw new Exception("Tenancy agreement template not found at: " . $fullTemplatePath);
+            }
+
+            // Create file names with type suffix
+            $docxPath = str_replace('.docx', "_{$type}.docx", $data['docxPath']);
+            $pdfPath = str_replace('.pdf', "_{$type}.pdf", $data['pdfPath']);
+            
+            // Create TemplateProcessor instance
+            $templateProcessor = new TemplateProcessor($fullTemplatePath);
+
+            // Replace placeholders in the template with actual data
+            $templateProcessor->setValue('{{Name}}', htmlspecialchars($data['tenantName']));
+            $templateProcessor->setValue('{{IC}}', htmlspecialchars($data['passport']));
+            $templateProcessor->setValue('{{Address}}', htmlspecialchars($data['address']));
+            $templateProcessor->setValue('{{Unit}}', htmlspecialchars($data['unitNumber']));
+            $templateProcessor->setValue('{{Room}}', htmlspecialchars($data['roomNumber']));
+            $templateProcessor->setValue('{{StartDate}}', date('F, Y', strtotime($data['startDate'])));
+            $templateProcessor->setValue('{{End}}', date('F, Y', strtotime($data['endDate'])));
+            $templateProcessor->setValue('{{RentAddress1}}', htmlspecialchars($data['rentAddress'][0]));
+            $templateProcessor->setValue('{{RentAddress2}}', htmlspecialchars($data['rentAddress'][1]));
+            $templateProcessor->setValue('{{RentAddress3}}', htmlspecialchars($data['rentAddress'][2]));
+
+            // Add signature to the template
+            $templateProcessor->setImageValue('TenantSignature', [
+                'path' => $data['signaturePath'],
+                'width' => 150,
+                'height' => 75,
+                'ratio' => false
+            ]);
+
+            // Save the DOCX file
+            $templateProcessor->saveAs($docxPath);
+
+            // Skip PDF conversion completely - just use DOCX files directly
+            // This avoids the long wait times from the external API
+            
+            // Create the final DOCX path
+            $finalDocxPath = $data['agreementDirectory'] . '/' . str_replace('.pdf', "_{$type}.docx", $data['docxPath']);
+            
+            // Make a copy of the DOCX file to the final location
+            if (file_exists($docxPath)) {
+                copy($docxPath, $finalDocxPath);
+            }
+            
+            // Store the path in the return data
+            $data['agreementPaths'][$type] = $finalDocxPath;
+            
+            // No need to delete the original since we're using it directly
+
+            // Paths are now stored inside the try/catch block above
+        }
+
+        return $data['agreementPaths'];
+    }
+
 }
-?>

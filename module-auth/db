@@ -1,175 +1,78 @@
--- Property Table
-TABLE Property (
-    PropertyID VARCHAR(6) PRIMARY KEY,
-    PropertyName VARCHAR(255) NOT NULL,
-    PropertyType VARCHAR(255) NOT NULL,
-    PropertyOwn INT NOT NULL,
-    Location VARCHAR(255) NOT NULL,
-    Maps VARCHAR(255)
-);
-
--- Unit Table
-TABLE Unit (
-    UnitID VARCHAR(6) PRIMARY KEY,
-    PropertyID VARCHAR(6) NOT NULL,
-    UnitNo VARCHAR(255) NOT NULL,
-    FloorPlan VARCHAR(255),
-    Investor VARCHAR(255),
-    FOREIGN KEY (PropertyID) REFERENCES Property(PropertyID)
-);
-
--- Agent Table
-TABLE Agent (
-    AgentID VARCHAR(6) PRIMARY KEY,
-    AgentName VARCHAR(255) NOT NULL,
-    AgentEmail VARCHAR(255) NOT NULL,
-    AgentWhatsapp VARCHAR(20),
-    Password VARCHAR(255) NOT NULL,
-    AgentType VARCHAR(50) NOT NULL CHECK (AgentType IN ('Studio', 'Non-Studio')),
-    AccessLevel INT NOT NULL CHECK (AccessLevel BETWEEN 1 AND 2)
-);
-
--- Room Table
-TABLE Room (
-    RoomID VARCHAR(6) PRIMARY KEY,
-    UnitID VARCHAR(6) NOT NULL,
-    RoomNo VARCHAR(255) GENERATED ALWAYS AS (CONCAT(UnitID, '-R', RIGHT(RoomID, 4))) STORED,
-    RoomRentAmount DECIMAL(10, 2) NOT NULL,
-    Katil INT NOT NULL,
-    RoomStatus VARCHAR(50) NOT NULL CHECK (RoomStatus IN ('Vacant', 'Partially Rented', 'Fully Rented')),
-    AgentID VARCHAR(6),
-    FOREIGN KEY (UnitID) REFERENCES Unit(UnitID),
-    FOREIGN KEY (AgentID) REFERENCES Agent(AgentID)
-);
-
--- Bed Table
-TABLE Bed (
-    BedID VARCHAR(6) PRIMARY KEY,
-    RoomID VARCHAR(6) NOT NULL,
-    UnitID VARCHAR(6) NOT NULL,
-    BedNo VARCHAR(255) GENERATED ALWAYS AS (CONCAT(RoomID, '-B', RIGHT(BedID, 4))) STORED,
-    BedRentAmount DECIMAL(10, 2) NOT NULL,
-    BedStatus VARCHAR(50) NOT NULL CHECK (BedStatus IN ('Vacant', 'Rented')),
-    AgentID VARCHAR(6),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID),
-    FOREIGN KEY (UnitID) REFERENCES Unit(UnitID),
-    FOREIGN KEY (AgentID) REFERENCES Agent(AgentID)
-);
-
--- Tenant Table
-TABLE Tenant (
-    TenantID VARCHAR(6) PRIMARY KEY,
-    UnitID VARCHAR(6),
-    RoomID VARCHAR(6),
-    BedID VARCHAR(6),
-    AgentID VARCHAR(6) NOT NULL,
-    TenantName VARCHAR(255) NOT NULL,
-    TenantPhoneNo VARCHAR(20),
-    TenantEmail VARCHAR(255),
-    RentStartDate DATE NOT NULL,
-    RentExpiryDate DATE NOT NULL,
-    TenantStatus BOOLEAN NOT NULL,
-    Password VARCHAR(255) NOT NULL,
-    FOREIGN KEY (UnitID) REFERENCES Unit(UnitID),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID),
-    FOREIGN KEY (BedID) REFERENCES Bed(BedID),
-    FOREIGN KEY (AgentID) REFERENCES Agent(AgentID)
-);
-
-
-CREATE TABLE Payment (
-    PaymentID VARCHAR(6) PRIMARY KEY,
-    RoomID VARCHAR(6),
-    BedID VARCHAR(6),
-    RoomNo VARCHAR(255),
-    BedNo VARCHAR(255),
-    DateCreated DATETIME NOT NULL,
-    Month VARCHAR(50) NOT NULL,
-    Year INT NOT NULL,
-    Amount DECIMAL(10, 2) NOT NULL,
-    ReceiptNumber VARCHAR(255) UNIQUE,
-    ReceiptURL VARCHAR(255),
-    PropertyUnit VARCHAR(255),
-    MonthRent VARCHAR(50),
-    Agent VARCHAR(255),
-    PaymentType VARCHAR(50) NOT NULL CHECK (PaymentType IN ('Card', 'Cash', 'Bank')),
-    ChargeFee DECIMAL(10, 2),
-    Claimed BOOLEAN DEFAULT FALSE,
-    Claimer VARCHAR(255),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID),
-    FOREIGN KEY (BedID) REFERENCES Bed(BedID),
-    INDEX (RoomID),
-    INDEX (BedID),
-    INDEX (DateCreated),
-    INDEX (Month),
-    INDEX (Year)
-);
-
-DELIMITER //
-CREATE TRIGGER before_insert_payment
-BEFORE INSERT ON Payment
-FOR EACH ROW
-BEGIN
-    IF (NEW.RoomID IS NULL AND NEW.BedID IS NULL) OR (NEW.RoomID IS NOT NULL AND NEW.BedID IS NOT NULL) THEN
-        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Either RoomID or BedID must be set, but not both.';
-    END IF;
-END;
-//
-DELIMITER ;
-
-CREATE TABLE DataDepoBooking (
-    DepositAmount DECIMAL(10, 2),
-    AgentID INT,
-    AgentName VARCHAR(255),
-    PropertyID INT,
-    RoomID INT,
-    RoomNo VARCHAR(255),
-    BedID INT,
-    BedNo VARCHAR(255),
-    Reference VARCHAR(255),
-    Months VARCHAR(50),
-    Date DATETIME,
-    FOREIGN KEY (AgentID) REFERENCES Agent(AgentID),
-    FOREIGN KEY (PropertyID) REFERENCES Property(PropertyID),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
-);
-
-CREATE TABLE PropertyManagement (
-    Investor VARCHAR(255),
-    RentAmount DECIMAL(10, 2),
-    LP VARCHAR(255),
-    RoomNo VARCHAR(255),
-    RoomID INT,
-    Jan DECIMAL(10, 2),
-    Feb DECIMAL(10, 2),
-    Mar DECIMAL(10, 2),
-    Apr DECIMAL(10, 2),
-    May DECIMAL(10, 2),
-    Jun DECIMAL(10, 2),
-    Jul DECIMAL(10, 2),
-    Aug DECIMAL(10, 2),
-    Sep DECIMAL(10, 2),
-    Oct DECIMAL(10, 2),
-    Nov DECIMAL(10, 2),
-    Dec DECIMAL(10, 2),
-    Vacant BOOLEAN,
-    Booked BOOLEAN,
-    AgentClosed VARCHAR(255),
-    CurrentRoomDepo DECIMAL(10, 2),
-    CurrentCardDepo DECIMAL(10, 2),
-    PastRoomDepo DECIMAL(10, 2),
-    PastCardDepo DECIMAL(10, 2),
-    FOREIGN KEY (RoomID) REFERENCES Room(RoomID)
-);
-
-
-INSERT INTO Agent (AgentID, AgentName, AgentEmail, AgentWhatsapp, Password, AgentType, AccessLevel) VALUES
-('A001', 'Admin', 'accs.owais@gmail.com', '013 660 0635', '1001', 'Studio', 1),
-('A002', 'Syed', 'syedr10.sr@gmail.com', '011 2542 3742', '2001', 'Studio', 2),
-('A003', 'Maton', 'halimatonsyuhada98@gmail.com', '013 941 8101', '2002', 'Non-Studio', 2),
-('A004', 'Ziman', 'afiqhaziman98@gmail.com', '019 920 7371', '2003', 'Non-Studio', 2),
-('A005', 'Pija', 'nrfhzh788@gmail.com', '014 315 8230', '2004', 'Studio', 2),
-('A006', 'Amir', 'amiraiman464@gmail.com', '019 292 1839', '2005', 'Non-Studio',2),
-('A007', 'Naufal', 'naufallatif17@gmail.com', '018 374 9007', '2006', 'Studio',2),
-('A008', 'Rasyeed', 'rasyeed.aatsb@gmail.com', '018 367 9397', '2007', 'Studio',2),
-('A009', 'Abell', 'nabilah.amir997@gmail.com', '010 6565 037', '2008', 'Studio',2);
+Tenant Table	
+TenantID	varchar(255)
+UnitID	varchar(6)
+RoomID	varchar(6)
+BedID	varchar(6)
+AgentID	varchar(6)
+TenantName	varchar(255)
+TenantPhoneNo	varchar(20)
+TenantEmail	varchar(255)
+RentStartDate	date
+RentExpiryDate	date
+TenantStatus	varchar(255)
+CreatedAt	datetime
+UpdatedAt	datetime
+RentalType	varchar(255)
+	
+Payment Table	
+PaymentID	varchar(50)
+TenantID	varchar(255)
+RoomID	varchar(255)
+BedID	varchar(255)
+AgentID	varchar(255)
+DateCreated	datetime
+Month	varchar(50)
+Year	int(11)
+Amount	decimal(10,2)
+Overpayment	decimal(10,2)
+PaymentType	varchar(50)
+ChargeFee	decimal(10,2)
+PaymentStatus	varchar(50)
+Remarks	varchar(255)
+Claimed	tinyint(1)
+Claimer	varchar(255)
+	
+PaymentHistory Table	
+PaymentHistoryID	varchar(50)
+TenantID	varchar(255)
+AgentID	varchar(6)
+Amount	decimal(10,2)
+PaymentDate	datetime
+PaymentType	varchar(50)
+Remarks	varchar(255)
+	
+Deposit Table	
+DepositID	varchar(255)
+TenantID	varchar(255)
+RoomID	varchar(255)
+BedID	varchar(6)
+AgentID	varchar(6)
+BedRentAmount	decimal(10,2)
+DepositAmount	decimal(10,2)
+PaidAmount	decimal(10,2)
+RemainingAmount	decimal(10,2)
+PaymentMadeDate	datetime
+	
+Bed  Table	
+BedID	varchar(6)
+RoomID	varchar(6)
+UnitID	varchar(6)
+BedNo	varchar(255)
+BaseRentAmount	decimal(10,2)
+BedStatus	varchar(50)
+CreatedAt	datetime
+UpdatedAt	datetime
+AgentID	varchar(6)
+BedRentAmount	decimal(10,2)
+	
+Room Table	
+RoomID	varchar(6)
+UnitID	varchar(6)
+RoomNo	varchar(255)
+RoomRentAmount	decimal(10,2)
+Katil	int(11)
+RoomStatus	varchar(50)
+CreatedAt	datetime
+UpdatedAt	datetime
+AgentID	varchar(6)
+BaseRentAmount	decimal(10,2)

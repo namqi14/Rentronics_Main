@@ -21,7 +21,7 @@ if (!$bed_id) {
     $error = "No BedID provided.";
 } else {
     // Fetch current bed data
-    $stmt_bed = $conn->prepare("SELECT * FROM Bed WHERE BedID = ?");
+    $stmt_bed = $conn->prepare("SELECT * FROM bed WHERE BedID = ?");
     $stmt_bed->bind_param("s", $bed_id);
     if ($stmt_bed->execute()) {
         $result = $stmt_bed->get_result();
@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 
     if (isset($bed_rent_amount, $bed_id, $bed_status)) {
         // Prepare SQL query to update bed rent amount, agent (nullable), and bed status
-        $stmt_bed = $conn->prepare("UPDATE Bed SET BedRentAmount = ?, AgentID = ?, BedStatus = ? WHERE BedID = ?");
+        $stmt_bed = $conn->prepare("UPDATE bed SET BedRentAmount = ?, AgentID = ?, BedStatus = ? WHERE BedID = ?");
 
         if ($stmt_bed === false) {
             $error .= "<p class='alert alert-danger'>Error preparing statement: " . $conn->error . "</p>";
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rentronics</title>
-    <link href="/rentronics/img/favicon.ico" rel="icon">
+    <link href="/img/favicon.ico" rel="icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
@@ -192,8 +192,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                                                 <div class="col-lg-9">
                                                     <select class="form-control" name="bed_status" required>
                                                         <option value="">Select Status</option>
-                                                        <option value="Vacant" <?php echo ($bed_data['BedStatus'] == 'Vacant') ? 'selected' : ''; ?>>Vacant</option>
+                                                        <option value="Available" <?php echo ($bed_data['BedStatus'] == 'Available') ? 'selected' : ''; ?>>Available</option>
                                                         <option value="Rented" <?php echo ($bed_data['BedStatus'] == 'Rented') ? 'selected' : ''; ?>>Rented</option>
+                                                        <option value="Occupied" <?php echo ($bed_data['BedStatus'] == 'Occupied') ? 'selected' : ''; ?>>Occupied</option>
+                                                        <option value="Unavailable" <?php echo ($bed_data['BedStatus'] == 'Unavailable') ? 'selected' : ''; ?>>Unavailable</option>
+                                                        <option value="Staff" <?php echo ($bed_data['BedStatus'] == 'Staff') ? 'selected' : ''; ?>>Staff</option>
                                                     </select>
                                                 </div>
                                             </div>

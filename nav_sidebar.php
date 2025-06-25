@@ -7,6 +7,9 @@ if (!isset($_SESSION['auser'])) {
 $access_level = $_SESSION['access_level']; // Assuming access level is stored in the session
 ?>
 
+<!-- Add loading overlay at the top -->
+<?php include 'loading/loading.php'; ?>
+
 <div class="container-fluid bg-transparent px-0">
     <nav class="navbar navbar-expand-lg bg-dark navbar-light py-0 px-4">
         <div class="navbar-brand d-flex align-items-center text-center">
@@ -38,8 +41,11 @@ $access_level = $_SESSION['access_level']; // Assuming access level is stored in
                             </span>
                         </a>
                         <ul class="sidebar-dropdown">
-                            <li><a href="<?php echo ($access_level == 1) ? '/rentronics/dashboard.php' : '/rentronics/dashboardagent.php'; ?>" class="sidebar-link">
+                            <li><a href="<?php echo ($access_level == 1) ? '/rentronics/module-property/admin/dashboard.php' : '/rentronics/module-property/agent/dashboard/dashboardagent.php'; ?>" class="sidebar-link">
                                 Dashboard</a></li>
+                            <?php if ($access_level == 1): // Only Admin can see these links ?>
+                            <li><a href="/rentronics/module-property/admin/dashboardproperty.php" class="sidebar-link mini">Dashboard Property</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                     <li class="menu-title">
@@ -61,10 +67,13 @@ $access_level = $_SESSION['access_level']; // Assuming access level is stored in
                                 </a>
                             </li>                            
                             <?php if ($access_level == 1): // Only Admin can see these links ?>
-                            <li><a href="/rentronics/module-property/room/roomtable.php" class="sidebar-link">Room List</a></li>
-                            <li><a href="/rentronics/module-property/bed/bedtable.php" class="sidebar-link">Bed List</a></li>
-                            <li><a href="devicelist.php" class="sidebar-link">Door Lock List</a></li>
-                            <li><a href="tuya.php" class="sidebar-link">Change Lock Password</a></li>
+                            <li><a href="/rentronics/module-property/room/roomtable.php" class="sidebar-link mini">Room List</a></li>
+                            <li><a href="/rentronics/module-property/bed/bedtable.php" class="sidebar-link mini">Bed List</a></li>
+                            <li><a href="/rentronics/module-property/tenant/tenanttable.php" class="sidebar-link mini">Tenant List</a></li>
+                            <?php endif; ?>
+                            <?php if ($access_level == 2):?>
+                            <li><a href="/rentronics/module-property/admin/dashboardproperty.php" class="sidebar-link mini">Property Management</a></li>
+                            <li><a href="/rentronics/module-property/tenant/bookingform-download.php" class="sidebar-link mini">Tenant Agreement</a></li>
                             <?php endif; ?>
                         </ul>
                     </li>
@@ -81,11 +90,12 @@ $access_level = $_SESSION['access_level']; // Assuming access level is stored in
                         </a>
                         <ul class="sidebar-dropdown">
                             <?php if ($access_level == 1): // Only Admin can see these links ?>
-                            <li><a href="propertypaymentlist.php" class="sidebar-link">List History Payment</a></li>
-                            <li><a href="monthlypayment.php" class="sidebar-link">Monthly Rental Payment</a></li>
+                            <li><a href="/rentronics/module-payment/externalpayment.php" class="sidebar-link">Update Payment</a></li>
                             <?php endif; ?>
-                            <li><a href="stripepayment.php" class="sidebar-link">Deposit Payment</a></li>
-                            <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSfkX_DIqLVlXLu_ujt8FGqZJjET_1GQLwWhNZmTO9jHl50aWg/viewform" target="_blank" class="sidebar-link">Tenant Agreement</a></li>
+                            <li><a href="/rentronics/module-property/receipt/payment-table.php" class="sidebar-link">Payment History</a></li>
+                            <?php if ($access_level == 1): // Only Admin can see these links ?>
+                            <li><a href="/rentronics/module-payment/other-payment/other-payment.php" class="sidebar-link">Other Payment</a></li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 </ul>
@@ -99,3 +109,4 @@ $access_level = $_SESSION['access_level']; // Assuming access level is stored in
         </div>
     </div>
 </div>
+

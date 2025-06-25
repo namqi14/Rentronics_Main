@@ -1,0 +1,1438 @@
+Booking checkout page accessed at 2024-12-12 16:08:14Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 951012076950
+    [RentStartDate] => 2025-01-02
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-12 22:36:50
+    [AgentID] => A002
+    [BedRentAmount] => 350.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-12 16:24:56Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 951012076950
+    [RentStartDate] => 2025-01-02
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-12 22:36:50
+    [AgentID] => A002
+    [BedRentAmount] => 350.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+POST data received: Array
+(
+    [bedID] => B0004
+    [tenantID] => 951012076950
+    [unit] => C-15-10
+    [room] => C-15-10-R4
+    [bed_no] => C-15-10-R4-B4
+    [payment_amount] => 0
+    [agent_id] => A002
+    [deposit] => RM 350.00
+    [advance_rental] => RM 350.00
+    [processing_fee] => RM 50
+    [total_amount] => RM 750
+    [insert_amount] => 200
+    [submit] => 
+)
+Processing payment submission at 2024-12-12 16:24:56Tenant data fetched: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Payment data set: Array
+(
+    [tenant_id] => 951012076950
+    [bed_id] => B0004
+    [amount] => 200
+    [tenant_email] => iqmanidzham14@gmail.com
+    [tenant_phone] => 01127218702
+    [tenant_name] => Faiz Adli
+    [unit_no] => C-15-10
+    [room_no] => C-15-10-R4
+    [bed_no] => C-15-10-R4-B4
+)
+Attempting to insert payment with values: Array
+(
+    [tenant_id] => 951012076950
+    [room_id] => R0004
+    [bed_id] => B0004
+    [amount] => 200
+)
+Payment record created with ID: 912769887247Redirecting to success payment page with PaymentID: 912769887247Booking checkout page accessed at 2024-12-13 08:48:48Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-13 08:48:55Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+POST data received: Array
+(
+    [bedID] => B0001
+    [tenantID] => 111234550007
+    [unit] => C-15-10
+    [room] => C-15-10-R1
+    [bed_no] => C-15-10-R1-B1
+    [payment_amount] => 0
+    [agent_id] => A002
+    [deposit] => RM 450.00
+    [advance_rental] => RM 450.00
+    [processing_fee] => RM 50
+    [total_amount] => RM 950
+    [insert_amount] => 200
+    [submit] => 
+)
+Processing payment submission at 2024-12-13 08:48:55Tenant data fetched: Array
+(
+    [TenantName] => Iqman
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Payment data set: Array
+(
+    [tenant_id] => 111234550007
+    [bed_id] => B0001
+    [amount] => 200
+    [tenant_email] => iqmanidzham14@gmail.com
+    [tenant_phone] => 01127218702
+    [tenant_name] => Iqman
+    [unit_no] => C-15-10
+    [room_no] => C-15-10-R1
+    [bed_no] => C-15-10-R1-B1
+)
+Attempting to insert payment with values: Array
+(
+    [tenant_id] => 111234550007
+    [room_id] => R0001
+    [bed_id] => B0001
+    [amount] => 200
+)
+Payment record created with ID: 944609527808Redirecting to success payment page with PaymentID: 944609527808Booking checkout page accessed at 2024-12-13 08:48:55Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-13 08:53:08Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+POST data received: Array
+(
+    [bedID] => B0001
+    [tenantID] => 111234550007
+    [unit] => C-15-10
+    [room] => C-15-10-R1
+    [bed_no] => C-15-10-R1-B1
+    [payment_amount] => 0
+    [agent_id] => A002
+    [deposit] => RM 450.00
+    [advance_rental] => RM 450.00
+    [processing_fee] => RM 50
+    [total_amount] => RM 950
+    [insert_amount] => 200
+    [submit] => 
+)
+Processing payment submission at 2024-12-13 08:53:08Tenant data fetched: Array
+(
+    [TenantName] => Iqman
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Payment data set: Array
+(
+    [tenant_id] => 111234550007
+    [bed_id] => B0001
+    [amount] => 200
+    [tenant_email] => iqmanidzham14@gmail.com
+    [tenant_phone] => 01127218702
+    [tenant_name] => Iqman
+    [unit_no] => C-15-10
+    [room_no] => C-15-10-R1
+    [bed_no] => C-15-10-R1-B1
+)
+Attempting to insert payment with values: Array
+(
+    [tenant_id] => 111234550007
+    [room_id] => R0001
+    [bed_id] => B0001
+    [amount] => 200
+)
+Payment record created with ID: 315605864701Redirecting to success payment page with PaymentID: 315605864701Booking checkout page accessed at 2024-12-13 08:53:08Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-13 08:54:57Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-13 08:55:05Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-13 08:57:22Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-14 20:32:53Tenant Data: Array
+(
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:33:15Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:33:21Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-14 20:33:27Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-14 20:35:23Tenant Data: Array
+(
+    [TenantName] => Iqman
+    [TenantID] => 111234550007
+    [RentStartDate] => 2025-01-10
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0001
+    [RoomID] => R0001
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R1-B1
+    [BaseRentAmount] => 250.00
+    [BedStatus] => booking
+    [CreatedAt] => 2024-11-02 01:09:54
+    [UpdatedAt] => 2024-12-13 15:48:48
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R1
+)
+Booking checkout page accessed at 2024-12-14 20:35:24Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:35:54Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:36:02Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:36:02Tenant Data: Array
+(
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:38:12Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:38:35Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:38:42Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:38:42Tenant Data: Array
+(
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:40:33Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:40:51Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:40:54Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:40:54Tenant Data: Array
+(
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:44:43Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:44:44Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:44:44Booking checkout page accessed at 2024-12-14 20:45:05Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:45:24Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:45:31Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:45:31Booking checkout page accessed at 2024-12-14 20:46:49Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:47:11Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:47:16Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:47:17Booking checkout page accessed at 2024-12-14 20:48:53Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:49:22Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:49:27Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:49:28Booking checkout page accessed at 2024-12-14 20:49:51Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:49:52Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:49:53Booking checkout page accessed at 2024-12-14 20:50:23Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:50:24Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:50:25Booking checkout page accessed at 2024-12-14 20:50:55Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:50:59Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:51:00Booking checkout page accessed at 2024-12-14 20:51:20Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:51:21Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:51:33Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 20:51:34Booking checkout page accessed at 2024-12-14 21:02:13Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:02:38Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:30:51Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:32:18Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:33:50Booking checkout page accessed at 2024-12-14 21:33:52Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:33:54Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:33:55Booking checkout page accessed at 2024-12-14 21:33:56Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:33:59Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:34:00Booking checkout page accessed at 2024-12-14 21:35:19Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:35:21Booking checkout page accessed at 2024-12-14 21:37:35Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:37:36Booking checkout page accessed at 2024-12-14 21:39:40Tenant Data: Array
+(
+    [TenantName] => Faiz Adli
+    [TenantID] => 000319134212
+    [RentStartDate] => 2025-01-03
+    [TenantEmail] => iqmanidzham14@gmail.com
+    [TenantPhoneNo] => 01127218702
+)
+Bed Data: Array
+(
+    [BedID] => B0004
+    [RoomID] => R0004
+    [UnitID] => U1001
+    [BedNo] => C-15-10-R4-B4
+    [BaseRentAmount] => 250.00
+    [BedStatus] => 
+    [CreatedAt] => 2024-11-02 01:10:50
+    [UpdatedAt] => 2024-12-15 03:32:50
+    [AgentID] => A002
+    [BedRentAmount] => 450.00
+    [UnitNo] => C-15-10
+    [RoomNo] => C-15-10-R4
+)
+Booking checkout page accessed at 2024-12-14 21:39:41
